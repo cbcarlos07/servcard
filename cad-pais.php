@@ -64,6 +64,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <button class="btn btn-primary">Salvar</button><button class="btn btn-default">Limpar</button><button class="btn btn-warning">Cancelar</button>
             </div>
         </form>
+        <!-- -->
 
 
   </div>
