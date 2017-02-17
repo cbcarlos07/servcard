@@ -2,10 +2,10 @@
 
     <!--logo and iconic logo start-->
     <div class="logo">
-        <h1><a href="index.php">Easy <span>Admin</span></a></h1>
+        <h1><a href="index.html">Easy <span>Admin</span></a></h1>
     </div>
     <div class="logo-icon text-center">
-        <a href="index.php"><i class="lnr lnr-home"></i> </a>
+        <a href="index.html"><i class="lnr lnr-home"></i> </a>
     </div>
 
     <!--logo and iconic logo end-->
@@ -13,7 +13,7 @@
 
         <!--sidebar nav start-->
         <ul class="nav nav-pills nav-stacked custom-nav">
-            <li><a href="index.html"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
+            <li class="active"><a href="index.html"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
             <li class="menu-list">
                 <a href="#"><i class="lnr lnr-cog"></i>
                     <span>Components</span></a>
@@ -37,18 +37,14 @@
             </li>
             <li><a href="codes.html"><i class="lnr lnr-pencil"></i> <span>Typography</span></a></li>
             <li><a href="media.html"><i class="lnr lnr-select"></i> <span>Media Css</span></a></li>
-
-            <li class="menu-list act"><a href="#"><i class="lnr lnr-book"></i>  <span>Cadastros B&aacute;sicos</span></a>
+            <li class="menu-list"><a href="#"><i class="lnr lnr-book"></i>  <span>Pages</span></a>
                 <ul class="sub-menu-list">
-                    <li><a href="cad-pais.php">Pa&iacute;s</a> </li>
+                    <li><a href="sign-in.html">Sign In</a> </li>
                     <li><a href="sign-up.html">Sign Up</a></li>
                     <li><a href="blank_page.html">Blank Page</a></li>
                 </ul>
             </li>
-
-            <!-- seção para sair do sistema -->
-
-            <li class="menu-list act"><a href="#"><i class="lnr lnr-book"></i>  <span>Pages</span></a>
+            <li class="menu-list"><a href="#"><i class="lnr lnr-book"></i>  <span>Pages</span></a>
                 <ul class="sub-menu-list">
                     <li><a href="sign-in.html">Sign In</a> </li>
                     <li><a href="sign-up.html">Sign Up</a></li>
