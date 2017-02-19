@@ -6,7 +6,7 @@
  * Date: 17/02/2017
  * Time: 14:18
  */
-class Contrato_Mensal
+class ContratoMensal
 {
 private $cdContrato;
 private $dtVencimento;

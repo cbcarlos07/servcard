@@ -17,7 +17,7 @@ class PaisDAO
          $teste = false;
          $this->connection = new ConnectionFactory();
          try{
-             $query = "INSERT INTO `pais` VALUES (:pais)";
+             $query = "{CALL PROC_PAIS(NULL, :pais, 'I')}";
 
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":pais", $pais->getDsPais(), PDO::PARAM_STR);
@@ -37,7 +37,7 @@ class PaisDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "UPDATE `pais SET `DS_PAIS`` = :pais WHERE `CD_PAIS` = :codigo";
+            $query = "{CALL PROC_PAIS(:codigo, :pais, 'A')}";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":pais", $pais->getDsPais(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $pais->getCdPais(), PDO::PARAM_INT);
@@ -57,7 +57,7 @@ class PaisDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "DELETE FROM `pais` WHERE `CD_PAIS` = :codigo";
+            $query = "{CALL PROC_PAIS(:codigo, NULL, 'E')}";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
@@ -83,10 +83,10 @@ class PaisDAO
 
         try {
             if($nome == ""){
-                $sql = "SELECT * FROM `pais`";
+                $sql = "{CALL PROC_PAIS(NULL, NULL, 'I')}";
                 $stmt = $this->conexao->prepare($sql);
             }else{
-                $sql = "SELECT * FROM `pais` WHERE `DS_PAIS` LIKE :nome";
+                $sql = "{CALL PROC_PAIS(NULL, :nome, 'N')}";
                 $stmt = $this->conexao->prepare($sql);
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
             }
@@ -109,7 +109,7 @@ class PaisDAO
         $pais = null;
         $conexao = null;
         $this->conexao =  new ConnectionFactory();
-        $sql = "SELECT * FROM `pais` WHERE `CD_PAIS` = :codigo";
+        $sql = "{CALL PROC_PAIS(:codigo, NULL, 'C')}";
 
         try {
             $stmt = $this->conexao->prepare($sql);
