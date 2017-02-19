@@ -77,8 +77,8 @@ class BairroDAO
     }
 
     public function getListByBairro($nome){
-        require_once ("services/BairroList.class.php");
-        require_once ("beans/Bairro.class.php");
+        require_once ("../services/BairroList.class.php");
+        require_once ("../beans/Bairro.class.php");
 
         $this->connection = null;
 
@@ -92,13 +92,13 @@ class BairroDAO
                               ,`B`.`NM_BAIRRO`
                               ,`B`.`CD_CIDADE`
                               ,`C`.`NM_CIDADE`
-                              ,`B.`.`CD_ZONA`
+                              ,`B`.`CD_ZONA`
                               ,`Z`.`DS_ZONA`
                         FROM `bairro` `B`
                         INNER JOIN `cidade` `C` ON `C`.`CD_CIDADE` = `B`.`CD_CIDADE`
                         INNER JOIN `zona` `Z`   ON `Z`.`CD_ZONA` = `B`.`CD_ZONA`
                         WHERE `B`.`NM_BAIRRO` LIKE :nome";
-                $stmt = $this->conexao->prepare($sql);
+                $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
 
             $stmt->execute();
@@ -115,7 +115,7 @@ class BairroDAO
 
                 $bairroList->addBairro($bairro);
             }
-            $this->conexao = null;
+            $this->connection = null;
         } catch (PDOException $ex) {
             echo "Erro: ".$ex->getMessage();
         }
@@ -123,8 +123,8 @@ class BairroDAO
     }
 
     public function getListByCidade($nome, $cidade){
-        require_once ("services/BairroList.class.php");
-        require_once ("beans/Bairro.class.php");
+        require_once ("../services/BairroList.class.php");
+        require_once ("../beans/Bairro.class.php");
 
         $this->connection = null;
 
@@ -138,14 +138,14 @@ class BairroDAO
                               ,`B`.`NM_BAIRRO`
                               ,`B`.`CD_CIDADE`
                               ,`C`.`NM_CIDADE`
-                              ,`B.`.`CD_ZONA`
+                              ,`B`.`CD_ZONA`
                               ,`Z`.`DS_ZONA`
                         FROM `bairro` `B`
                         INNER JOIN `cidade` `C` ON `C`.`CD_CIDADE` = `B`.`CD_CIDADE`
                         INNER JOIN `zona` `Z`   ON `Z`.`CD_ZONA` = `B`.`CD_ZONA`
                         WHERE `B`.`NM_BAIRRO` LIKE :nome
                           AND `C`.`CD_CIDADE` = :cidade";
-            $stmt = $this->conexao->prepare($sql);
+            $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
             $stmt->bindValue(":cidade",$cidade, PDO::PARAM_INT);
 
@@ -163,7 +163,7 @@ class BairroDAO
 
                 $bairroList->addBairro($bairro);
             }
-            $this->conexao = null;
+            $this->connection = null;
         } catch (PDOException $ex) {
             echo "Erro: ".$ex->getMessage();
         }
@@ -171,8 +171,8 @@ class BairroDAO
     }
 
     public function getListByZona($nome, $cidade, $zona){
-        require_once ("services/BairroList.class.php");
-        require_once ("beans/Bairro.class.php");
+        require_once ("../services/BairroList.class.php");
+        require_once ("../beans/Bairro.class.php");
 
         $this->connection = null;
 
@@ -186,7 +186,7 @@ class BairroDAO
                               ,`B`.`NM_BAIRRO`
                               ,`B`.`CD_CIDADE`
                               ,`C`.`NM_CIDADE`
-                              ,`B.`.`CD_ZONA`
+                              ,`B`.`CD_ZONA`
                               ,`Z`.`DS_ZONA`
                         FROM `bairro` `B`
                         INNER JOIN `cidade` `C` ON `C`.`CD_CIDADE` = `B`.`CD_CIDADE`
@@ -194,7 +194,7 @@ class BairroDAO
                         WHERE `B`.`NM_BAIRRO` LIKE :nome
                           AND `C`.`CD_CIDADE` = :cidade
                           AND `Z`.`CD_ZONA` = :zona";
-            $stmt = $this->conexao->prepare($sql);
+            $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
             $stmt->bindValue(":cidade",$cidade, PDO::PARAM_INT);
             $stmt->bindValue(":zona", $zona, PDO::PARAM_INT);
@@ -213,7 +213,7 @@ class BairroDAO
 
                 $bairroList->addBairro($bairro);
             }
-            $this->conexao = null;
+            $this->connection = null;
         } catch (PDOException $ex) {
             echo "Erro: ".$ex->getMessage();
         }
@@ -222,12 +222,12 @@ class BairroDAO
 
     public function getBairro($codigo){
         $bairro = null;
-        $conexao = null;
-        $this->conexao =  new ConnectionFactory();
+        $this->connection = null;
+        $this->connection =  new ConnectionFactory();
         $sql = "SELECT * FROM `bairro` WHERE `CD_BAIRRO` = :codigo";
 
         try {
-            $stmt = $this->conexao->prepare($sql);
+            $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
             if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -241,7 +241,7 @@ class BairroDAO
                 $bairro->getZona()->setCdZona($row['CD_ZONA']);
                 $bairro->getZona()->setDsZona($row['DS_ZONA']);
             }
-            $this->conexao = null;
+            $this->connection = null;
         } catch (PDOException $ex) {
             echo "Erro: ".$ex->getMessage();
         }

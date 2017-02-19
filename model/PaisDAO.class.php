@@ -72,8 +72,8 @@ class PaisDAO
     }
 
     public function getList($nome){
-        require_once ("services/PaisList.class.php");
-        require_once ("beans/Pais.class.php");
+        require_once ("../services/PaisList.class.php");
+        require_once ("../beans/Pais.class.php");
 
         $this->connection = null;
 
@@ -84,10 +84,10 @@ class PaisDAO
         try {
             if($nome == ""){
                 $sql = "{CALL PROC_PAIS(NULL, NULL, 'I')}";
-                $stmt = $this->conexao->prepare($sql);
+                $stmt = $this->connection->prepare($sql);
             }else{
                 $sql = "{CALL PROC_PAIS(NULL, :nome, 'N')}";
-                $stmt = $this->conexao->prepare($sql);
+                $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
             }
             $stmt->execute();
@@ -98,7 +98,7 @@ class PaisDAO
 
                 $paisList->addPais($pais);
             }
-            $this->conexao = null;
+            $this->connection = null;
         } catch (PDOException $ex) {
             echo "Erro: ".$ex->getMessage();
         }
@@ -107,12 +107,12 @@ class PaisDAO
 
     public function getPais($codigo){
         $pais = null;
-        $conexao = null;
-        $this->conexao =  new ConnectionFactory();
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
         $sql = "{CALL PROC_PAIS(:codigo, NULL, 'C')}";
 
         try {
-            $stmt = $this->conexao->prepare($sql);
+            $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
             if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -120,7 +120,7 @@ class PaisDAO
                 $pais->setCdPais($row['CD_PAIS']);
                 $pais->setDsPais($row['DS_PAIS']);
             }
-            $this->conexao = null;
+            $this->connection = null;
         } catch (PDOException $ex) {
             echo "Erro: ".$ex->getMessage();
         }
