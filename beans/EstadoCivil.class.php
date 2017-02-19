@@ -6,26 +6,26 @@
  * Date: 17/02/2017
  * Time: 13:54
  */
-class Estado_Civil
+class EstadoCivil
 {
-  private $cd_Estado_Civil;
-  private $ds_Estado_Civil;
+  private $cdEstadoCivil;
+  private $dsEstadoCivil;
 
     /**
      * @return mixed
      */
     public function getCdEstadoCivil()
     {
-        return $this->cd_Estado_Civil;
+        return $this->cdEstadoCivil;
     }
 
     /**
-     * @param mixed $cd_Estado_Civil
-     * @return Estado_Civil
+     * @param mixed $cdEstadoCivil
+     * @return EstadoCivil
      */
-    public function setCdEstadoCivil($cd_Estado_Civil)
+    public function setCdEstadoCivil($cdEstadoCivil)
     {
-        $this->cd_Estado_Civil = $cd_Estado_Civil;
+        $this->cdEstadoCivil = $cdEstadoCivil;
         return $this;
     }
 
@@ -34,16 +34,16 @@ class Estado_Civil
      */
     public function getDsEstadoCivil()
     {
-        return $this->ds_Estado_Civil;
+        return $this->dsEstadoCivil;
     }
 
     /**
-     * @param mixed $ds_Estado_Civil
-     * @return Estado_Civil
+     * @param mixed $dsEstadoCivil
+     * @return EstadoCivil
      */
-    public function setDsEstadoCivil($ds_Estado_Civil)
+    public function setDsEstadoCivil($dsEstadoCivil)
     {
-        $this->ds_Estado_Civil = $ds_Estado_Civil;
+        $this->dsEstadoCivil = $dsEstadoCivil;
         return $this;
     }
 

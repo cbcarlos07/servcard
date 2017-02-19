@@ -11,7 +11,7 @@ class Estado
   private $cdEstado;
   private $nmEstado;
   private $dsUF;
-  private $cdPais;
+  private $pais;
 
     /**
      * @return mixed
@@ -70,20 +70,22 @@ class Estado
     /**
      * @return mixed
      */
-    public function getCdPais()
+    public function getPais()
     {
-        return $this->cdPais;
+        return $this->pais;
     }
 
     /**
-     * @param mixed $cdPais
+     * @param mixed $pais
      * @return Estado
      */
-    public function setCdPais(Pais $cdPais)
+    public function setPais(Pais $pais)
     {
-        $this->cdPais = $cdPais;
+        $this->pais = $pais;
         return $this;
     }
+
+
 
 
 }

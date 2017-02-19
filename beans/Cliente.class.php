@@ -17,9 +17,27 @@ private $dsEmail;
 private $dtNascimento;
 private $tpSexo;
 private $estadoCivil;
-private $cep;
-
+private $endereco;
 private $dsSenha;
+
+    /**
+     * @return mixed
+     */
+    public function getEndereco()
+    {
+        return $this->endereco;
+    }
+
+    /**
+     * @param mixed $endereco
+     * @return Cliente
+     */
+    public function setEndereco(Endereco $endereco)
+    {
+        $this->endereco = $endereco;
+        return $this;
+    }
+
 
     /**
      * @return mixed
@@ -183,16 +201,6 @@ private $dsSenha;
         return $this;
     }
 
-
-    /**
-     * @param mixed $cep
-     * @return Cliente
-     */
-    public function setCep(Endereco $cep)
-    {
-        $this->cep = $cep;
-        return $this;
-    }
 
 
 

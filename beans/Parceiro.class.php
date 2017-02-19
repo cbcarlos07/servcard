@@ -13,7 +13,27 @@ class Parceiro
    private $dsResponsavel;
    private $nrCpfResponsavel;
    private $NrCnpj;
-   private $nrCep;
+   private $endereco;
+
+    /**
+     * @return mixed
+     */
+    public function getEndereco()
+    {
+        return $this->endereco;
+    }
+
+    /**
+     * @param mixed $endereco
+     * @return Parceiro
+     */
+    public function setEndereco(Endereco $endereco)
+    {
+        $this->endereco = $endereco;
+        return $this;
+    }
+
+
 
     /**
      * @return mixed
@@ -105,23 +125,6 @@ class Parceiro
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNrCep()
-    {
-        return $this->nrCep;
-    }
-
-    /**
-     * @param mixed $nrCep
-     * @return Parceiro
-     */
-    public function setNrCep(Endereco $nrCep)
-    {
-        $this->nrCep = $nrCep;
-        return $this;
-    }
 
 
 }
