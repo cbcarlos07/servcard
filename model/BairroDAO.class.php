@@ -224,7 +224,16 @@ class BairroDAO
         $bairro = null;
         $this->connection = null;
         $this->connection =  new ConnectionFactory();
-        $sql = "SELECT * FROM `bairro` WHERE `CD_BAIRRO` = :codigo";
+        $sql = "SELECT `B`.`CD_BAIRRO`
+                              ,`B`.`NM_BAIRRO`
+                              ,`B`.`CD_CIDADE`
+                              ,`C`.`NM_CIDADE`
+                              ,`B`.`CD_ZONA`
+                              ,`Z`.`DS_ZONA`
+                        FROM `bairro` `B`
+                        INNER JOIN `cidade` `C` ON `C`.`CD_CIDADE` = `B`.`CD_CIDADE`
+                        INNER JOIN `zona` `Z`   ON `Z`.`CD_ZONA` = `B`.`CD_ZONA`
+                    WHERE `CD_BAIRRO` = :codigo";
 
         try {
             $stmt = $this->connection->prepare($sql);
