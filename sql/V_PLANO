@@ -1,0 +1,12 @@
+CREATE OR REPLACE VIEW `V_PLANO` 
+AS select `R`.`CD_CARTEIRA` 
+         ,`R`.`DT_VALIDADE` 
+         ,`R`.`SN_ATIVO` 
+         ,`R`.`TP_TITULAR`
+         ,`R`.`CD_CLIENTE`
+         ,`R`.`CD_PLANO`
+         ,`C`.`NM_CLIENTE` 
+         ,`P`.`DS_PANO`
+     FROM `carteira` `R` 
+     JOIN `cliente` `C` ON `C`.`CD_CLIENTE` = `R`.`CD_CLIENTE`
+     JOIN `plano` `P` ON `P`.`CD_PLANO` = `R`.`CD_PLANO`

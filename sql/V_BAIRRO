@@ -1,0 +1,11 @@
+
+CREATE OR REPLACE VIEW `V_BAIRRO` AS
+ SELECT `B`.`CD_BAIRRO`
+        ,`B`.`NM_BAIRRO`
+        ,`B`.`CD_CIDADE`
+        ,`C`.`NM_CIDADE`
+        ,`B`.`CD_ZONA`
+        ,`Z`.`DS_ZONA`
+FROM `bairro` `B` 
+JOIN `cidade` `C` ON `C`.`CD_CIDADE` = `B`.`CD_CIDADE`
+JOIN `zona`   `Z` ON `Z`.`CD_ZONA` = `B`.`CD_ZONA`
