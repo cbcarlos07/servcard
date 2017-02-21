@@ -8,23 +8,30 @@
  */
 class PaisListIterator
 {
-    public function addPais(Pais $_pais_in) {
-        $this->setPaisCount($this->getPaisCount() + 1);
-        $this->_pais[$this->getPaisCount()] = $_pais_in;
-        return $this->getPaisCount();
+    protected $paisList;
+    protected $currentPais = 0;
+
+    public function __construct(PaisList $paisList_in) {
+        $this->paisList = $paisList_in;
     }
-    public function removePais(Pais $_pais_in) {
-        $counter = 0;
-        while (++$counter <= $this->getPaisCount()) {
-            if ($_pais_in->getAuthorAndTitle() ==
-                $this->_pais[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getPaisCount(); $x++) {
-                    $this->_pais[$x] = $this->_pais[$x + 1];
-                }
-                $this->setPaisCount($this->getPaisCount() - 1);
-            }
+    public function getCurrentPais() {
+        if (($this->currentPais > 0) &&
+            ($this->paisList->getPaisCount() >= $this->currentPais)) {
+            return $this->paisList->getPais($this->currentPais);
         }
-        return $this->getPaisCount();
+    }
+    public function getNextPais() {
+        if ($this->hasNextPais()) {
+            return $this->paisList->getPais(++$this->currentPais);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextPais() {
+        if ($this->paisList->getPaisCount() > $this->currentPais) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

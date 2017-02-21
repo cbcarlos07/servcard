@@ -1,3 +1,4 @@
+
 <?php include "include/htmlParts.php"; ?>
 <!--
 Author: W3layouts
@@ -5,9 +6,31 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+<?php
+$descricao = "";
+
+if(isset($_POST['search'])){
+   $descricao =  $_POST['search'];
+}
+
+include_once "controller/PaisController.class.php";
+include_once "beans/Pais.class.php";
+include_once "services/PaisListIterator.class.php";
+
+
+$pc = new PaisController();
+$lista = $pc->getList($descricao);
+$pListIterator = new PaisListIterator($lista);
+
+
+
+?>
+
+
 <?php getHeader(); ?>
-   
- <body class="sticky-header left-side-collapsed"  onload="initMap()">
+
+
+ <body class="sticky-header left-side-collapsed"  >
     <section>
     <!-- left side start-->
 		<?php getMenu(); ?>
@@ -30,7 +53,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <fieldset>
 
                             <ul class="toolbar clearfix">
-                                <li><input type="search" id="search" placeholder="O que você está buscando?"></li>
+                                <li><input type="search" id="search" placeholder="O que você est&eacute; buscando?"></li>
                                 <li><button type="submit" id="btn-search"><span class="fontawesome-search"></span></button></li>
 
                             </ul>
@@ -40,7 +63,33 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </form>
             </div>
             <div class="col-lg-4">
-                <button class="btn btn-primary">Novo Item</button>
+                <a href="#" data-url="paiscad.php" class="btn btn-primary novo-item">Novo Item</a>
+            </div>
+            <div class="row"></div>
+            <hr />
+
+            <div class="col-lg-12">
+                <table class="table table-responsive table-hover">
+                    <thead>
+                       <th>C&oacute;digo</th>
+                       <th>Pa&iacute;s</th>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $pais = new Pais();
+                      while ($pListIterator->hasNextPais()){
+                          $pais = $pListIterator->getNextPais();
+                      ?>
+                       <td><?php echo $pais->getCdPais();  ?></td>
+                       <td><?php echo $pais->getDsPais();  ?></td>
+                       <td class="action">
+                           <a href="#" class="btn btn-primary btn-xs">Alterar</a>
+                           <a href="#" class="btn btn-warning btn-xs">Excluir</a>
+                       </td>
+                      <?php } ?>
+                    </tbody>
+                </table>
+
             </div>
 
 
@@ -50,6 +99,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<!--footer section start-->
 			<?php getFooter(); ?>
         <!--footer section end-->
+        <script src="js/pais.js"></script>
 	</section>
     <script>
         $( function() {

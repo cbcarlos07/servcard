@@ -19,7 +19,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>ServCard - Gerenciamento de Clientes</title>
+    <title>ServCard - Serviços de Cart&atilde;o de Descontos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -49,7 +49,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
     <!---//webfonts--->
     <!-- Meters graphs -->
-    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <!--<script src="js/jquery-1.10.2.min.js"></script>-->
     <!-- Placed js at the end of the document so the pages load faster -->
 
 </head>
@@ -362,6 +363,7 @@ function getFooter(){
  */
 function getEndFileHtml(){
 ?>
+<script src="js/jquery.min.js"></script>
 
 <script src="js/jquery.nicescroll.js"></script>
 <script src="js/scripts.js"></script>

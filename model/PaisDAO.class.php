@@ -72,8 +72,8 @@ class PaisDAO
     }
 
     public function getList($nome){
-        require_once ("../services/PaisList.class.php");
-        require_once ("../beans/Pais.class.php");
+        require_once ("services/PaisList.class.php");
+        require_once ("beans/Pais.class.php");
 
         $this->connection = null;
 

@@ -344,7 +344,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<h3>Buttons</h3>
 						 <div class="but_list">
 						  <p>
-							<button type="button" class="btn btn_5 btn-lg btn-default">Default</button>
+							<button type="button" class="btn btn_5 btn-lg btn-default novo-item">Default</button>
 							<button type="button" class="btn btn_5 btn-lg btn-primary">Primary</button>
 							<button type="button" class="btn btn_5 btn-lg btn-success warning_1">Success</button>
 							<button type="button" class="btn btn_5 btn-lg btn-info">Info</button>
@@ -688,5 +688,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/scripts.js"></script>
 <!-- Bootstrap Core JavaScript -->
    <script src="js/bootstrap.min.js"></script>
+
+	<script>
+
+        $('.novo-item').on('click', function(){
+
+            var url = $(this).data('url');
+            alert(url);
+
+            form.submit();
+
+        });
+	</script>
+
 </body>
 </html>

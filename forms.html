@@ -575,7 +575,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<div class="row">
 								<div class="col-sm-8 col-sm-offset-2">
 									<button class="btn-success btn">Submit</button>
-									<button class="btn-default btn">Cancel</button>
+									<button class="btn-default btn novo-item">Cancel</button>
 									<button class="btn-inverse btn">Reset</button>
 								</div>
 							</div>
@@ -596,5 +596,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/scripts.js"></script>
 <!-- Bootstrap Core JavaScript -->
    <script src="js/bootstrap.min.js"></script>
-</body>
+   <script>
+
+       $('.novo-item').on('click', function(){
+
+           var url = $(this).data('url');
+           alert(url);
+
+           form.submit();
+
+       });
+   </script>
+ </body>
 </html>
