@@ -45,13 +45,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <body class="sticky-header left-side-collapsed"  onload="initMap()">
 <section>
     <!-- left side start-->
-    <?php include 'include/barra_lateral.php'; ?>
+    <?php include 'include/menu.php'; ?>
     <!-- left side end-->
 
     <!-- main content start-->
     <div class="main-content">
         <!-- header-starts -->
-    <?php include 'include/barra_superior.php'; ?>
+    <?php include 'include/supbar.php'; ?>
     <hr />
         <form name="form-car" id="form-car" method="post">
 

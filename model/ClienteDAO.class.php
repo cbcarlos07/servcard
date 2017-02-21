@@ -99,6 +99,10 @@ class ClienteDAO
         return $teste;
     }
 
+    /**
+     * @param $nome
+     * @return ClienteList
+     */
     public function getList($nome){
         require_once ("../services/ClienteList.class.php");
         require_once ("../beans/Cliente.class.php");
@@ -108,7 +112,7 @@ class ClienteDAO
         $this->connection = new ConnectionFactory();
 
         $clienteList = new ClienteList();
-
+        $stmt = null;
         try {
             if($nome == ""){
                 $sql = "SELECT C.*

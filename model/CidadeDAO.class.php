@@ -20,7 +20,7 @@ class CidadeDAO
              $query = "{CALL PROC_PAIS(NULL, :cidade, 'I')}";
 
              $stmt = $this->connection->prepare($query);
-             $stmt->bindValue(":cidade", $cidade->getDsCidade(), PDO::PARAM_STR);
+             $stmt->bindValue(":cidade", $cidade->getNmCidade(), PDO::PARAM_STR);
              $stmt->execute();
 
              $teste =  true;
@@ -39,7 +39,7 @@ class CidadeDAO
         try{
             $query = "{CALL PROC_PAIS(:codigo, :cidade, 'A')}";
             $stmt = $this->connection->prepare($query);
-            $stmt->bindValue(":cidade", $cidade->getDsCidade(), PDO::PARAM_STR);
+            $stmt->bindValue(":cidade", $cidade->getNmCidade(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $cidade->getCdCidade(), PDO::PARAM_INT);
             $stmt->execute();
 
@@ -94,7 +94,7 @@ class CidadeDAO
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $cidade = new Cidade();
                 $cidade->setCdCidade($row['CD_PAIS']);
-                $cidade->setDsCidade($row['DS_PAIS']);
+                $cidade->setNmCidade($row['DS_PAIS']);
 
                 $cidadeList->addCidade($cidade);
             }
@@ -118,7 +118,7 @@ class CidadeDAO
             if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
                 $cidade = new Cidade();
                 $cidade->setCdCidade($row['CD_PAIS']);
-                $cidade->setDsCidade($row['DS_PAIS']);
+                $cidade->setNmCidade($row['DS_PAIS']);
             }
             $this->connection = null;
         } catch (PDOException $ex) {

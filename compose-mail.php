@@ -1,3 +1,4 @@
+<?php include "include/htmlParts.php"; ?>
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com
@@ -7,7 +8,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Easy Admin Panel an Admin Panel Category Flat Bootstrap Responsive Website Template | Charts :: w3layouts</title>
+<title>Easy Admin Panel an Admin Panel Category Flat Bootstrap Responsive Website Template | Compose Mail :: w3layouts</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -45,60 +46,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  <body class="sticky-header left-side-collapsed"  onload="initMap()">
     <section>
     <!-- left side start-->
-		<div class="left-side sticky-left-side">
-
-			<!--logo and iconic logo start-->
-			<div class="logo">
-				<h1><a href="index.html">Easy <span>Admin</span></a></h1>
-			</div>
-			<div class="logo-icon text-center">
-				<a href="index.html"><i class="lnr lnr-home"></i> </a>
-			</div>
-
-			<!--logo and iconic logo end-->
-			<div class="left-side-inner">
-
-				<!--sidebar nav start-->
-					<ul class="nav nav-pills nav-stacked custom-nav">
-						<li><a href="index.html"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
-						<li class="menu-list">
-							<a href="#"><i class="lnr lnr-cog"></i>
-								<span>Components</span></a>
-								<ul class="sub-menu-list">
-									<li><a href="grids.html">Grids</a> </li>
-									<li><a href="widgets.html">Widgets</a></li>
-								</ul>
-						</li>
-						<li><a href="forms.html"><i class="lnr lnr-spell-check"></i> <span>Forms</span></a></li>
-						<li><a href="tables.html"><i class="lnr lnr-menu"></i> <span>Tables</span></a></li>              
-						<li class="menu-list"><a href="#"><i class="lnr lnr-envelope"></i> <span>MailBox</span></a>
-							<ul class="sub-menu-list">
-								<li><a href="inbox.html">Inbox</a> </li>
-								<li><a href="compose-mail.php">Compose Mail</a></li>
-							</ul>
-						</li>  
-						<li class="menu-list act"><a href="#"><i class="lnr lnr-indent-increase"></i> <span>Menu Levels</span></a>  
-							<ul class="sub-menu-list">
-								<li><a href="charts.php">Basic Charts</a> </li>
-							</ul>
-						</li>
-						<li><a href="codes.html"><i class="lnr lnr-pencil"></i> <span>Typography</span></a></li>
-						<li><a href="media.html"><i class="lnr lnr-select"></i> <span>Media Css</span></a></li>
-						<li class="menu-list"><a href="#"><i class="lnr lnr-book"></i>  <span>Pages</span></a> 
-							<ul class="sub-menu-list">
-								<li><a href="sign-in.html">Sign In</a> </li>
-								<li><a href="sign-up.html">Sign Up</a></li>
-								<li><a href="blank_page.html">Blank Page</a></li>
-							</ul>
-						</li>
-					</ul>
-				<!--sidebar nav end-->
-			</div>
-		</div>
+		<?php getMenu(); ?>
     <!-- left side end-->
     
     <!-- main content start-->
-		<div class="main-content main-content5">
+		<div class="main-content main-content3 main-content3copy">
 			<!-- header-starts -->
 			<div class="header-section">
 			 
@@ -306,178 +258,126 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- //header-ends -->
 			<div id="page-wrapper">
 				<div class="graphs">
-					<h3 class="blank1">Simple Charts</h3>
-					<div class="graph_box">
-						<div class="col-md-4 grid_2">
-							<div class="grid_1">
-								<h4>Circular</h4>
-								<canvas id="doughnut" height="300" width="470" style="width: 470px; height: 300px;"></canvas>
-								<script>
-									var doughnutData = [
-									{
-										value: 30,
-										color:"#F44336"
-									},
-									{
-										value : 50,
-										color : "#929292"
-									},
-									{
-										value : 100,
-										color : "#00aced"
-									},
-									{
-										value : 40,
-										color : "#9358ac"
-									},
-									];
-									new Chart(document.getElementById("doughnut").getContext("2d")).Doughnut(doughnutData);
-								</script>
-							</div>
-						</div>
-						<div class="col-md-4 grid_2">
-							<div class="grid_1">
-								<h4>Radar</h4>
-								<canvas id="radar" height="300" width="470" style="width: 470px; height: 300px;"></canvas>
-									<script>
-										var radarChartData = {
-											labels : ["","","","","","",""],
-											datasets : [
-												{
-													fillColor : "#00aced",
-													strokeColor : "#00aced",
-													pointColor : "#00aced",
-													pointStrokeColor : "#fff",
-													data : [65,59,90,81,56,55,40]
-												},
-												{
-													fillColor : "#8BC34A",
-													strokeColor : "#8BC34A",
-													pointColor : "#8BC34A",
-													pointStrokeColor : "#fff",
-													data : [28,48,40,19,96,27,100]
-												}
-											]
-											
-										};
-										new Chart(document.getElementById("radar").getContext("2d")).Radar(radarChartData);
-									</script>
+					<h3 class="blank1">Compose Mail</h3>
+					<div class="xs">
+						<div class="col-md-4 email-list1">
+							<ul class="collection">
+								<li class="collection-item avatar email-unread">
+								  <i class="fa fa-users icon_1"></i>
+								  <div class="avatar_left">
+									<span class="email-title">Social</span>
+									<p class="truncate grey-text ultra-small">Lorem Ipsum is simply dummy text of.</p>
+								  </div>
+								  <a href="#!" class="secondary-content"><span class="new badge1 blue">4</span></a>
+								  <div class="clearfix"> </div>
+								</li>
+								<li class="collection-item avatar email-unread">
+								  <i class="fa fa-exclamation-circle icon_2"></i>
+								  <div class="avatar_left">
+									<span class="email-title">Updates</span>
+									<p class="truncate grey-text ultra-small">It is a long established fact that a reader.</p>
+								  </div>
+								  <a href="#!" class="secondary-content"><span class="new badge1 red">4</span></a>
+								  <div class="clearfix"> </div>
+								</li>
+								<li class="collection-item avatar email-unread">
+								  <i class="fa fa-tag icon_3"></i>
+								  <div class="avatar_left">
+									<span class="email-title">Promotions</span>
+									<p class="truncate grey-text ultra-small">There are many variations of passages.</p>
+								  </div>
+								  <a href="#!" class="secondary-content"><span class="new badge1 blue1">4</span></a>
+								  <div class="clearfix"> </div>
+								</li>
+								<li class="collection-item avatar email-unread">
+								  <i class="icon_4">G</i>
+								  <div class="avatar_left">
+									<span class="email-title">Gmail</span>
+									<p class="truncate grey-text ultra-small">Sed ut perspiciatis unde omnis iste.</p>
+								  </div>
+								  <a href="#!" class="secondary-content"><span class="blue-text ultra-small">2:15 pm</span></a>
+								  <div class="clearfix"> </div>
+								</li>
+								<li class="collection-item avatar email-unread">
+								  <i class="icon_4 icon_5">F</i>
+								  <div class="avatar_left">
+									<span class="email-title">Facebook</span>
+									<p class="truncate grey-text ultra-small">But I must explain to you how.</p>
+								  </div>
+								  <a href="#!" class="secondary-content"><span class="blue-text ultra-small">2:15 pm</span></a>
+								  <div class="clearfix"> </div>
+								</li>
+								<li class="collection-item avatar email-unread email_last">
+								  <i class="icon_4 icon_6">T</i>
+								  <div class="avatar_left">
+									<span class="email-title">Twitter</span>
+									<p class="truncate grey-text ultra-small">At vero eos et accusamus et iusto odio.</p>
+								  </div>
+								  <a href="#!" class="secondary-content"><span class="blue-text ultra-small">2:15 pm</span></a>
+								  <div class="clearfix"> </div>
+								</li>
+							</ul>
+							<div class="content-box  mrg15B">
+							  <div class="content-box-wrapper text-center">
+								<h4 class="content-box-header">
+								Chat
+								<small>(Online friends)</small>
+								</h4>
+								<div class="status-badge mrg10A">
+									<img class="img-circle" width="40" src="images/1.png" alt="">
+									<div class="small-badge bg-red"></div>
 								</div>
-						</div>
-						<div class="col-md-4 grid_2">
-							<div class="grid_1">
-								<h4>PolarArea</h4>
-								<canvas id="polarArea" height="300" width="450" style="width: 450px; height: 300px;"></canvas>
-								<script>
-									var chartData = [
-										{
-											value : Math.random(),
-											color: "#8BC34A"
-										},
-										{
-											value : Math.random(),
-											color: "#C7604C"
-										},
-										{
-											value : Math.random(),
-											color: "#21323D"
-										},
-										{
-											value : Math.random(),
-											color: "#9D9B7F"
-										},
-										{
-											value : Math.random(),
-											color: "#7D4F6D"
-										},
-										{
-											value : Math.random(),
-											color: "#9358ac"
-										}
-									];
-									new Chart(document.getElementById("polarArea").getContext("2d")).PolarArea(chartData);
-								</script>
+								<div class="status-badge mrg10A">
+									<img class="img-circle" width="40" src="images/3.png" alt="">
+									<div class="small-badge bg-red"></div>
+								</div>
+								<div class="status-badge mrg10A">
+									<img class="img-circle" width="40" src="images/4.png" alt="">
+									<div class="small-badge bg-green1"></div>
+								</div>
+								<div class="status-badge mrg10A">
+									<img class="img-circle" width="40" src="images/5.png" alt="">
+									<div class="small-badge bg-orange"></div>
+								</div>
+								<div class="status-badge mrg10A">
+									<img class="img-circle" width="40" src="images/1.png" alt="">
+									<div class="small-badge bg-red"></div>
+								</div>
+								<div class="status-badge mrg10A">
+									<img class="img-circle" width="40" src="images/4.png" alt="">
+									<div class="small-badge bg-green1"></div>
+								</div>
+								<div class="status-badge mrg10A">
+									<img class="img-circle" width="40" src="images/3.png" alt="">
+									<div class="small-badge bg-orange"></div>
+								</div>
+							  </div>
 							</div>
 						</div>
-						<div class="clearfix"> </div>
-					</div>
-					<div class="graph_box1">
-						<div class="col-md-6 grid_2 grid_2_bot">
-							<div class="grid_1">
-								<h4>Pie</h4>
-								<div class="legend">
-									<div id="os-Win-lbl">Chrome <span>100%</span></div>
-									<div id="os-Mac-lbl">Internet Explorer <span> 50%</span></div>
-									<div id="os-Other-lbl">Safari<span>30%</span></div>
+						<div class="col-md-8 inbox_right">
+							<div class="Compose-Message">               
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										Compose New Message 
+									</div>
+									<div class="panel-body panel-body-com-m">
+										<div class="alert alert-info">
+											Please fill details to send a new message
+										</div>
+										<form class="com-mail">
+											<hr>
+												<label>Enter Recipient Name : </label>
+												<input type="text" class="form-control1 control3">
+												<label>Enter Subject :  </label>
+												<input type="text" class="form-control1 control3">
+												<label>Enter Message : </label>
+												<textarea rows="6" class="form-control1 control2"></textarea>
+											<hr>
+											<input type="submit" value="Send Message">
+										</form>
+									</div>
 								 </div>
-
-								<canvas id="pie" height="315" width="470" style="width: 470px; height: 315px;"></canvas>
-								<script>
-									var pieData = [
-										{
-											value: 30,
-											color:"#ef553a"
-										},
-										{
-											value : 50,
-											color : "#00aced"
-										},
-										{
-											value : 100,
-											color : "#8BC34A"
-										}
-									
-									];
-									new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
-								</script>
-							</div>
-						</div>
-						<div class="col-md-6 grid_2 grid_2_bot">
-							<div class="grid_1">
-								<h4>Line</h4>
-								<canvas id="line1" height="100" width="600" style="width: 600px; height: 100px;"></canvas>
-								<script>
-										var lineChartData = {
-											labels : ["Mon","Tue","Wed","Thu","Fri","Sat","Mon"],
-											datasets : [
-												{
-													fillColor : "#fff",
-													strokeColor : "#F44336",
-													pointColor : "#fbfbfb",
-													pointStrokeColor : "#F44336",
-													data : [20,35,45,30,10,65,40]
-												}
-											]
-											
-										};
-										new Chart(document.getElementById("line1").getContext("2d")).Line(lineChartData);
-								</script>
-							</div>
-							<div class="line-bottom-grid">
-								<div class="grid_1">
-									<h4>Bar</h4>
-									<canvas id="bar1" height="100" width="600" style="width: 600px; height: 100px;"></canvas>
-									<script>
-										var barChartData = {
-											labels : ["Mon","Tue","Wed","Thu","Fri","Sat","Mon","Tue","Wed","Thu"],
-											datasets : [
-												{
-													fillColor : "#8BC34A",
-													strokeColor : "#8BC34A",
-													data : [25,40,50,65,55,30,20,10,6,4]
-												},
-												{
-													fillColor : "#8BC34A",
-													strokeColor : "#8BC34A",
-													data : [30,45,55,70,40,25,15,8,5,2]
-												}
-											]
-											
-										};
-											new Chart(document.getElementById("bar1").getContext("2d")).Bar(barChartData);
-									</script>
-								</div>
-							</div>
+							  </div>
 						</div>
 						<div class="clearfix"> </div>
 					</div>
