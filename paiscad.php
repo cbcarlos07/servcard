@@ -1,5 +1,5 @@
 
-<?php include "include/htmlParts.php"; ?>
+
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com
@@ -27,39 +27,38 @@ $pListIterator = new PaisListIterator($lista);
 ?>
 
 
-<?php getHeader(); ?>
+<?php include "include/head.php"; ?>
 
 
  <body class="sticky-header left-side-collapsed"  >
     <section>
     <!-- left side start-->
-		<?php getMenu(); ?>
+		<?php include "include/menu.html"?>
     <!-- left side end-->
     
     <!-- main content start-->
 		<div class="main-content main-content3 main-content3copy">
 
 			<!--notification menu start -->
-			<?php  getSupBar(); ?>
+			<?php  include "include/supbar.php"; ?>
 			<!--notification menu end -->
-            <link href="css/search.css" rel='stylesheet' type='text/css' />
-            <link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+
             <div class="row"></div>
             <br />
             <div class="col-lg-1"></div>
             <div class="col-lg-3">
-                    <form method="post" id="form-cad">
-                        <div class="form-group">
-                            <label>Pa&iacute;s</label>
-                            <input id="pais" class="form-control" />
-                        </div>
-                        <div class="row"></div>
-                        <hr />
-                        <div class="btn-group">
-                            <button class="btn btn-success">Salvar</button>
-                            <button class="btn btn-warning">Cancelar</button>
-                        </div>
-                    </form>
+                <form method="post" id="form-cad">
+                    <div class="form-group">
+                        <label>Pa&iacute;s</label>
+                        <input id="pais" class="form-control" />
+                    </div>
+                    <div class="row"></div>
+                    <hr />
+                    <div class="btn-group">
+                        <button class="btn btn-success">Salvar</button>
+                        <button class="btn btn-warning">Cancelar</button>
+                    </div>
+                </form>
             </div>
 
 
@@ -67,7 +66,7 @@ $pListIterator = new PaisListIterator($lista);
 	<!-- //header-ends -->
 
 		<!--footer section start-->
-			<?php getFooter(); ?>
+			<?php include "include/footer.php"; ?>
         <!--footer section end-->
         <script src="js/pais.js"></script>
 	</section>
@@ -81,4 +80,4 @@ $pListIterator = new PaisListIterator($lista);
         } () );
 
     </script>
-<?php  getEndFileHtml(); ?>
+<?php  include "include/enfile.php";?>
