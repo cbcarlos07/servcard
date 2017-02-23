@@ -9,7 +9,7 @@
 class PaisController
 {
     public function insert (Pais $pais){
-        require_once ("model/PaisDAO.class.php");
+        require_once ("../model/PaisDAO.class.php");
         $paisDao = new PaisDAO();
         $retorno = $paisDao->insert($pais);
         return $retorno;

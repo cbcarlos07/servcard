@@ -34,13 +34,17 @@ function salvar(){
                     'acao' : acao
                 },
                 success: function (data) {
-                    if(data.retorno == 1)
-                        sucesso('Opera&ccedil;&atilde;o realizada com sucesso!');
+                    alert(data.retorno);
+                    if (data.retorno == 1) {
+                        //sucesso('Opera&ccedil;&atilde;o realizada com sucesso!');
+                    }
+
+
                      else
                          errosend('N&atilde;o foi poss&iacute;vel realizar opera&ccedil;&atilde;o. Verifique se todos os campos est&atilde;o preenchidos ');
                 }
               });
-        return false;
+       // return false;
     });
 
 }
@@ -74,7 +78,7 @@ function deletar(codigo, acao){
 function carregando(){
     var mensagem = $('.mensagem');
     //alert('Carregando: '+mensagem);
-    mensagem.empty().html('<p class="alert alert-warning"><images src="images/loading.gif" alt="Carregando..."> Verificando dados!</p>').fadeIn("fast");
+    mensagem.empty().html('<p class="alert alert-warning"><img src="images/loading.gif" alt="Carregando..."> Verificando dados!</p>').fadeIn("fast");
     setTimeout(function (){
 
     },300);
@@ -86,16 +90,16 @@ function errosend(msg){
     mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>'+msg+'</p>').fadeIn("fast");
 }
 function sucesso(msg){
-    alert("Mensagem: "+msg);
+    //alert("Mensagem: "+msg);
     var mensagem = $('.mensagem');
-    mensagem.empty().html('<p class="alert alert-success"><strong>OK. </strong>'+msg+'<images src="images/ok.png" alt="Carregando..."></p>').fadeIn("fast");
+    mensagem.empty().html('<p class="alert alert-success"><strong>OK. </strong>'+msg+'<img src="images/ok.png" alt="Carregando..."></p>').fadeIn("fast");
     setTimeout(function (){
         location.href = "pais.php";
     },2000);
 }
 function sucesso_delete(msg){
     var mensagem = $('.mensagem');
-    mensagem.empty().html('<p class="alert alert-success"><strong>OK. </strong>'+msg+'<images src="images/ok.png" alt="Carregando..."></p>').fadeIn("fast");
+    mensagem.empty().html('<p class="alert alert-success"><strong>OK. </strong>'+msg+'<img src="images/ok.png" alt="Carregando..."></p>').fadeIn("fast");
 
     location.reload();
 }

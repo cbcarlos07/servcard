@@ -33,6 +33,7 @@ switch ($acao){
 }
 
 function add($nome){
+    echo "Adicionar";
     require_once "../beans/Pais.class.php";
     require_once "../controller/PaisController.class.php";
 

@@ -80,12 +80,14 @@ $pListIterator = new PaisListIterator($lista);
                       while ($pListIterator->hasNextPais()){
                           $pais = $pListIterator->getNextPais();
                       ?>
-                       <td><?php echo $pais->getCdPais();  ?></td>
-                       <td><?php echo $pais->getDsPais();  ?></td>
-                       <td class="action">
-                           <a href="#" class="btn btn-primary btn-xs">Alterar</a>
-                           <a href="#" class="btn btn-warning btn-xs">Excluir</a>
-                       </td>
+                       <tr>
+                           <td><?php echo $pais->getCdPais();  ?></td>
+                           <td><?php echo $pais->getDsPais();  ?></td>
+                           <td class="action">
+                               <a href="#" class="btn btn-primary btn-xs">Alterar</a>
+                               <a href="#" class="btn btn-warning btn-xs">Excluir</a>
+                           </td>
+                       </tr>
                       <?php } ?>
                     </tbody>
                 </table>

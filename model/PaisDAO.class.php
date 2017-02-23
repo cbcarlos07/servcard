@@ -83,10 +83,11 @@ class PaisDAO
 
         try {
             if($nome == ""){
-                $sql = "{CALL PROC_PAIS(NULL, NULL, 'I')}";
+
+                $sql = "CALL PROC_PAIS(NULL, NULL, 'T');";
                 $stmt = $this->connection->prepare($sql);
             }else{
-                $sql = "{CALL PROC_PAIS(NULL, :nome, 'N')}";
+                $sql = "CALL PROC_PAIS(NULL, :nome, 'N');";
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
             }

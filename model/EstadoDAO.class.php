@@ -40,6 +40,7 @@ class EstadoDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+
         try{
             $query = "UPDATE estado SET 
                       NM_ESTADO = :estado, DS_UF = :uf, CD_PAIS = :pais

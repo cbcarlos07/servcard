@@ -92,7 +92,7 @@ $pListIterator = new PaisListIterator($lista);
     <script src="js/scripts.js"></script>
 
 
-    <script></script>
+
 
     <script src="js/pais.js"></script>
 
