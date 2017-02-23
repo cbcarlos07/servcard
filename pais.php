@@ -99,8 +99,10 @@ $pListIterator = new PaisListIterator($lista);
 		<!--footer section start-->
 			<?php include "include/footer.php"; ?>
         <!--footer section end-->
+
+<?php  include "include/enfile.php";?>
         <script src="js/pais.js"></script>
-	</section>
+    </section>
     <script>
         $( function() {
             $('#btn-search').on('click', function(e) {
@@ -111,4 +113,5 @@ $pListIterator = new PaisListIterator($lista);
         } () );
 
     </script>
-<?php  include "include/enfile.php";?>
+ </body>
+</html>
