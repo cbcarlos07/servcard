@@ -6,6 +6,16 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+<?php
+$id = $_POST['id'];
+
+require_once "beans/Pais.class.php";
+require_once "controller/PaisController.class.php";
+
+$pais = new Pais();
+$pc = new PaisController();
+$pais = $pc->getPais($id);
+?>
 
 
 <?php include "include/head.php"; ?>
@@ -29,15 +39,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="row"></div>
             <br />
             <div class="col-lg-1"></div>
-            <div class="col-lg-5">
-
+            <div class="col-lg-3">
                 <div class="mensagem alert "></div>
                 <form method="post" id="form">
-                    <input id="id" value="0" type="hidden">
-                    <input id="acao" value="C" type="hidden">
+                    <input id="id" value="<?php echo $pais->getCdPais(); ?>" type="hidden">
+                    <input id="acao" value="A" type="hidden">
                     <div class="form-group">
                         <label>Pa&iacute;s</label>
-                        <input id="pais" class="form-control" required=""/>
+                        <input id="pais" class="form-control" required="" value="<?php echo $pais->getDsPais(); ?>"/>
                     </div>
                     <div class="row"></div>
                     <hr />

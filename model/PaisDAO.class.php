@@ -17,7 +17,7 @@ class PaisDAO
          $teste = false;
          $this->connection = new ConnectionFactory();
          try{
-             $query = "{CALL PROC_PAIS(NULL, :pais, 'I')}";
+             $query = "CALL PROC_PAIS(NULL, :pais, 'I');";
 
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":pais", $pais->getDsPais(), PDO::PARAM_STR);
@@ -37,7 +37,7 @@ class PaisDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "{CALL PROC_PAIS(:codigo, :pais, 'A')}";
+            $query = "CALL PROC_PAIS(:codigo, :pais, 'A');";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":pais", $pais->getDsPais(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $pais->getCdPais(), PDO::PARAM_INT);
@@ -56,8 +56,9 @@ class PaisDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        //echo "<script>alert(".$codigo.");</script>";
         try{
-            $query = "{CALL PROC_PAIS(:codigo, NULL, 'E')}";
+            $query = "CALL PROC_PAIS(:codigo, NULL, 'E');";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
@@ -110,7 +111,7 @@ class PaisDAO
         $pais = null;
         $connection = null;
         $this->connection =  new ConnectionFactory();
-        $sql = "{CALL PROC_PAIS(:codigo, NULL, 'C')}";
+        $sql = "CALL PROC_PAIS(:codigo, NULL, 'C');";
 
         try {
             $stmt = $this->connection->prepare($sql);

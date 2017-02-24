@@ -35,7 +35,25 @@ $pListIterator = new PaisListIterator($lista);
     <!-- left side start-->
 		<?php include "include/menu.html"?>
     <!-- left side end-->
-    
+
+        <!-- Modal -->
+        <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalLabel">Excluir Item</h4>
+                    </div>
+                    <div class="modal-body">Deseja realmente excluir o item <b><span class="nome"></span></b>? </div>
+                    <div class="modal-footer">
+                        <a href="#" type="button"  class="btn btn-primary delete-yes">Sim</a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     <!-- main content start-->
 		<div class="main-content main-content3 main-content3copy">
 
@@ -45,30 +63,29 @@ $pListIterator = new PaisListIterator($lista);
             <link href="css/search.css" rel='stylesheet' type='text/css' />
             <div class="row"></div>
             <br>
-            <div class="col-lg-4"><h2>Pa&iacute;s</h2></div>
-            <div class="col-lg-4">
 
-                    <form action="javascript:void(0);" method="get">
+            <div class="col-lg-1" ><h2>Pa&iacute;s</h2></div>
+            <div class="col-lg-7" >
 
-                        <fieldset>
-
-                            <ul class="toolbar clearfix">
-                                <li><input type="search" id="search" placeholder="O que você est&eacute; buscando?"></li>
-                                <li><button type="submit" id="btn-search"><span class="fontawesome-search"></span></button></li>
-
-                            </ul>
-
-                        </fieldset>
-
-                    </form>
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="form-pesquisa">
+                    <input type="hidden" name="acao" value="P">
+                    <div class="input-group h2">
+                        <input  name="search"  id="search" class="form-control">
+                        <span class="input-group-btn">
+                                <button class="btn btn-primary" type="submit" >
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                          </span>
+                    </div>
+                </form>
             </div>
             <div class="col-lg-4">
                 <a href="#" data-url="paiscad.php" class="btn btn-primary novo-item">Novo Item</a>
             </div>
             <div class="row"></div>
             <hr />
-
-            <div class="col-lg-12">
+            <div class="mensagem alert "></div>
+            <div class="col-md-12 col-lg-12" style="margin-left: 10%; margin-top: -5%;">
                 <table class="table table-responsive table-hover">
                     <thead>
                        <th>C&oacute;digo</th>
@@ -84,8 +101,13 @@ $pListIterator = new PaisListIterator($lista);
                            <td><?php echo $pais->getCdPais();  ?></td>
                            <td><?php echo $pais->getDsPais();  ?></td>
                            <td class="action">
-                               <a href="#" class="btn btn-primary btn-xs">Alterar</a>
-                               <a href="#" class="btn btn-warning btn-xs">Excluir</a>
+                               <a href="#" data-url="paisalt.php" data-id="<?php echo $pais->getCdPais();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
+                               <a href="#" class="delete btn btn-warning btn-xs"
+                                  data-toggle="modal"
+                                  data-target="#delete-modal"
+                                  data-nome="<?php echo $pais->getDsPais(); ?>"
+                                  data-id="<?php echo $pais->getCdPais(); ?>"
+                                  data-action="E">Excluir</a>
                            </td>
                        </tr>
                       <?php } ?>

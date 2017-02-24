@@ -15,6 +15,7 @@ class BairroDAO
      public function insert (Bairro $bairro){
          $this->connection =  null;
          $teste = false;
+
          $this->connection = new ConnectionFactory();
          try{
              $query = "{CALL PROC_BAIRRO(NULL, :bairro, :cidade, :zona,'I')}";

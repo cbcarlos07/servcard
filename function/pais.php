@@ -27,13 +27,14 @@ switch ($acao){
         change($id, $nome);
         break;
     case 'E':
+
         delete($id);
         break;
 
 }
 
 function add($nome){
-    echo "Adicionar";
+    //echo "<script>alert('Adicionar'); </script>";
     require_once "../beans/Pais.class.php";
     require_once "../controller/PaisController.class.php";
 
@@ -68,13 +69,10 @@ function change($id, $nome){
 }
 
 function delete($id){
-    require_once "../beans/Pais.class.php";
     require_once "../controller/PaisController.class.php";
-
-
     $paisController = new PaisController();
     $teste = $paisController->delete($id);
-
+    //echo "Retorno: ".$teste;
     if($teste)
         echo json_encode(array('retorno' => 1));
     else
