@@ -30,7 +30,7 @@ class ZonaController
     }
 
     public function getList($zona){
-        require_once ("../model/ZonaDAO.class.php");
+        require_once ("model/ZonaDAO.class.php");
         $zonaDao = new ZonaDAO();
         $retorno = $zonaDao->getList($zona);
         return $retorno;
@@ -39,7 +39,7 @@ class ZonaController
 
 
     public function getZona($zona){
-        require_once ("../model/ZonaDAO.class.php");
+        require_once ("model/ZonaDAO.class.php");
         $zonaDao = new ZonaDAO();
         $retorno = $zonaDao->getZona($zona);
         return $retorno;

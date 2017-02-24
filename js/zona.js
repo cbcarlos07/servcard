@@ -20,13 +20,13 @@ function salvar(){
     jQuery('#form').submit(function () {
        // alert("Submit");
         var codigo = document.getElementById('id').value;
-        var nome   = document.getElementById('pais').value;
+        var nome   = document.getElementById('zona').value;
         var acao   = document.getElementById('acao').value;
         //alert("Acao: "+acao);
         $.ajax({
                 type    : 'post',
                 dataType: 'json',
-                url     : 'function/pais.php',
+                url     : 'function/zona.php',
                 beforeSend : carregando,
                 data: {
                     'id'   : codigo,
@@ -53,7 +53,7 @@ function deletar(codigo, acao){
     $.ajax({
         dataType: 'json',
         type: "POST",
-        url: "function/pais.php",
+        url: "function/zona.php",
         beforeSend: carregando,
         data: {
             'id' : codigo,
@@ -93,7 +93,7 @@ function sucesso(msg){
     var mensagem = $('.mensagem');
     mensagem.empty().html('<p class="alert alert-success"><strong>OK. </strong>'+msg+'<img src="images/ok.png" alt="Carregando..."></p>').fadeIn("fast");
     setTimeout(function (){
-        location.href = "pais.php";
+        location.href = "zona.php";
     },2000);
 }
 function sucesso_delete(msg){

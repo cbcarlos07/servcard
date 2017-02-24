@@ -6,16 +6,6 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
-<?php
-$id = $_POST['id'];
-
-require_once "beans/Pais.class.php";
-require_once "controller/PaisController.class.php";
-
-$pais = new Pais();
-$pc = new PaisController();
-$pais = $pc->getPais($id);
-?>
 
 
 <?php include "include/head.php"; ?>
@@ -39,23 +29,24 @@ $pais = $pc->getPais($id);
             <div class="row"></div>
             <br />
             <div style="text-align: center;">
-                <h3>Altera&ccedil;&atilde;o de Cadastro de  Pa&iacute;s</h3>
+            <h3>Cadastro de Zona</h3>
             </div>
             <div class="col-lg-1"></div>
-            <div class="col-lg-3">
+            <div class="col-lg-5">
+
                 <div class="mensagem alert "></div>
                 <form method="post" id="form">
-                    <input id="id" value="<?php echo $pais->getCdPais(); ?>" type="hidden">
-                    <input id="acao" value="A" type="hidden">
+                    <input id="id" value="0" type="hidden">
+                    <input id="acao" value="C" type="hidden">
                     <div class="form-group">
-                        <label>Pa&iacute;s</label>
-                        <input id="pais" class="form-control" required="" value="<?php echo $pais->getDsPais(); ?>"/>
+                        <label>Zona</label>
+                        <input id="zona" class="form-control" required=""/>
                     </div>
                     <div class="row"></div>
                     <hr />
                     <div class="btn-group">
                         <button class="btn btn-success" onclick="salvar()">Salvar</button>
-                        <a class="btn btn-warning btn-voltar" data-url="pais.php" onclick="return verifica('Tem certeza de que deseja cancelar a opera&ccedil;&atilde;o?');">Cancelar</a>
+                        <a class="btn btn-warning btn-voltar" data-url="zona.php" onclick="return verifica('Tem certeza de que deseja cancelar a opera&ccedil;&atilde;o?');">Cancelar</a>
                     </div>
 
                 </form>
@@ -88,7 +79,7 @@ $pais = $pc->getPais($id);
 
 
 
-    <script src="js/pais.js"></script>
+    <script src="js/zona.js"></script>
 
  </body>
 </html>

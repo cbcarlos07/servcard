@@ -30,7 +30,7 @@ class EstadoController
     }
 
     public function getList($estado){
-        require_once ("../model/EstadoDAO.class.php");
+        require_once ("model/EstadoDAO.class.php");
         $estadoDao = new EstadoDAO();
         $retorno = $estadoDao->getList($estado);
         return $retorno;
@@ -39,7 +39,7 @@ class EstadoController
 
 
     public function getEstado($estado){
-        require_once ("../model/EstadoDAO.class.php");
+        require_once ("model/EstadoDAO.class.php");
         $estadoDao = new EstadoDAO();
         $retorno = $estadoDao->getEstado($estado);
         return $retorno;

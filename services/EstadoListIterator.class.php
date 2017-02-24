@@ -8,23 +8,30 @@
  */
 class EstadoListIterator
 {
-    public function addEstado(Estado $_estado_in) {
-        $this->setEstadoCount($this->getEstadoCount() + 1);
-        $this->_estado[$this->getEstadoCount()] = $_estado_in;
-        return $this->getEstadoCount();
+    protected $estadoList;
+    protected $currentEstado = 0;
+
+    public function __construct(EstadoList $estadoList_in) {
+        $this->estadoList = $estadoList_in;
     }
-    public function removeEstado(Estado $_estado_in) {
-        $counter = 0;
-        while (++$counter <= $this->getEstadoCount()) {
-            if ($_estado_in->getAuthorAndTitle() ==
-                $this->_estado[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getEstadoCount(); $x++) {
-                    $this->_estado[$x] = $this->_estado[$x + 1];
-                }
-                $this->setEstadoCount($this->getEstadoCount() - 1);
-            }
+    public function getCurrentEstado() {
+        if (($this->currentEstado > 0) &&
+            ($this->estadoList->getEstadoCount() >= $this->currentEstado)) {
+            return $this->estadoList->getEstado($this->currentEstado);
         }
-        return $this->getEstadoCount();
+    }
+    public function getNextEstado() {
+        if ($this->hasNextEstado()) {
+            return $this->estadoList->getEstado(++$this->currentEstado);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextEstado() {
+        if ($this->estadoList->getEstadoCount() > $this->currentEstado) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

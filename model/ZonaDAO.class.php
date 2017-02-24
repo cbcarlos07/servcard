@@ -76,8 +76,8 @@ class ZonaDAO
     }
 
     public function getList($nome){
-        require_once ("../services/ZonaList.class.php");
-        require_once ("../beans/Zona.class.php");
+        require_once ("services/ZonaList.class.php");
+        require_once ("beans/Zona.class.php");
 
         $this->connection = null;
 
@@ -113,7 +113,7 @@ class ZonaDAO
         $this->connection =  new ConnectionFactory();
         $sql = "SELECT *
                           FROM zona E
-                          WHERE E.DS_ZONA = :codigo";
+                          WHERE E.CD_ZONA = :codigo";
 
         try {
             $stmt = $this->connection->prepare($sql);

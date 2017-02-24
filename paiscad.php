@@ -28,6 +28,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
             <div class="row"></div>
             <br />
+            <div style="text-align: center;">
+            <h3>Cadastro de Pa&iacute;s</h3>
+            </div>
             <div class="col-lg-1"></div>
             <div class="col-lg-5">
 

@@ -35,14 +35,14 @@ switch ($acao){
 
 function add($nome){
    // echo "<script>alert('Adicionar'); </script>";
-    require_once "../beans/Pais.class.php";
-    require_once "../controller/PaisController.class.php";
+    require_once "../beans/Zona.class.php";
+    require_once "../controller/ZonaController.class.php";
 
-    $pais = new Pais();
-    $pais->setDsPais($nome);
+    $zona = new Zona();
+    $zona->setDsZona($nome);
 
-    $paisController = new PaisController();
-    $teste = $paisController->insert($pais);
+    $zonaController = new ZonaController();
+    $teste = $zonaController->insert($zona);
     //echo "Teste: $teste";
     if($teste)
         echo json_encode(array('retorno' => 1));
@@ -52,15 +52,15 @@ function add($nome){
 
 
 function change($id, $nome){
-    require_once "../beans/Pais.class.php";
-    require_once "../controller/PaisController.class.php";
+    require_once "../beans/Zona.class.php";
+    require_once "../controller/ZonaController.class.php";
 
-    $pais = new Pais();
-    $pais->setCdPais($id);
-    $pais->setDsPais($nome);
+    $zona = new Zona();
+    $zona->setCdZona($id);
+    $zona->setDsZona($nome);
 
-    $paisController = new PaisController();
-    $teste = $paisController->update($pais);
+    $zonaController = new ZonaController();
+    $teste = $zonaController->update($zona);
 
     if($teste)
         echo json_encode(array('retorno' => 1));
@@ -69,9 +69,9 @@ function change($id, $nome){
 }
 
 function delete($id){
-    require_once "../controller/PaisController.class.php";
-    $paisController = new PaisController();
-    $teste = $paisController->delete($id);
+    require_once "../controller/ZonaController.class.php";
+    $zonaController = new ZonaController();
+    $teste = $zonaController->delete($id);
     //echo "Retorno: ".$teste;
     if($teste)
         echo json_encode(array('retorno' => 1));

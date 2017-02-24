@@ -7579,3 +7579,14 @@ textarea.form-control1.control2 {
     width: 100%;
 }
 }
+
+.table-hover > tbody > tr:hover {
+	background-color: #fbf899;
+	color: red;
+}
+
+.table tr:nth-child(odd) {background: #EEE}
+
+.tabela{
+	margin-top: -50px;
+}

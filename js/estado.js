@@ -15,23 +15,27 @@ $('.novo-item').on('click', function(){
 
 });
 
-function salvar(){
+function save(){
     //alert("Salvar");
     jQuery('#form').submit(function () {
-       // alert("Submit");
+
         var codigo = document.getElementById('id').value;
-        var nome   = document.getElementById('pais').value;
+        var estado = document.getElementById('estado').value;
+        var uf     = document.getElementById('uf').value;
+        var pais   = document.getElementById('pais').value;
         var acao   = document.getElementById('acao').value;
         //alert("Acao: "+acao);
         $.ajax({
                 type    : 'post',
                 dataType: 'json',
-                url     : 'function/pais.php',
+                url     : 'function/estado.php',
                 beforeSend : carregando,
                 data: {
-                    'id'   : codigo,
-                    'nome' : nome,
-                    'acao' : acao
+                    'id'     : codigo,
+                    'estado' : estado,
+                    'uf'     : uf,
+                    'pais'   : pais,
+                    'acao'   : acao
                 },
                 success: function (data) {
                     //alert(data.retorno);
@@ -53,7 +57,7 @@ function deletar(codigo, acao){
     $.ajax({
         dataType: 'json',
         type: "POST",
-        url: "function/pais.php",
+        url: "function/estado.php",
         beforeSend: carregando,
         data: {
             'id' : codigo,
@@ -93,7 +97,7 @@ function sucesso(msg){
     var mensagem = $('.mensagem');
     mensagem.empty().html('<p class="alert alert-success"><strong>OK. </strong>'+msg+'<img src="images/ok.png" alt="Carregando..."></p>').fadeIn("fast");
     setTimeout(function (){
-        location.href = "pais.php";
+        location.href = "estado.php";
     },2000);
 }
 function sucesso_delete(msg){

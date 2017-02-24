@@ -24,7 +24,7 @@ class EstadoDAO
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":estado", $estado->getNmEstado(), PDO::PARAM_STR);
              $stmt->bindValue(":uf", $estado->getDsUF(), PDO::PARAM_STR);
-             $stmt->bindValue(":pais", $estado->getPais()->getCdPais, PDO::PARAM_INT);
+             $stmt->bindValue(":pais", $estado->getPais()->getCdPais(), PDO::PARAM_INT);
              $stmt->execute();
 
              $teste =  true;
@@ -81,8 +81,9 @@ class EstadoDAO
     }
 
     public function getList($nome){
-        require_once ("../services/EstadoList.class.php");
-        require_once ("../beans/Estado.class.php");
+        require_once ("services/EstadoList.class.php");
+        require_once ("beans/Estado.class.php");
+        require_once ("beans/Pais.class.php");
 
         $this->connection = null;
 
@@ -108,7 +109,7 @@ class EstadoDAO
                 $estado->setDsUF($row['DS_UF']);
                 $estado->setPais(new Pais());
                 $estado->getPais()->setCdPais($row['CD_PAIS']);
-                $estado->getDsUF()->setNmPais($row['DS_PAIS']);
+                $estado->getPais()->setDsPais($row['DS_PAIS']);
                 $estadoList->addEstado($estado);
             }
             $this->connection = null;
@@ -119,6 +120,7 @@ class EstadoDAO
     }
 
     public function getEstado($codigo){
+        require_once ("beans/Pais.class.php");
         $estado = null;
         $connection = null;
         $this->connection =  new ConnectionFactory();
@@ -139,7 +141,7 @@ class EstadoDAO
                 $estado->setDsUF($row['DS_UF']);
                 $estado->setPais(new Pais());
                 $estado->getPais()->setCdPais($row['CD_PAIS']);
-                $estado->getDsUF()->setNmPais($row['DS_PAIS']);
+                $estado->getPais()->setDsPais($row['DS_PAIS']);
             }
             $this->connection = null;
         } catch (PDOException $ex) {
