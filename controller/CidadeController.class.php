@@ -30,7 +30,7 @@ class CidadeController
     }
 
     public function getList($cidade){
-        require_once ("../model/CidadeDAO.class.php");
+        require_once ("model/CidadeDAO.class.php");
         $cidadeDao = new CidadeDAO();
         $retorno = $cidadeDao->getList($cidade);
         return $retorno;
@@ -39,7 +39,7 @@ class CidadeController
 
 
     public function getCidade($cidade){
-        require_once ("../model/CidadeDAO.class.php");
+        require_once ("model/CidadeDAO.class.php");
         $cidadeDao = new CidadeDAO();
         $retorno = $cidadeDao->getCidade($cidade);
         return $retorno;

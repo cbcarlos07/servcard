@@ -17,7 +17,7 @@ class CargoDAO
          $teste = false;
          $this->connection = new ConnectionFactory();
          try{
-             $query = "{CALL PROC_CARGO(NULL, :cargo, :obs, 'I')}";
+             $query = "CALL PROC_CARGO(NULL, :cargo, :obs, 'I');";
 
 
              $stmt = $this->connection->prepare($query);
@@ -39,7 +39,7 @@ class CargoDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "{CALL PROC_CARGO(:codigo, :cargo, :obs, 'A')}";
+            $query = "CALL PROC_CARGO(:codigo, :cargo, :obs, 'A');";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":cargo", $cargo->getDsCargo(), PDO::PARAM_STR);
             $stmt->bindValue(":obs",$cargo->getObsCargo(), PDO::PARAM_STR);
@@ -60,7 +60,7 @@ class CargoDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "{CALL PROC_CARGO(:codigo, NULL, NULL, 'E')}";
+            $query = "CALL PROC_CARGO(:codigo, NULL, NULL, 'E');";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
@@ -75,8 +75,8 @@ class CargoDAO
     }
 
     public function getListByCargo($nome){
-        require_once ("../services/CargoList.class.php");
-        require_once ("../beans/Cargo.class.php");
+        require_once ("services/CargoList.class.php");
+        require_once ("beans/Cargo.class.php");
 
         $this->connection = null;
 
@@ -86,7 +86,7 @@ class CargoDAO
 
         try {
 
-                $sql = "{CALL PROC_CARGO(NULL, :cargo, NULL, 'N')}";
+                $sql = "CALL PROC_CARGO(NULL, :cargo, NULL, 'N');";
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":cargo", "%$nome%", PDO::PARAM_STR);
 
@@ -112,7 +112,7 @@ class CargoDAO
         $cargo = null;
         $this->connection = null;
         $this->connection =  new ConnectionFactory();
-        $sql = "{CALL PROC_CARGO(:codigo, NULL, NULL, 'C')}";
+        $sql = "CALL PROC_CARGO(:codigo, NULL, NULL, 'C');";
 
         try {
             $stmt = $this->connection->prepare($sql);

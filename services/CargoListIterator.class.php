@@ -8,23 +8,30 @@
  */
 class CargoListIterator
 {
-    public function addCargo(Cargo $_cargo_in) {
-        $this->setCargoCount($this->getCargoCount() + 1);
-        $this->_cargo[$this->getCargoCount()] = $_cargo_in;
-        return $this->getCargoCount();
+    protected $cargoList;
+    protected $currentCargo = 0;
+
+    public function __construct(CargoList $cargoList_in) {
+        $this->cargoList = $cargoList_in;
     }
-    public function removeCargo(Cargo $_cargo_in) {
-        $counter = 0;
-        while (++$counter <= $this->getCargoCount()) {
-            if ($_cargo_in->getAuthorAndTitle() ==
-                $this->_cargo[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getCargoCount(); $x++) {
-                    $this->_cargo[$x] = $this->_cargo[$x + 1];
-                }
-                $this->setCargoCount($this->getCargoCount() - 1);
-            }
+    public function getCurrentCargo() {
+        if (($this->currentCargo > 0) &&
+            ($this->cargoList->getCargoCount() >= $this->currentCargo)) {
+            return $this->cargoList->getCargo($this->currentCargo);
         }
-        return $this->getCargoCount();
+    }
+    public function getNextCargo() {
+        if ($this->hasNextCargo()) {
+            return $this->cargoList->getCargo(++$this->currentCargo);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextCargo() {
+        if ($this->cargoList->getCargoCount() > $this->currentCargo) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

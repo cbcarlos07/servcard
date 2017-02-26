@@ -8,23 +8,30 @@
  */
 class CidadeListIterator
 {
-    public function addCidade(Cidade $_cidade_in) {
-        $this->setCidadeCount($this->getCidadeCount() + 1);
-        $this->_cidade[$this->getCidadeCount()] = $_cidade_in;
-        return $this->getCidadeCount();
+    protected $cidadeList;
+    protected $currentCidade = 0;
+
+    public function __construct(CidadeList $cidadeList_in) {
+        $this->cidadeList = $cidadeList_in;
     }
-    public function removeCidade(Cidade $_cidade_in) {
-        $counter = 0;
-        while (++$counter <= $this->getCidadeCount()) {
-            if ($_cidade_in->getAuthorAndTitle() ==
-                $this->_cidade[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getCidadeCount(); $x++) {
-                    $this->_cidade[$x] = $this->_cidade[$x + 1];
-                }
-                $this->setCidadeCount($this->getCidadeCount() - 1);
-            }
+    public function getCurrentCidade() {
+        if (($this->currentCidade > 0) &&
+            ($this->cidadeList->getCidadeCount() >= $this->currentCidade)) {
+            return $this->cidadeList->getCidade($this->currentCidade);
         }
-        return $this->getCidadeCount();
+    }
+    public function getNextCidade() {
+        if ($this->hasNextCidade()) {
+            return $this->cidadeList->getCidade(++$this->currentCidade);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextCidade() {
+        if ($this->cidadeList->getCidadeCount() > $this->currentCidade) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

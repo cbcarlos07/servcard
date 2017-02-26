@@ -18,7 +18,7 @@ class BairroDAO
 
          $this->connection = new ConnectionFactory();
          try{
-             $query = "{CALL PROC_BAIRRO(NULL, :bairro, :cidade, :zona,'I')}";
+             $query = "CALL PROC_BAIRRO(NULL, :bairro, :cidade, :zona,'I');";
 
 
              $stmt = $this->connection->prepare($query);
@@ -41,7 +41,7 @@ class BairroDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "{CALL PROC_BAIRRO(:codigo, :bairro, :cidade, :zona,'A')}";
+            $query = "CALL PROC_BAIRRO(:codigo, :bairro, :cidade, :zona,'A');";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":bairro", $bairro->getNmBairro(), PDO::PARAM_STR);
             $stmt->bindValue(":cidade",$bairro->getCidade()->getCdCidade(), PDO::PARAM_INT);
@@ -63,7 +63,7 @@ class BairroDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "{CALL PROC_BAIRRO(:codigo, NULL, NULL, NULL,'E')}";
+            $query = "CALL PROC_BAIRRO(:codigo, NULL, NULL, NULL,'E');  ";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
@@ -78,8 +78,10 @@ class BairroDAO
     }
 
     public function getListByBairro($nome){
-        require_once ("../services/BairroList.class.php");
-        require_once ("../beans/Bairro.class.php");
+        require_once ("services/BairroList.class.php");
+        require_once ("beans/Bairro.class.php");
+        require_once ("beans/Zona.class.php");
+        require_once ("beans/Cidade.class.php");
 
         $this->connection = null;
 
@@ -126,6 +128,8 @@ class BairroDAO
     public function getListByCidade($nome, $cidade){
         require_once ("../services/BairroList.class.php");
         require_once ("../beans/Bairro.class.php");
+        require_once ("beans/Cidade.class.php");
+        require_once ("beans/Zona.class.php");
 
         $this->connection = null;
 
@@ -174,6 +178,8 @@ class BairroDAO
     public function getListByZona($nome, $cidade, $zona){
         require_once ("../services/BairroList.class.php");
         require_once ("../beans/Bairro.class.php");
+        require_once ("beans/Cidade.class.php");
+        require_once ("beans/Zona.class.php");
 
         $this->connection = null;
 
@@ -222,6 +228,8 @@ class BairroDAO
     }
 
     public function getBairro($codigo){
+        require_once ("beans/Cidade.class.php");
+        require_once ("beans/Zona.class.php");
         $bairro = null;
         $this->connection = null;
         $this->connection =  new ConnectionFactory();

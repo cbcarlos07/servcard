@@ -8,23 +8,30 @@
  */
 class BairroListIterator
 {
-    public function addBairro(Bairro $_bairro_in) {
-        $this->setBairroCount($this->getBairroCount() + 1);
-        $this->_bairro[$this->getBairroCount()] = $_bairro_in;
-        return $this->getBairroCount();
+    protected $bairroList;
+    protected $currentBairro = 0;
+
+    public function __construct(BairroList $bairroList_in) {
+        $this->bairroList = $bairroList_in;
     }
-    public function removeBairro(Bairro $_bairro_in) {
-        $counter = 0;
-        while (++$counter <= $this->getBairroCount()) {
-            if ($_bairro_in->getAuthorAndTitle() ==
-                $this->_bairro[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getBairroCount(); $x++) {
-                    $this->_bairro[$x] = $this->_bairro[$x + 1];
-                }
-                $this->setBairroCount($this->getBairroCount() - 1);
-            }
+    public function getCurrentBairro() {
+        if (($this->currentBairro > 0) &&
+            ($this->bairroList->getBairroCount() >= $this->currentBairro)) {
+            return $this->bairroList->getBairro($this->currentBairro);
         }
-        return $this->getBairroCount();
+    }
+    public function getNextBairro() {
+        if ($this->hasNextBairro()) {
+            return $this->bairroList->getBairro(++$this->currentBairro);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextBairro() {
+        if ($this->bairroList->getBairroCount() > $this->currentBairro) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

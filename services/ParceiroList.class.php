@@ -15,7 +15,7 @@ class ParceiroList
      * ParceiroList constructor.
      * @param $_parceiro
      */
-    public function __construct()
+    public function _construct()
     {
 
     }

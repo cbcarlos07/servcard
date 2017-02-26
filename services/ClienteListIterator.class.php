@@ -8,23 +8,30 @@
  */
 class ClienteListIterator
 {
-    public function addCliente(Cliente $_cliente_in) {
-        $this->setClienteCount($this->getClienteCount() + 1);
-        $this->_cliente[$this->getClienteCount()] = $_cliente_in;
-        return $this->getClienteCount();
+    protected $clienteList;
+    protected $currentCliente = 0;
+
+    public function __construct(ClienteList $clienteList_in) {
+        $this->clienteList = $clienteList_in;
     }
-    public function removeCliente(Cliente $_cliente_in) {
-        $counter = 0;
-        while (++$counter <= $this->getClienteCount()) {
-            if ($_cliente_in->getAuthorAndTitle() ==
-                $this->_cliente[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getClienteCount(); $x++) {
-                    $this->_cliente[$x] = $this->_cliente[$x + 1];
-                }
-                $this->setClienteCount($this->getClienteCount() - 1);
-            }
+    public function getCurrentCliente() {
+        if (($this->currentCliente > 0) &&
+            ($this->clienteList->getClienteCount() >= $this->currentCliente)) {
+            return $this->clienteList->getCliente($this->currentCliente);
         }
-        return $this->getClienteCount();
+    }
+    public function getNextCliente() {
+        if ($this->hasNextCliente()) {
+            return $this->clienteList->getCliente(++$this->currentCliente);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextCliente() {
+        if ($this->clienteList->getClienteCount() > $this->currentCliente) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

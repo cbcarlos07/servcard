@@ -18,7 +18,7 @@ class EnderecoDAO
          $this->connection = new ConnectionFactory();
          try{
              $query = "INSERT INTO endereco 
-                       (DS_LOGRADOURO, TP_LOGRADOURO, NR_CEP, CD_BAIRRO) 
+                       (DS_LOGRADOURO, CD_TP_LOGRADOURO, NR_CEP, CD_BAIRRO) 
                        VALUES 
                        (:logradouro, :tipo, :cep, :bairro)";
 

@@ -30,7 +30,7 @@ class BairroController
     }
 
     public function getListByBairro ($bairro){
-        require_once ("../model/BairroDAO.class.php");
+        require_once ("model/BairroDAO.class.php");
         $bairroDao = new BairroDAO();
         $retorno = $bairroDao->getListByBairro($bairro);
         return $retorno;
@@ -51,7 +51,7 @@ class BairroController
     }
 
     public function getBairro($bairro){
-        require_once ("../model/BairroDAO.class.php");
+        require_once ("model/BairroDAO.class.php");
         $bairroDao = new BairroDAO();
         $retorno = $bairroDao->getBairro($bairro);
         return $retorno;

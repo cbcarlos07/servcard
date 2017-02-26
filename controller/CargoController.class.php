@@ -30,7 +30,7 @@ class CargoController
     }
 
     public function getListByCargo ($cargo){
-        require_once ("../model/CargoDAO.class.php");
+        require_once ("model/CargoDAO.class.php");
         $cargoDao = new CargoDAO();
         $retorno = $cargoDao->getListByCargo($cargo);
         return $retorno;
@@ -39,7 +39,7 @@ class CargoController
 
 
     public function getCargo($cargo){
-        require_once ("../model/CargoDAO.class.php");
+        require_once ("model/CargoDAO.class.php");
         $cargoDao = new CargoDAO();
         $retorno = $cargoDao->getCargo($cargo);
         return $retorno;
