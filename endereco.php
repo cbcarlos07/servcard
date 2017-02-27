@@ -13,13 +13,21 @@ if(isset($_POST['search'])){
    $descricao =  $_POST['search'];
 }
 
+if(isset($_POST['cidade'])){
+    $cdCidade = $_POST['cidade'];
+    $_SESSION['cidade'] = $cdCidade;
+}else{
+    $cdCidade = 0;
+    $_SESSION['cidade'] = $cdCidade;
+}
+
+
 include_once "controller/EnderecoController.class.php";
 include_once "beans/Endereco.class.php";
 include_once "services/EnderecoListIterator.class.php";
 
-
 $enderecoController = new EnderecoController();
-$lista = $enderecoController->getList($descricao);
+$lista = $enderecoController->getList($descricao, $_SESSION['cidade']);
 $pListIterator = new EnderecoListIterator($lista);
 
 
@@ -70,7 +78,7 @@ $pListIterator = new EnderecoListIterator($lista);
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="form-pesquisa">
                     <input type="hidden" name="acao" value="P">
                     <div class="input-group h2">
-                        <input  name="search"  id="search" class="form-control">
+                        <input  name="search"  id="search" class="form-control" placeholder="Digite o CEP para pesquisa">
                         <span class="input-group-btn">
                                 <button class="btn btn-primary" type="submit" >
                                     <span class="glyphicon glyphicon-search"></span>
@@ -84,6 +92,40 @@ $pListIterator = new EnderecoListIterator($lista);
             </div>
             <div class="row"></div>
             <hr />
+            <div class="col-lg-5">
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="form-cidade">
+                <div class="form-group">
+                    <label for="focusedinput" class="col-sm-2 control-label">Cidade</label>
+                    <div class="col-sm-8">
+                        <select name="cidade" class="form-control1 cidade" >
+                            <option value="0">Selecione</option>
+                            <?php
+                              require_once "beans/Cidade.class.php";
+                              require_once "controller/CidadeController.class.php";
+                              require_once "services/CidadeListIterator.class.php";
+
+                              $cidade = new Cidade();
+                              $cc = new CidadeController();
+                              $lista = $cc->getList("");
+                              $cList = new CidadeListIterator($lista);
+                              while ($cList->hasNextCidade()){
+                                  $cidade = $cList->getNextCidade();
+                                  $select = "";
+                                  if($cdCidade ==  $cidade->getCdCidade()){
+                                      $select = "selected";
+                                  }
+                             ?>
+                               <option <?php echo $select; ?> value="<?php  echo $cidade->getCdCidade(); ?>"><?php echo $cidade->getNmCidade(); ?></option>
+                            <?php
+                              }
+                            ?>
+                        </select>
+                    </div>
+
+                </div>
+            </form>
+            </div>
+            <div class="row"></div>
             <div class="mensagem alert "></div>
             <script src="js/tooltip.js"></script>
             <div id="page-wrapper" class="tabela">
@@ -93,34 +135,38 @@ $pListIterator = new EnderecoListIterator($lista);
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Descri&ccedil;&atilde;o</th>
-                                <th>Cidade</th>
+                                <th>CEP</th>
+                                <th>Logradouro</th>
+                                <th>Tipo</th>
+                                <th>Bairro</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php
-                            $endereco = new Endereco();
-                            while ($pListIterator->hasNextEndereco()){
-                                $endereco =  $pListIterator->getNextEndereco();
+                                <?php
+                                  $endereco = new Endereco();
+                                  while ($pListIterator->hasNextEndereco()){
+                                      $endereco = $pListIterator->getNextEndereco();
 
                                 ?>
+
                                 <tr>
-                                    <th scope="row"><?php echo $endereco->getCdEndereco(); ?></th>
-                                    <td><?php echo $endereco->getNmEndereco(); ?></td>
-                                    <td><?php echo $endereco->getCidade()->getNmCidade(); ?></td>
+                                    <th scope="row"><?php echo $endereco->getNrCep(); ?></th>
+                                    <td><?php echo $endereco->getDsLogradouro(); ?></td>
+                                    <td><?php echo $endereco->getTpLogradouro()->getDsTpLogradouro(); ?></td>
+                                    <td><?php echo $endereco->getBairro()->getNmBairro(); ?></td>
                                     <td class="action">
-                                        <a href="#" data-url="enderecoalt.php" data-id="<?php echo $endereco->getCdEndereco();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
+                                        <a href="#" data-url="enderecoalt.php" data-id="<?php echo $endereco->getCdEndereco(); ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
                                         <a href="#" class="delete btn btn-warning btn-xs"
                                            data-toggle="modal"
                                            data-target="#delete-modal"
-                                           data-nome="<?php echo $endereco->getNmEndereco(); ?>"
+                                           data-nome="<?php echo $endereco->getNrCep(); ?>"
                                            data-id="<?php echo $endereco->getCdEndereco(); ?>"
                                            data-action="E">Excluir</a>
                                     </td>
                                 </tr>
-                            <?php } ?>
+                                <?php  }
+                                ?>
                             </tbody>
                         </table>
                     </div>

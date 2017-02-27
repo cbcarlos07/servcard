@@ -128,8 +128,8 @@ class BairroDAO
     public function getListByCidade($nome, $cidade){
         require_once ("../services/BairroList.class.php");
         require_once ("../beans/Bairro.class.php");
-        require_once ("beans/Cidade.class.php");
-        require_once ("beans/Zona.class.php");
+        require_once ("../beans/Cidade.class.php");
+        require_once ("../beans/Zona.class.php");
 
         $this->connection = null;
 

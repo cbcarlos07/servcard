@@ -10,6 +10,7 @@ $id        = 0;
 $nome      = "";
 $cidade    = 0;
 $zona      = 0;
+$bairro    = 0;
 $acao = $_POST['acao'];
 
 
@@ -28,6 +29,14 @@ if(isset($_POST['zona'])){
     $zona = $_POST['zona'];
 }
 
+if(isset($_POST['bairro'])){
+    $bairro = $_POST['bairro'];
+}
+
+
+
+
+
 switch ($acao){
     case 'C':
         add($nome, $cidade, $zona);
@@ -36,9 +45,10 @@ switch ($acao){
         change($id, $nome, $cidade, $zona);
         break;
     case 'E':
-
         delete($id);
         break;
+    case 'B': //bairro por cidade
+        getBairros($cidade, $bairro);
 
 }
 
@@ -98,4 +108,28 @@ function delete($id){
         echo json_encode(array('retorno' => 1));
     else
         echo json_encode(array('retorno' => 0));
+}
+
+function getBairros($cidade, $cdBairro){
+    require_once "../beans/Bairro.class.php";
+    require_once "../controller/BairroController.class.php";
+    require_once "../services/BairroListIterator.class.php";
+    $bairro = new Bairro();
+    $bc = new BairroController();
+    $lista = $bc->getListByCidade("",$cidade);
+    $bList = new BairroListIterator($lista);
+    if($bList->hasNextBairro()) {
+        while ($bList->hasNextBairro()) {
+            $bairro = $bList->getNextBairro();
+            $select = "";
+            if($cdBairro > 0){
+                if($cdBairro == $bairro->getCdBairro()){
+                    $select = "selected";
+                }
+            }
+            echo "<option ".$select." value='" . $bairro->getCdBairro() . "'>" . $bairro->getNmBairro() . "</option>";
+        }
+    }else{
+        echo "<option value=''>N&atilde;o possui bairros cadastrados</option>";
+    }
 }

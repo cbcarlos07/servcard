@@ -8,23 +8,30 @@
  */
 class EnderecoListIterator
 {
-    public function addEndereco(Endereco $_endereco_in) {
-        $this->setEnderecoCount($this->getEnderecoCount() + 1);
-        $this->_endereco[$this->getEnderecoCount()] = $_endereco_in;
-        return $this->getEnderecoCount();
+    protected $enderecoList;
+    protected $currentEndereco = 0;
+
+    public function __construct(EnderecoList $enderecoList_in) {
+        $this->enderecoList = $enderecoList_in;
     }
-    public function removeEndereco(Endereco $_endereco_in) {
-        $counter = 0;
-        while (++$counter <= $this->getEnderecoCount()) {
-            if ($_endereco_in->getAuthorAndTitle() ==
-                $this->_endereco[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getEnderecoCount(); $x++) {
-                    $this->_endereco[$x] = $this->_endereco[$x + 1];
-                }
-                $this->setEnderecoCount($this->getEnderecoCount() - 1);
-            }
+    public function getCurrentEndereco() {
+        if (($this->currentEndereco > 0) &&
+            ($this->enderecoList->getEnderecoCount() >= $this->currentEndereco)) {
+            return $this->enderecoList->getEndereco($this->currentEndereco);
         }
-        return $this->getEnderecoCount();
+    }
+    public function getNextEndereco() {
+        if ($this->hasNextEndereco()) {
+            return $this->enderecoList->getEndereco(++$this->currentEndereco);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextEndereco() {
+        if ($this->enderecoList->getEnderecoCount() > $this->currentEndereco) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

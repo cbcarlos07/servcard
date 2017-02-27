@@ -29,17 +29,17 @@ class EnderecoController
         return $retorno;
     }
 
-    public function getList($endereco){
-        require_once ("../model/EnderecoDAO.class.php");
+    public function getList($endereco, $cidade){
+        require_once ("model/EnderecoDAO.class.php");
         $enderecoDao = new EnderecoDAO();
-        $retorno = $enderecoDao->getList($endereco);
+        $retorno = $enderecoDao->getList($endereco, $cidade);
         return $retorno;
     }
 
 
 
     public function getEndereco($endereco){
-        require_once ("../model/EnderecoDAO.class.php");
+        require_once ("model/EnderecoDAO.class.php");
         $enderecoDao = new EnderecoDAO();
         $retorno = $enderecoDao->getEndereco($endereco);
         return $retorno;

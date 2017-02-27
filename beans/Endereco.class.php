@@ -8,10 +8,49 @@
  */
 class Endereco
 {
+  private $cdEndereco;
   private $nrCep;
   private $dsLogradouro;
   private $tpLogradouro;
   private $bairro;
+  private $cidade;
+
+    /**
+     * @return mixed
+     */
+    public function getCdEndereco()
+    {
+        return $this->cdEndereco;
+    }
+
+    /**
+     * @param mixed $cdEndereco
+     * @return Endereco
+     */
+    public function setCdEndereco($cdEndereco)
+    {
+        $this->cdEndereco = $cdEndereco;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCidade()
+    {
+        return $this->cidade;
+    }
+
+    /**
+     * @param mixed $cidade
+     * @return Endereco
+     */
+    public function setCidade($cidade)
+    {
+        $this->cidade = $cidade;
+        return $this;
+    }
+
 
     /**
      * @return mixed
@@ -61,7 +100,7 @@ class Endereco
      * @param mixed $tpLogradouro
      * @return Endereco
      */
-    public function setTpLogradouro($tpLogradouro)
+    public function setTpLogradouro(TpLogradouro $tpLogradouro)
     {
         $this->tpLogradouro = $tpLogradouro;
         return $this;
