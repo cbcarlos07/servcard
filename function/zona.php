@@ -27,8 +27,10 @@ switch ($acao){
         change($id, $nome);
         break;
     case 'E':
-
         delete($id);
+        break;
+    case 'L':
+        getZonas($id);
         break;
 
 }
@@ -77,4 +79,26 @@ function delete($id){
         echo json_encode(array('retorno' => 1));
     else
         echo json_encode(array('retorno' => 0));
+}
+
+function getZonas($id){
+    require_once "../beans/Zona.class.php";
+    require_once "../controller/ZonaController.class.php";
+    require_once "../services/ZonaListIterator.class.php";
+    $zona = new Zona();
+    $zonaController = new ZonaController();
+    $lista = $zonaController->getLista("");
+    $zonaListIterator = new ZonaListIterator($lista);
+    if($zonaListIterator->hasNextZona()) {
+        while ($zonaListIterator->hasNextZona()) {
+            $zona = $zonaListIterator->getNextZona();
+            $select = "";
+            if($zona->getCdZona() == $id )
+                $select = "selected";
+
+         echo " <option ".$select."value='".$zona->getCdZona()."'>".$zona->getDsZona()."</option>";
+        }
+    }else{
+        echo "<option value=''>N&atilde;o possui dados cadastrados</option>";
+    }
 }

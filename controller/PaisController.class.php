@@ -36,6 +36,13 @@ class PaisController
         return $retorno;
     }
 
+    public function getLista($pais){
+        require_once ("../model/PaisDAO.class.php");
+        $paisDao = new PaisDAO();
+        $retorno = $paisDao->getLista($pais);
+        return $retorno;
+    }
+
 
 
     public function getPais($pais){

@@ -36,6 +36,13 @@ class EstadoController
         return $retorno;
     }
 
+    public function getLista($estado){
+        require_once ("../model/EstadoDAO.class.php");
+        $estadoDao = new EstadoDAO();
+        $retorno = $estadoDao->getLista($estado);
+        return $retorno;
+    }
+
 
 
     public function getEstado($estado){

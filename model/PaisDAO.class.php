@@ -107,6 +107,41 @@ class PaisDAO
         return $paisList;
     }
 
+    public function getLista($nome){
+        require_once ("../services/PaisList.class.php");
+        require_once ("../beans/Pais.class.php");
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $paisList = new PaisList();
+
+        try {
+            if($nome == ""){
+
+                $sql = "CALL PROC_PAIS(NULL, NULL, 'T');";
+                $stmt = $this->connection->prepare($sql);
+            }else{
+                $sql = "CALL PROC_PAIS(NULL, :nome, 'N');";
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+            }
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $pais = new Pais();
+                $pais->setCdPais($row['CD_PAIS']);
+                $pais->setDsPais($row['DS_PAIS']);
+
+                $paisList->addPais($pais);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $paisList;
+    }
+
     public function getPais($codigo){
         $pais = null;
         $connection = null;

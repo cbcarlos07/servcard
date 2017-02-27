@@ -48,6 +48,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <form method="post" id="form">
                     <input id="id" value="<?php echo $id; ?>" type="hidden">
                     <input id="acao" value="A" type="hidden">
+                    <input id="id-estado" value="<?php echo $cidade->getEstado()->getCdEstado(); ?>" type="hidden">
                     <div class="form-group col-lg-10">
                         <label for="cidade">Cidade</label>
                         <input id="cidade" class="form-control" required="" autofocus value="<?php echo $cidade->getNmCidade() ?>"/>
@@ -80,6 +81,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                                 ?>
                         </select>
+                    </div>
+                    <div class="col-lg-2 form-group" style="margin-top: 25px;">
+                        <label></label>
+                        <a href="#" title="Clique para atualizar a lista" class="btn btn-refresh"><i class="lnr lnr-sync"></i></a>
                     </div>
                     <div class="row"></div>
                     <hr />

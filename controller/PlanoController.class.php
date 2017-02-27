@@ -30,7 +30,7 @@ class PlanoController
     }
 
     public function getList($plano){
-        require_once ("../model/PlanoDAO.class.php");
+        require_once ("model/PlanoDAO.class.php");
         $planoDao = new PlanoDAO();
         $retorno = $planoDao->getList($plano);
         return $retorno;

@@ -27,8 +27,10 @@ switch ($acao){
         change($id, $nome);
         break;
     case 'E':
-
         delete($id);
+        break;
+    case 'L':
+        getPaises($id);
         break;
 
 }
@@ -77,4 +79,28 @@ function delete($id){
         echo json_encode(array('retorno' => 1));
     else
         echo json_encode(array('retorno' => 0));
+}
+
+function getPaises($id){
+    require_once "../beans/Pais.class.php";
+    require_once "../controller/PaisController.class.php";
+    require_once "../services/PaisListIterator.class.php";
+
+    $pais = new Pais();
+    $paisController = new PaisController();
+    $lista = $paisController->getLista("");
+    $paisList = new PaisListIterator($lista);
+
+    if($paisList->hasNextPais()) {
+        while ($paisList->hasNextPais()) {
+            $pais = $paisList->getNextPais();
+            $select = "";
+            if ($pais->getCdPais() == $id) {
+                $select = "selected";
+            }
+            echo "<option ".$select." value='" . $pais->getCdPais() . "'>" . $pais->getDsPais() . "</option>";
+        }
+    }else{
+        echo "<option value=''>N&atilde;o possui dados cadastrados</option>";
+    }
 }

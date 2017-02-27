@@ -27,8 +27,10 @@ switch ($acao){
         change($id, $nome);
         break;
     case 'E':
-
         delete($id);
+        break;
+    case 'L':
+        getLista($id);
         break;
 
 }
@@ -77,4 +79,29 @@ function delete($id){
         echo json_encode(array('retorno' => 1));
     else
         echo json_encode(array('retorno' => 0));
+}
+
+function getLista($id){
+    require_once "../beans/TpLogradouro.class.php";
+    require_once "../controller/TpLogradouroController.class.php";
+    require_once "../services/TpLogradouroListIterator.class.php";
+
+    $tpLogradouro = new TpLogradouro();
+    $tlc = new TpLogradouroController();
+    $lista = $tlc->getLista("");
+    $tplList = new TpLogradouroListIterator($lista);
+    if($tplList->hasNextTpLogradouro()){
+            while ($tplList->hasNextTpLogradouro()){
+                $tpLogradouro = $tplList->getNextTpLogradouro();
+                $select = "";
+                if($tpLogradouro->getCdTpLogradouro() == $id){
+                    $select = "selected";
+                }
+
+               echo " <option ".$select." value='".$tpLogradouro->getCdTpLogradouro()."'>".$tpLogradouro->getDsTpLogradouro()."</option>";
+              }
+        }
+        else{
+            echo "<option value=''>N&atilde;o possui dados cadastrados</option>";
+        }
 }

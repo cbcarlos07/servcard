@@ -154,3 +154,32 @@ $('.delete').on('click', function(){
 $('.btn-search').on('click', function () {
    alert('Form');
 });
+
+$('.btn-refresh').on('click', function () {
+    var id = document.getElementById('id-pais').value;
+    //alert('Codigo da cidade: '+cidade);
+    $.post("function/pais.php",
+        {
+            'id': id,
+            'acao': "L"
+        },
+        function(data){
+            $("#pais").find("option").remove();
+            $("#pais").append(data);
+        });
+});
+
+$(document).ready(function(){
+    var id = document.getElementById('id-pais').value;
+    //alert('Codigo da cidade: '+cidade);
+    $.post("function/pais.php",
+        {
+            'id': id,
+            'acao': "L"
+        },
+        function(data){
+            $("#pais").find("option").remove();
+            $("#pais").append(data);
+        });
+
+});

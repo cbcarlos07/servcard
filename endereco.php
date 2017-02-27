@@ -151,7 +151,12 @@ $pListIterator = new EnderecoListIterator($lista);
                                 ?>
 
                                 <tr>
-                                    <th scope="row"><?php echo $endereco->getNrCep(); ?></th>
+                                    <th scope="row"><?php
+                                        $cep1 = substr($endereco->getNrCep(), 0,2);
+                                        $cep2 = substr($endereco->getNrCep(), 2,3);
+                                        $cep3 = substr($endereco->getNrCep(), 5,3);
+                                        $cep = "$cep1.$cep2-$cep3";
+                                        echo $cep; ?></th>
                                     <td><?php echo $endereco->getDsLogradouro(); ?></td>
                                     <td><?php echo $endereco->getTpLogradouro()->getDsTpLogradouro(); ?></td>
                                     <td><?php echo $endereco->getBairro()->getNmBairro(); ?></td>

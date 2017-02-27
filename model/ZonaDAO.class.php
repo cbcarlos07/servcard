@@ -107,6 +107,38 @@ class ZonaDAO
         return $zonaList;
     }
 
+    public function getLista($nome){
+        require_once ("../services/ZonaList.class.php");
+        require_once ("../beans/Zona.class.php");
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $zonaList = new ZonaList();
+
+        try {
+
+            $sql = "SELECT *
+                          FROM zona E
+                          WHERE E.DS_ZONA LIKE :nome";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $zona = new Zona();
+                $zona->setCdZona($row['CD_ZONA']);
+                $zona->setDsZona($row['DS_ZONA']);
+                $zonaList->addZona($zona);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $zonaList;
+    }
+
     public function getZona($codigo){
         $zona = null;
         $connection = null;

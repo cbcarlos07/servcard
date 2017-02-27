@@ -80,8 +80,8 @@ class PlanoDAO
     }
 
     public function getList($nome){
-        require_once ("../services/PlanoList.class.php");
-        require_once ("../beans/Plano.class.php");
+        require_once ("services/PlanoList.class.php");
+        require_once ("beans/Plano.class.php");
 
         $this->connection = null;
 

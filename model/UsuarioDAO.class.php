@@ -91,6 +91,47 @@ class UsuarioDAO
     }
 
     public function getList($nome){
+        require_once ("services/UsuarioList.class.php");
+        require_once ("beans/Usuario.class.php");
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $usuarioList = new UsuarioList();
+
+        try {
+
+                $sql = "SELECT E.*
+                              ,C.DS_CARGO
+                          FROM usuario E
+                          INNER JOIN cargo C ON C.CD_CARGO = E.CD_CARGO
+                          WHERE E.NM_USUARIO LIKE :nome";
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $usuario = new Usuario();
+                $usuario->setCdUsuario($row['CD_USUARIO']);
+                $usuario->setNmUsuario($row['NM_USUARIO']);
+                $usuario->setDsLogin($row['DS_LOGIN']);
+                $usuario->setDsSenha($row['DS_SENHA']);
+                $usuario->setSnAtivo($row['SN_ATIVO']);
+                $usuario->setCargo(new Cargo());
+                $usuario->getCargo()->setCdCargo($row['CD_CARGO']);
+                $usuario->getCargo()->setDsCargo($row['DS_CARGO']);
+                $usuario->setDsFoto($row['DS_FOTO']);
+                $usuarioList->addUsuario($usuario);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $usuarioList;
+    }
+
+    public function getLista($nome){
         require_once ("../services/UsuarioList.class.php");
         require_once ("../beans/Usuario.class.php");
 
@@ -102,11 +143,11 @@ class UsuarioDAO
 
         try {
 
-                $sql = "SELECT *
+            $sql = "SELECT *
                           FROM usuario E
                           WHERE E.NM_USUARIO LIKE :nome";
-                $stmt = $this->connection->prepare($sql);
-                $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
 
             $stmt->execute();
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){

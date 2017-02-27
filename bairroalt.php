@@ -50,6 +50,8 @@ include "include/head.php"; ?>
                 <form method="post" id="form">
                     <input id="id" value="<?php echo $bairro->getCdBairro(); ?>" type="hidden">
                     <input id="acao" value="A" type="hidden">
+                    <input id="id-cidade" value="<?php echo $bairro->getCidade()->getCdCidade();  ?>" type="hidden">
+                    <input id="id-zona" value="<?php echo $bairro->getZona()->getCdZona();  ?>" type="hidden">
                     <div class="form-group col-xs-12 col-sm-12 col-md-10 col-lg-10">
                         <label for="bairro">Bairro</label>
                         <input id="bairro" class="form-control" required="" value="<?php echo $bairro->getNmBairro(); ?>"/>
@@ -59,54 +61,22 @@ include "include/head.php"; ?>
                         <label for="cidade">Cidade</label>
                         <select id="cidade" class="form-control" required="">
                             <option value="">Selecione</option>
-                            <?php
-                              require_once "beans/Cidade.class.php";
-                              require_once "controller/CidadeController.class.php";
-                              require_once "services/CidadeListIterator.class.php";
-                              $cidade = new Cidade();
-                              $cidadeController = new CidadeController();
-                              $lista = $cidadeController->getList("");
-                              $cidadeListIterator = new CidadeListIterator($lista);
-                              while ($cidadeListIterator->hasNextCidade()){
-                                  $cidade = $cidadeListIterator->getNextCidade();
-                                  $selected = "";
-                                  if($bairro->getCidade()->getCdCidade() == $cidade->getCdCidade()){
-                                      $selected = "selected";
-                                  }
-                            ?>
-                                  <option <?php echo $selected; ?> value="<?php echo $cidade->getCdCidade(); ?>"><?php echo $cidade->getNmCidade(); ?></option>
-                            <?php
-
-                              }
-                            ?>
                         </select>
+                    </div>
+                    <div class="col-lg-2 form-group" style="margin-top: 25px;">
+                        <label></label>
+                        <a href="#" title="Clique para atualizar a lista" class="btn btn-refresh"><i class="lnr lnr-sync"></i></a>
                     </div>
                     <div class="row"></div>
                     <div class="form-group col-xs-12 col-sm-12 col-md-5 col-lg-5">
                         <label for="zona">Zona</label>
                         <select id="zona" class="form-control" required="">
                             <option value="">Selecione</option>
-                            <?php
-                            require_once "beans/Zona.class.php";
-                            require_once "controller/ZonaController.class.php";
-                            require_once "services/ZonaListIterator.class.php";
-                            $zona = new Zona();
-                            $zonaController = new ZonaController();
-                            $lista = $zonaController->getList("");
-                            $zonaListIterator = new ZonaListIterator($lista);
-                            while ($zonaListIterator->hasNextZona()){
-                                $zona = $zonaListIterator->getNextZona();
-                                $selected = "";
-                                if($bairro->getZona()->getCdZona() == $zona->getCdZona()){
-                                    $selected = "selected";
-                                }
-                                ?>
-                                <option <?php echo $selected; ?> value="<?php echo $zona->getCdZona(); ?>"><?php echo $zona->getDsZona(); ?></option>
-                                <?php
-
-                            }
-                            ?>
                         </select>
+                    </div>
+                    <div class="col-lg-2 form-group" style="margin-top: 25px;">
+                        <label></label>
+                        <a href="#" title="Clique para atualizar a lista" class="btn btn-refresh1"><i class="lnr lnr-sync"></i></a>
                     </div>
                     <div class="row"></div>
                     <hr />

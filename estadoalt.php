@@ -49,6 +49,7 @@ $estado = $eC->getEstado($id);
                 <form method="post" id="form">
                     <input id="id" value="<?php echo $estado->getCdEstado(); ?>" type="hidden">
                     <input id="acao" value="A" type="hidden">
+                    <input id="id-pais" value="<?php echo $estado->getPais()->getCdPais(); ?>" type="hidden">
                     <div class="form-group col-lg-10">
                         <label>Estado</label>
                         <input id="estado" class="form-control" required="" value="<?php echo $estado->getNmEstado(); ?>" />
@@ -90,6 +91,10 @@ $estado = $eC->getEstado($id);
 
                                 ?>
                         </select>
+                    </div>
+                    <div class="col-lg-2 form-group" style="margin-top: 25px;">
+                        <label></label>
+                        <a href="#" title="Clique para atualizar a lista" class="btn btn-refresh"><i class="lnr lnr-sync"></i></a>
                     </div>
                     <div class="row"></div>
                     <hr />

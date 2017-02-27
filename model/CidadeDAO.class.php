@@ -94,9 +94,50 @@ class CidadeDAO
                 $sql = "SELECT C.*, E.NM_ESTADO
                         FROM cidade C 
                         INNER JOIN estado E ON C.CD_ESTADO = E.CD_ESTADO
-                        WHERE C.NM_CIDADE LIKE :nome";
+                        WHERE C.NM_CIDADE LIKE :nome
+                        ORDER BY C.NM_CIDADE ASC ";
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+
+
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $cidade = new Cidade();
+                $cidade->setCdCidade($row['CD_CIDADE']);
+                $cidade->setNmCidade($row['NM_CIDADE']);
+                $cidade->setEstado(new Estado());
+                $cidade->getEstado()->setCdEstado($row['CD_ESTADO']);
+                $cidade->getEstado()->setNmEstado($row['NM_ESTADO']);
+
+                $cidadeList->addCidade($cidade);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $cidadeList;
+    }
+
+    public function getLista($nome){
+        require_once ("../services/CidadeList.class.php");
+        require_once ("../beans/Cidade.class.php");
+        require_once ("../beans/Estado.class.php");
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $cidadeList = new CidadeList();
+
+        try {
+
+            $sql = "SELECT C.*, E.NM_ESTADO
+                        FROM cidade C 
+                        INNER JOIN estado E ON C.CD_ESTADO = E.CD_ESTADO
+                        WHERE C.NM_CIDADE LIKE :nome
+                        ORDER BY C.NM_CIDADE ASC ";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
 
 
             $stmt->execute();

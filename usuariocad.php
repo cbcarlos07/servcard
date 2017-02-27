@@ -29,7 +29,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="row"></div>
             <br />
             <div style="text-align: center;">
-            <h3>Cadastro de Bairro</h3>
+            <h3>Cadastro de Usu&aacute;rio</h3>
             </div>
             <div class="col-lg-1"></div>
             <div class="col-lg-5">
@@ -38,16 +38,32 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <form method="post" id="form">
                     <input id="id" value="0" type="hidden">
                     <input id="acao" value="C" type="hidden">
-                    <input id="id-cidade" value="0" type="hidden">
-                    <input id="id-zona" value="0" type="hidden">
-                    <div class="form-group col-lg-10">
-                        <label for="bairro">Bairro</label>
-                        <input id="bairro" class="form-control" required=""/>
+                    <input id="atual" value="N" type="hidden">
+                    <input id="id-cargo" value="0" type="hidden">
+
+                    <div class="form-group col-lg-12">
+                        <label for="usuario">Nome</label>
+                        <input id="usuario" class="form-control" required="" placeholder="Digite o nome do usu&aacute;rio"/>
                     </div>
                     <div class="row"></div>
                     <div class="form-group col-lg-5">
-                        <label for="cidade">Cidade</label>
-                        <select id="cidade" class="form-control" required="">
+                        <label for="login">Login</label>
+                        <input id="login" type="text" class="form-control">
+                    </div>
+
+                    <div class="row"></div>
+                    <div class="form-group col-lg-5">
+                        <label for="senha">Digite a Senha</label>
+                        <input id="senha" type="password" class="form-control">
+                    </div>
+                    <div class="form-group col-lg-5">
+                        <label for="senha">Repita a Senha</label>
+                        <input id="senha" type="password" class="form-control">
+                    </div>
+                    <div class="row"></div>
+                    <div class="form-group col-lg-5">
+                        <label for="cargo">Cargo</label>
+                        <select id="cargo" class="form-control" required="">
                             <option value="">Selecione</option>
                         </select>
                     </div>
@@ -57,14 +73,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                     <div class="row"></div>
                     <div class="form-group col-lg-5">
-                        <label for="zona">Zona</label>
-                        <select id="zona" class="form-control" required="">
-                            <option value="">Selecione</option>
-                        </select>
+                        <label for="cpf">CPF</label>
+                        <input id="cpf" type="text" class="form-control">
                     </div>
-                    <div class="col-lg-2 form-group" style="margin-top: 25px;">
-                        <label></label>
-                        <a href="#" title="Clique para atualizar a lista" class="btn btn-refresh1"><i class="lnr lnr-sync"></i></a>
+                    <div class="form-group col-lg-5">
+                        <label for="rg">RG</label>
+                        <input id="rg" type="text" class="form-control">
+                    </div>
+                    <div class="row"></div>
+                    <div class="form-group col-lg-5">
+                        <label for="foto">Foto</label>
+                        <input id="foto" type="file" class="form-control">
                     </div>
                     <div class="row"></div>
                     <hr />
@@ -102,8 +121,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
 
-
-    <script src="js/bairro.js"></script>
+    <script src="js/jquery.mask.js"></script>
+    <script src="js/usuario.js"></script>
 
  </body>
 </html>

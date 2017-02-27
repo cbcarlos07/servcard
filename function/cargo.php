@@ -32,8 +32,10 @@ switch ($acao){
         change($id, $nome, $obs);
         break;
     case 'E':
-
         delete($id);
+        break;
+    case 'L':
+        getLista($id);
         break;
 
 }
@@ -84,4 +86,26 @@ function delete($id){
         echo json_encode(array('retorno' => 1));
     else
         echo json_encode(array('retorno' => 0));
+}
+
+function getLista($id){
+    require_once "../beans/Cargo.class.php";
+    require_once "../controller/CargoController.class.php";
+    require_once "../services/CargoListIterator.class.php";
+
+    $cargo =  new Cargo();
+    $cargoController = new CargoController();
+    $lista  = $cargoController->getListaByCargo("");
+    $cargoLista = new CargoListIterator($lista);
+
+    while ($cargoLista->hasNextCargo()){
+        $cargo = $cargoLista->getNextCargo();
+
+        $select = "";
+        if($id == $cargo->getCdCargo()){
+            $select = "selected";
+        }
+        echo "<option $select value='".$cargo->getCdCargo()."'>".$cargo->getDsCargo()."</option>>";
+    }
+
 }

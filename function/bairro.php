@@ -129,7 +129,13 @@ function getBairros($cidade, $cdBairro){
             }
             echo "<option ".$select." value='" . $bairro->getCdBairro() . "'>" . $bairro->getNmBairro() . "</option>";
         }
-    }else{
-        echo "<option value=''>N&atilde;o possui bairros cadastrados</option>";
+    }else {
+        if ($cidade > 0) {
+
+            echo "<option value=''>N&atilde;o possui bairros cadastrados</option>";
+        }else{
+            echo "<option value=''>Selecione uma cidade </option>";
+        }
+
     }
 }

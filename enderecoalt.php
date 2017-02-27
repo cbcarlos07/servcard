@@ -50,32 +50,16 @@ include "include/head.php"; ?>
                     <input id="id" value="<?php echo $endereco->getCdEndereco(); ?>" type="hidden">
                     <input id="acao" value="A" type="hidden">
                     <input id="cdbairro" value="<?php echo $endereco->getBairro()->getCdBairro(); ?>" type="hidden">
+                    <input id="id-cidade" value="<?php echo $endereco->getBairro()->getCidade()->getCdCidade(); ?>" type="hidden">
+                    <input id="id-logradouro" value="<?php echo $endereco->getTpLogradouro()->getCdTpLogradouro(); ?>" type="hidden">
                     <div class="form-group col-lg-4">
-
                         <label for="cidade">Cidade</label>
-                        <select id="cidade" class="form-control" required=""  ?>">
-                            <option value="">Selecione</option>
-                            <?php
-                                require_once "beans/Cidade.class.php";
-                                require_once "controller/CidadeController.class.php";
-                                require_once "services/CidadeListIterator.class.php";
-                                $cidade = new Cidade();
-                                $cc = new CidadeController();
-                                $lista = $cc->getList("");
-                                $cidadeListIterator = new CidadeListIterator($lista);
-                                while ($cidadeListIterator->hasNextCidade()){
-                                    $cidade = $cidadeListIterator->getNextCidade();
-                                    $select = "";
-                                    if($cidade->getCdCidade() == $endereco->getBairro()->getCidade()->getCdCidade()){
-                                        $select = "selected";
-                                    }
-                            ?>
-                                <option <?php echo $select; ?> value="<?php echo $cidade->getCdCidade(); ?>"><?php echo $cidade->getNmCidade(); ?></option>
-                            <?php
-                                 }
-
-                            ?>
+                        <select id="cidade" class="form-control" required="">
                         </select>
+                    </div>
+                    <div class="col-lg-2 form-group" style="margin-top: 25px;">
+                        <label></label>
+                        <a href="#" title="Clique para atualizar a lista" class="btn btn-refresh"><i class="lnr lnr-sync"></i></a>
                     </div>
 
                     <div class="form-group col-lg-4">
@@ -90,28 +74,11 @@ include "include/head.php"; ?>
                     <div class="row"></div>
                     <div class="form-group col-lg-5">
                         <label for="tplogradouro">Tipo de Logradouro</label>
-                        <select id="tplogradouro" class="form-control" required="">
-                            <?php
-                              require_once "beans/TpLogradouro.class.php";
-                              require_once "controller/TpLogradouroController.class.php";
-                              require_once "services/TpLogradouroListIterator.class.php";
-
-                              $tpLogradouro = new TpLogradouro();
-                              $tlc = new TpLogradouroController();
-                              $lista = $tlc->getList("");
-                              $tplList = new TpLogradouroListIterator($lista);
-                              while ($tplList->hasNextTpLogradouro()){
-                                  $tpLogradouro = $tplList->getNextTpLogradouro();
-                                  $select = "";
-                                  if($endereco->getTpLogradouro()->getCdTpLogradouro() == $tpLogradouro->getCdTpLogradouro()){
-                                      $select = "selected";
-                                  }
-                               ?>
-                                  <option <?php echo $select; ?> value="<?php echo $tpLogradouro->getCdTpLogradouro(); ?>"><?php echo $tpLogradouro->getDsTpLogradouro(); ?></option>
-                            <?php
-                              }
-                            ?>
-                        </select>
+                        <select id="tplogradouro" class="form-control" required=""> </select>
+                    </div>
+                    <div class="col-lg-2 form-group" style="margin-top: 25px;">
+                        <label></label>
+                        <a href="#" title="Clique para atualizar a lista" class="btn btn-logradouro"><i class="lnr lnr-sync"></i></a>
                     </div>
                     <div class="row"></div>
                     <div class="form-group col-lg-5">
@@ -120,11 +87,15 @@ include "include/head.php"; ?>
                             <option value="<?php echo $endereco->getBairro()->getCdBairro(); ?>"><?php echo $endereco->getBairro()->getNmBairro(); ?></option>
                         </select>
                     </div>
+                    <div class="col-lg-2 form-group" style="margin-top: 25px;">
+                        <label></label>
+                        <a href="#" title="Clique para atualizar a lista" class="btn btn-bairro"><i class="lnr lnr-sync"></i></a>
+                    </div>
                     <div class="row"></div>
                     <hr />
                     <div class="btn-group">
                         <button class="btn btn-success" onclick="salvar()">Salvar</button>
-                        <a class="btn btn-warning btn-voltar" data-url="pais.php" onclick="return verifica('Tem certeza de que deseja cancelar a opera&ccedil;&atilde;o?');">Cancelar</a>
+                        <a class="btn btn-warning btn-voltar" data-url="endereco.php" onclick="return verifica('Tem certeza de que deseja cancelar a opera&ccedil;&atilde;o?');">Cancelar</a>
                     </div>
 
                 </form>

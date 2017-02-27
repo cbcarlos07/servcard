@@ -106,6 +106,37 @@ class TpLogradouroDAO
         return $ppLogradouroList;
     }
 
+    public function getLista($nome){
+        require_once ("../services/TpLogradouroList.class.php");
+        require_once ("../beans/TpLogradouro.class.php");
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $ppLogradouroList = new TpLogradouroList();
+
+        try {
+
+            $sql = "SELECT * FROM tp_logradouro WHERE DS_TP_LOGRADOURO LIKE :nome";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $ppLogradouro = new TpLogradouro();
+                $ppLogradouro->setCdTpLogradouro($row['CD_TP_LOGRADOURO']);
+                $ppLogradouro->setDsTpLogradouro($row['DS_TP_LOGRADOURO']);
+
+                $ppLogradouroList->addTpLogradouro($ppLogradouro);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $ppLogradouroList;
+    }
+
     public function getTpLogradouro($codigo){
         $ppLogradouro = null;
         $connection = null;

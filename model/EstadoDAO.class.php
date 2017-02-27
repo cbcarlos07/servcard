@@ -97,9 +97,50 @@ class EstadoDAO
                               ,P.DS_PAIS
                           FROM estado E
                           INNER JOIN pais P ON E.CD_PAIS = P.CD_PAIS
-                          WHERE E.NM_ESTADO LIKE :nome";
+                          WHERE E.NM_ESTADO LIKE :nome
+                          ORDER BY NM_ESTADO ASC";
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $estado = new Estado();
+                $estado->setCdEstado($row['CD_ESTADO']);
+                $estado->setNmEstado($row['NM_ESTADO']);
+                $estado->setDsUF($row['DS_UF']);
+                $estado->setPais(new Pais());
+                $estado->getPais()->setCdPais($row['CD_PAIS']);
+                $estado->getPais()->setDsPais($row['DS_PAIS']);
+                $estadoList->addEstado($estado);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $estadoList;
+    }
+
+    public function getLista($nome){
+        require_once ("../services/EstadoList.class.php");
+        require_once ("../beans/Estado.class.php");
+        require_once ("../beans/Pais.class.php");
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $estadoList = new EstadoList();
+
+        try {
+
+            $sql = "SELECT E.*
+                              ,P.DS_PAIS
+                          FROM estado E
+                          INNER JOIN pais P ON E.CD_PAIS = P.CD_PAIS
+                          WHERE E.NM_ESTADO LIKE :nome
+                          ORDER BY NM_ESTADO ASC";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
 
             $stmt->execute();
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){

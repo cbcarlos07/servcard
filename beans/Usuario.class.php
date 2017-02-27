@@ -17,6 +17,7 @@ class Usuario
    private $nrCPF;
    private $nrRg;
    private $dsFoto;
+   private $snAtual;
 
     /**
      * @return mixed

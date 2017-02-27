@@ -154,3 +154,60 @@ $('.delete').on('click', function(){
 $('.btn-search').on('click', function () {
    alert('Form');
 });
+
+$('.btn-refresh').on('click', function () {
+    var id = document.getElementById('id-cidade').value;
+    //alert('Codigo da cidade: '+cidade);
+    $.post("function/cidade.php",
+        {
+            'id': id,
+            'acao': "L"
+        },
+        function(data){
+            $("#cidade").find("option").remove();
+            $("#cidade").append(data);
+        });
+});
+
+$(document).ready(function(){
+    var id = document.getElementById('id-cidade').value;
+    //alert('Codigo da cidade: '+cidade);
+    $.post("function/cidade.php",
+        {
+            'id': id,
+            'acao': "L"
+        },
+        function(data){
+            $("#cidade").find("option").remove();
+            $("#cidade").append(data);
+        });
+});
+
+$('.btn-refresh1').on('click', function () {
+    var id = document.getElementById('id-zona').value;
+    //alert('Codigo da cidade: '+cidade);
+    $.post("function/zona.php",
+        {
+            'id': id,
+            'acao': "L"
+        },
+        function(data){
+            $("#zona").find("option").remove();
+            $("#zona").append(data);
+        });
+});
+
+$(document).ready(function(){
+    var id = document.getElementById('id-zona').value;
+    //alert('Codigo da cidade: '+cidade);
+    $.post("function/zona.php",
+        {
+            'id': id,
+            'acao': "L"
+        },
+        function(data){
+            $("#zona").find("option").remove();
+            $("#zona").append(data);
+        });
+
+});

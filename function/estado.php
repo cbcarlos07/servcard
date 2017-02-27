@@ -37,8 +37,10 @@ switch ($acao){
         change($id, $nome, $uf, $pais);
         break;
     case 'E':
-
         delete($id);
+        break;
+    case 'L':
+        getEstados($id);
         break;
 
 }
@@ -95,4 +97,28 @@ function delete($id){
         echo json_encode(array('retorno' => 1));
     else
         echo json_encode(array('retorno' => 0));
+}
+
+
+function getEstados($id){
+    require_once "../beans/Estado.class.php";
+    require_once "../controller/EstadoController.class.php";
+    require_once "../services/EstadoListIterator.class.php";
+
+    $ec = new EstadoController();
+    $lista = $ec->getLista("");
+    $eListIterator = new EstadoListIterator($lista);
+    $estado = new Estado();
+    if($eListIterator->hasNextEstado()){
+        while($eListIterator->hasNextEstado()) {
+            $estado = $eListIterator->getNextEstado();
+            $select = "";
+            if ($estado->getCdEstado() == $id) {
+                $select = "selected";
+            }
+            echo "<option " . $select . " value='" . $estado->getCdEstado() . "'>" . $estado->getNmEstado() . "</option>";
+        }
+    }else{
+        echo "<option value=''>N&atilde;o possui dados cadastrados</option>";
+    }
 }

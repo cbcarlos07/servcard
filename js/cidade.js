@@ -152,3 +152,32 @@ $('.delete').on('click', function(){
 $('.btn-search').on('click', function () {
    alert('Form');
 });
+
+$('.btn-refresh').on('click', function () {
+    var id = document.getElementById('id-estado').value;
+    //alert('Codigo da cidade: '+cidade);
+    $.post("function/estado.php",
+        {
+            'id': id,
+            'acao': "L"
+        },
+        function(data){
+            $("#estado").find("option").remove();
+            $("#estado").append(data);
+        });
+});
+
+$(document).ready(function(){
+    var id = document.getElementById('id-estado').value;
+    //alert('Codigo da cidade: '+cidade);
+    $.post("function/estado.php",
+        {
+            'id': id,
+            'acao': "L"
+        },
+        function(data){
+            $("#estado").find("option").remove();
+            $("#estado").append(data);
+        });
+
+});

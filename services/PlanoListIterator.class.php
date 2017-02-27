@@ -8,23 +8,30 @@
  */
 class PlanoListIterator
 {
-    public function addPlano(Plano $_plano_in) {
-        $this->setPlanoCount($this->getPlanoCount() + 1);
-        $this->_plano[$this->getPlanoCount()] = $_plano_in;
-        return $this->getPlanoCount();
+    protected $planoList;
+    protected $currentPlano = 0;
+
+    public function __construct(PlanoList $planoList_in) {
+        $this->planoList = $planoList_in;
     }
-    public function removePlano(Plano $_plano_in) {
-        $counter = 0;
-        while (++$counter <= $this->getPlanoCount()) {
-            if ($_plano_in->getAuthorAndTitle() ==
-                $this->_plano[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getPlanoCount(); $x++) {
-                    $this->_plano[$x] = $this->_plano[$x + 1];
-                }
-                $this->setPlanoCount($this->getPlanoCount() - 1);
-            }
+    public function getCurrentPlano() {
+        if (($this->currentPlano > 0) &&
+            ($this->planoList->getPlanoCount() >= $this->currentPlano)) {
+            return $this->planoList->getPlano($this->currentPlano);
         }
-        return $this->getPlanoCount();
+    }
+    public function getNextPlano() {
+        if ($this->hasNextPlano()) {
+            return $this->planoList->getPlano(++$this->currentPlano);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextPlano() {
+        if ($this->planoList->getPlanoCount() > $this->currentPlano) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

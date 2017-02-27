@@ -38,6 +38,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <form method="post" id="form">
                     <input id="id" value="0" type="hidden">
                     <input id="acao" value="C" type="hidden">
+                    <input id="id-pais" value="0" type="hidden">
                     <div class="form-group col-lg-10">
                         <label>Estado</label>
                         <input id="estado" class="form-control" required="" autofocus/>
@@ -49,7 +50,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                     <div class="row"></div>
                     <div class="form-group col-lg-6">
-                        <label>Estado</label>
+                        <label>Pa&iacute;s</label>
                         <select id="pais" class="form-control" required="">
                             <option value="">Selecione</option>
                             <?php
@@ -70,7 +71,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                                 ?>
                         </select>
+
                     </div>
+                    <div class="col-lg-2 form-group" style="margin-top: 25px;">
+                        <label></label>
+                        <a href="#" title="Clique para atualizar a lista" class="btn btn-refresh"><i class="lnr lnr-sync"></i></a>
+                    </div>
+
                     <div class="row"></div>
                     <hr />
                     <div class="btn-group">

@@ -36,6 +36,13 @@ class CargoController
         return $retorno;
     }
 
+    public function getListaByCargo ($cargo){
+        require_once ("../model/CargoDAO.class.php");
+        $cargoDao = new CargoDAO();
+        $retorno = $cargoDao->getListaByCargo($cargo);
+        return $retorno;
+    }
+
 
 
     public function getCargo($cargo){

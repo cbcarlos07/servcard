@@ -19,25 +19,35 @@ function salvar(){
     //alert("Salvar");
     jQuery('#form').submit(function () {
        // alert("Submit");
-        var id           = document.getElementById('id').value;
-        var cep          = document.getElementById('cep').value;
-        var logradouro   = document.getElementById('logradouro').value;
-        var tplogradouro = document.getElementById('tplogradouro').value;
-        var bairro       = document.getElementById('bairro').value;
-        var acao    = document.getElementById('acao').value;
+        var codigo    = document.getElementById('id').value;
+        var usuario   = document.getElementById('usuario').value;
+        var login     = document.getElementById('login').value;
+        var senha     = document.getElementById('senha').value;
+        var ativo     = document.getElementById('ativo').value;
+        var cargo     = document.getElementById('cargo').value;
+        var cpf       = document.getElementById('cpf').value;
+        var rg        = document.getElementById('rg').value;
+        var foto      = document.getElementById('foto').value;
+        var atual     = document.getElementById('atual').value;
+        var acao      = document.getElementById('acao').value;
         //alert("Acao: "+acao);
         $.ajax({
                 type    : 'post',
                 dataType: 'json',
-                url     : 'function/endereco.php',
+                url     : 'function/bairro.php',
                 beforeSend : carregando,
                 data: {
-                    'id'            : id,
-                    'cep'           : cep,
-                    'logradouro'    : logradouro,
-                    'tplogradouro'  : tplogradouro,
-                    'bairro'        : bairro,
-                    'acao' : acao
+                    'id'         : codigo,
+                    'usuario'    : usuario,
+                    'login'      : login,
+                    'senha'      : senha,
+                    'ativo'      : ativo,
+                    'cargo'      : cargo,
+                    'cpf'        : cpf,
+                    'rg'         : rg,
+                    'foto'       : foto,
+                    'atual'      : atual,
+                    'acao'       : acao
                 },
                 success: function (data) {
                     //alert(data.retorno);
@@ -59,7 +69,7 @@ function deletar(codigo, acao){
     $.ajax({
         dataType: 'json',
         type: "POST",
-        url: "function/endereco.php",
+        url: "function/bairro.php",
         beforeSend: carregando,
         data: {
             'id' : codigo,
@@ -99,7 +109,7 @@ function sucesso(msg){
     var mensagem = $('.mensagem');
     mensagem.empty().html('<p class="alert alert-success"><strong>OK. </strong>'+msg+'<img src="images/ok.png" alt="Carregando..."></p>').fadeIn("fast");
     setTimeout(function (){
-        location.href = "endereco.php";
+        location.href = "bairro.php";
     },2000);
 }
 function sucesso_delete(msg){
@@ -129,7 +139,6 @@ $('.btn-voltar').on('click', function(){
 $('.btn-alterar').on('click', function(){
     var url = $(this).data('url'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
     var id = $(this).data('id');
-    //alert('Cep: '+id);
     var form = $('<form action="'+url+'" method="post">' +
                '<input type="hidden" value="'+id+'" name="id">'+
                '</form>');
@@ -157,141 +166,42 @@ $('.delete').on('click', function(){
 $('.btn-search').on('click', function () {
    alert('Form');
 });
-
-$('.cidade').on('change', function () {
-    var formu = document.getElementById('form-cidade');
-    formu.submit();
-});
-
-$(document).ready(function(){
-    $('#cep').mask('00.000-000');
-
-});
-
-$('#cidade').on('change', function () {
-    var cidade = document.getElementById('cidade').value;
-  //  alert('Codigo da cidade: '+cidade);
-    $.post("function/bairro.php",
-        {
-            'cidade': cidade,
-            'acao': "B"
-        },
-        function(data){
-
-           $("#bairro").find("option").remove();
-           $("#bairro").append(data);
-        });
-});
-
+var  cargo = $("#cargo");
 $('.btn-refresh').on('click', function () {
-    var id = document.getElementById('id-cidade').value;
+    var id = document.getElementById('id-cargo').value;
     //alert('Codigo da cidade: '+cidade);
-    $.post("function/cidade.php",
+    $.post("function/cargo.php",
         {
             'id': id,
             'acao': "L"
         },
         function(data){
-            var  cidade =  $('#cidade');
-            cidade.find("option").remove();
-            cidade.append(data);
+            cargo.find("option").remove();
+            cargo.append(data);
         });
 });
 
 $(document).ready(function(){
-  //  alert('Combo Cidade');
-    var id = document.getElementById('id-cidade').value;
+    var id = document.getElementById('id-cargo').value;
     //alert('Codigo da cidade: '+cidade);
-    $.post("function/cidade.php",
+    $.post("function/cargo.php",
         {
             'id': id,
             'acao': "L"
         },
         function(data){
-            var  cidade =  $('#cidade');
-            cidade.find("option").remove();
-            cidade.append(data);
-        });
-
-});
-
-
-$('.btn-logradouro').on('click', function () {
-    var id = document.getElementById('id-logradouro').value;
-    //alert('Codigo da cidade: '+cidade);
-    $.post("function/tplogradouro.php",
-        {
-            'id': id,
-            'acao': "L"
-        },
-        function(data){
-            var logradouro = $("#tplogradouro");
-            logradouro.find("option").remove();
-            logradouro.append(data);
+            cargo.find("option").remove();
+            cargo.append(data);
         });
 });
-
-$(document).ready(function(){
-   // alert('Combo Tipo de Logradouro');
-    var id = document.getElementById('id-logradouro').value;
-    //alert('Codigo da cidade: '+cidade);
-    $.post("function/tplogradouro.php",
-        {
-            'id': id,
-            'acao': "L"
-        },
-        function(data){
-            var logradouro = $("#tplogradouro");
-            logradouro.find("option").remove();
-            logradouro.append(data);
-        });
-});
-
-$('.btn-bairro').on('click', function () {
-    var cidade = document.getElementById('cidade').value;
-    var id = document.getElementById('cdbairro').value;
-    //alert('Codigo da cidade: '+cidade);
-    $.post("function/bairro.php",
-        {
-            'id': id,
-            'cidade' : cidade,
-            'acao': "B"
-        },
-        function(data){
-            var bairro = $("#bairro");
-            bairro.find("option").remove();
-            bairro.append(data);
-        });
-});
-
-
-
 
 
 $(document).ready(function(){
-    console.log('Isso sera executado depois do primeiro change, por causa da ordem em que foi colocado na pagina');
-    //alert("Bairros");
+    $('#cpf').mask('000.000.000-00');
 
-    var cidade = document.getElementById('id-cidade').value;
-
-    var cdbairro = document.getElementById('cdbairro').value;
-    //alert('Codigo da cidade: '+cidade);
-    $.post("function/bairro.php",
-        {
-            'cidade': cidade,
-            'bairro': cdbairro,
-            'acao': "B"
-        },
-        function(data){
-            var bairro = $("#bairro");
-            bairro.find("option").remove();
-            bairro.append(data);
-        });
 });
 
+$(document).ready(function(){
+    $('#rg').mask('0000000-0');
 
-
-
-
-
-
+});

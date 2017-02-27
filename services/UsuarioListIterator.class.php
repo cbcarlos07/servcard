@@ -8,23 +8,30 @@
  */
 class UsuarioListIterator
 {
-    public function addUsuario(Usuario $_usuario_in) {
-        $this->setUsuarioCount($this->getUsuarioCount() + 1);
-        $this->_usuario[$this->getUsuarioCount()] = $_usuario_in;
-        return $this->getUsuarioCount();
+    protected $usuarioList;
+    protected $currentUsuario = 0;
+
+    public function __construct(UsuarioList $usuarioList_in) {
+        $this->usuarioList = $usuarioList_in;
     }
-    public function removeUsuario(Usuario $_usuario_in) {
-        $counter = 0;
-        while (++$counter <= $this->getUsuarioCount()) {
-            if ($_usuario_in->getAuthorAndTitle() ==
-                $this->_usuario[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getUsuarioCount(); $x++) {
-                    $this->_usuario[$x] = $this->_usuario[$x + 1];
-                }
-                $this->setUsuarioCount($this->getUsuarioCount() - 1);
-            }
+    public function getCurrentUsuario() {
+        if (($this->currentUsuario > 0) &&
+            ($this->usuarioList->getUsuarioCount() >= $this->currentUsuario)) {
+            return $this->usuarioList->getUsuario($this->currentUsuario);
         }
-        return $this->getUsuarioCount();
+    }
+    public function getNextUsuario() {
+        if ($this->hasNextUsuario()) {
+            return $this->usuarioList->getUsuario(++$this->currentUsuario);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextUsuario() {
+        if ($this->usuarioList->getUsuarioCount() > $this->currentUsuario) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

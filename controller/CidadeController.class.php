@@ -36,6 +36,13 @@ class CidadeController
         return $retorno;
     }
 
+    public function getLista($cidade){
+        require_once ("../model/CidadeDAO.class.php");
+        $cidadeDao = new CidadeDAO();
+        $retorno = $cidadeDao->getLista($cidade);
+        return $retorno;
+    }
+
 
 
     public function getCidade($cidade){

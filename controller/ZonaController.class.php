@@ -35,6 +35,12 @@ class ZonaController
         $retorno = $zonaDao->getList($zona);
         return $retorno;
     }
+    public function getLista($zona){
+        require_once ("../model/ZonaDAO.class.php");
+        $zonaDao = new ZonaDAO();
+        $retorno = $zonaDao->getLista($zona);
+        return $retorno;
+    }
 
 
 

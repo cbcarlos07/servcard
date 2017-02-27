@@ -106,6 +106,38 @@ class CargoDAO
         return $cargoList;
     }
 
+    public function getListaByCargo($nome){
+        require_once ("../services/CargoList.class.php");
+        require_once ("../beans/Cargo.class.php");
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $cargoList = new CargoList();
+
+        try {
+
+            $sql = "SELECT * FROM cargo";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":cargo", $nome, PDO::PARAM_STR);
+
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $cargo = new Cargo();
+                $cargo->setCdCargo($row['CD_CARGO']);
+                $cargo->setDsCargo($row['DS_CARGO']);
+                $cargo->setObsCargo($row['OBS_CARGO']);
+
+                $cargoList->addCargo($cargo);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $cargoList;
+    }
+
 
 
     public function getCargo($codigo){

@@ -36,6 +36,13 @@ class TpLogradouroController
         return $retorno;
     }
 
+    public function getLista($tpLogradouro){
+        require_once ("../model/TpLogradouroDAO.class.php");
+        $tpLogradouroDao = new TpLogradouroDAO();
+        $retorno = $tpLogradouroDao->getLista($tpLogradouro);
+        return $retorno;
+    }
+
 
 
     public function getTpLogradouro($tpLogradouro){

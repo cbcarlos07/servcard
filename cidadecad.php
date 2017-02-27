@@ -38,6 +38,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <form method="post" id="form">
                     <input id="id" value="0" type="hidden">
                     <input id="acao" value="C" type="hidden">
+                    <input id="id-estado" value="0" type="hidden">
                     <div class="form-group col-lg-10">
                         <label for="cidade">Cidade</label>
                         <input id="cidade" class="form-control" required="" autofocus/>
@@ -47,24 +48,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <label for="estado">Estado</label>
                         <select id="estado" class="form-control" required="">
                             <option value="">Selecione</option>
-                            <?php
-                              require_once "beans/Estado.class.php";
-                              require_once "controller/EstadoController.class.php";
-                              require_once "services/EstadoListIterator.class.php";
-
-                              $ec = new EstadoController();
-                              $lista = $ec->getList("");
-                              $eListIterator = new EstadoListIterator($lista);
-                              $estado = new Estado();
-                              while($eListIterator->hasNextEstado()){
-                                  $estado = $eListIterator->getNextEstado();
-                              ?>
-                                <option value="<?php echo $estado->getCdEstado();  ?>"><?php echo $estado->getNmEstado();  ?></option>
-                                <?php
-                                  }
-
-                                ?>
                         </select>
+                    </div>
+                    <div class="col-lg-2 form-group" style="margin-top: 25px;">
+                        <label></label>
+                        <a href="#" title="Clique para atualizar a lista" class="btn btn-refresh"><i class="lnr lnr-sync"></i></a>
                     </div>
                     <div class="row"></div>
                     <hr />

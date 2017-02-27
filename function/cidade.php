@@ -32,9 +32,11 @@ switch ($acao){
         change($id, $nome, $estado);
         break;
     case 'E':
-
         delete($id);
         break;
+    case 'L':
+        getCidades($id);
+
 
 }
 
@@ -89,4 +91,29 @@ function delete($id){
         echo json_encode(array('retorno' => 1));
     else
         echo json_encode(array('retorno' => 0));
+}
+
+function getCidades($id){
+    require_once "../beans/Cidade.class.php";
+    require_once "../controller/CidadeController.class.php";
+    require_once "../services/CidadeListIterator.class.php";
+    $cidade = new Cidade();
+    $cidadeController = new CidadeController();
+    $lista = $cidadeController->getLista("");
+    $cListIterator = new CidadeListIterator($lista);
+    echo "<option value=''>Selecione</option>";
+    if($cListIterator->hasNextCidade()){
+        while ($cListIterator->hasNextCidade()) {
+            $cidade = $cListIterator->getNextCidade();
+
+            $select = "";
+            if ($cidade->getCdCidade() == $id) {
+                $select = "selected";
+            }
+            echo "<option " . $select . " value='" . $cidade->getCdCidade() . "'>" . $cidade->getNmCidade() . "</option>";
+        }
+    }else{
+
+        echo "<option value=''>N&atilde;o possui dados cadastrados</option>";
+    }
 }
