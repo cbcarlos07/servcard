@@ -23,7 +23,16 @@ $('.data-nasc').focusout(function (){
         diferencaAnos--;
     //return diferencaAnos;
     console.log("Idade:"+diferencaAnos);
-    campoidade.value = diferencaAnos;
+    var mensagem = $('.mensagem');
+    if(diferencaAnos < 0){
+
+        mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>Insira uma data v&aacute;lida</p>').fadeIn("fast");
+        data.focus();
+    }else{
+        campoidade.value = diferencaAnos;
+        mensagem.empty().html('<p class="alert "></p>');
+    }
+    //campoidade.value = diferencaAnos;
 
 
 });

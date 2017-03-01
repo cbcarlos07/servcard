@@ -48,6 +48,9 @@ switch ($acao){
     case 'E':
         delete($id);
         break;
+    case 'G':
+        getEndereco($cep);
+        break;
 
 
 }
@@ -114,6 +117,31 @@ function delete($cep){
         echo json_encode(array('retorno' => 1));
     else
         echo json_encode(array('retorno' => 0));
+}
+
+function getEndereco($cep){
+    require_once "../beans/Endereco.class.php";
+    require_once "../controller/EnderecoController.class.php";
+    require_once "../beans/Bairro.class.php";
+    require_once "../beans/TpLogradouro.class.php";
+
+    $endereco = new Endereco();
+    $enderecoController = new EnderecoController();
+    $cep_ = array(".", "-");
+    $cep = str_replace($cep_,"", $cep);
+    $endereco = $enderecoController->getEnderecoByCep($cep);
+
+    if($endereco != null)
+        echo json_encode(array('retorno'    => 1
+                              ,'codigo'     => $endereco->getCdEndereco()
+                              ,'logradouro' => $endereco->getTpLogradouro()->getDsTpLogradouro()." ".$endereco->getDsLogradouro()
+                              ,'bairro'     => $endereco->getBairro()->getNmBairro()));
+
+
+    else
+    {
+        echo json_encode(array('retorno' => 0));
+    }
 }
 
 

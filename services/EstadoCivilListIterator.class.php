@@ -8,23 +8,30 @@
  */
 class EstadoCivilListIterator
 {
-    public function addEstadoCivil(EstadoCivil $_estadoCivil_in) {
-        $this->setEstadoCivilCount($this->getEstadoCivilCount() + 1);
-        $this->_estadoCivil[$this->getEstadoCivilCount()] = $_estadoCivil_in;
-        return $this->getEstadoCivilCount();
+    protected $estadoCivilList;
+    protected $currentEstadoCivil = 0;
+
+    public function __construct(EstadoCivilList $estadoCivilList_in) {
+        $this->estadoCivilList = $estadoCivilList_in;
     }
-    public function removeEstadoCivil(EstadoCivil $_estadoCivil_in) {
-        $counter = 0;
-        while (++$counter <= $this->getEstadoCivilCount()) {
-            if ($_estadoCivil_in->getAuthorAndTitle() ==
-                $this->_estadoCivil[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getEstadoCivilCount(); $x++) {
-                    $this->_estadoCivil[$x] = $this->_estadoCivil[$x + 1];
-                }
-                $this->setEstadoCivilCount($this->getEstadoCivilCount() - 1);
-            }
+    public function getCurrentEstadoCivil() {
+        if (($this->currentEstadoCivil > 0) &&
+            ($this->estadoCivilList->getEstadoCivilCount() >= $this->currentEstadoCivil)) {
+            return $this->estadoCivilList->getEstadoCivil($this->currentEstadoCivil);
         }
-        return $this->getEstadoCivilCount();
+    }
+    public function getNextEstadoCivil() {
+        if ($this->hasNextEstadoCivil()) {
+            return $this->estadoCivilList->getEstadoCivil(++$this->currentEstadoCivil);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextEstadoCivil() {
+        if ($this->estadoCivilList->getEstadoCivilCount() > $this->currentEstadoCivil) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

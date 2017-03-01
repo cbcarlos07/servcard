@@ -45,4 +45,11 @@ class EnderecoController
         return $retorno;
     }
 
+    public function getEnderecoByCep($cep){
+        require_once ("../model/EnderecoDAO.class.php");
+        $enderecoDao = new EnderecoDAO();
+        $retorno = $enderecoDao->getEnderecoByCep($cep);
+        return $retorno;
+    }
+
 }

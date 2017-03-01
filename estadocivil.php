@@ -13,14 +13,14 @@ if(isset($_POST['search'])){
    $descricao =  $_POST['search'];
 }
 
-include_once "controller/PlanoController.class.php";
-include_once "beans/Plano.class.php";
-include_once "services/PlanoListIterator.class.php";
+include_once "controller/EstadoCivilController.class.php";
+include_once "beans/EstadoCivil.class.php";
+include_once "services/EstadoCivilListIterator.class.php";
 
 
-$planoController = new PlanoController();
-$lista = $planoController->getList($descricao);
-$pListIterator = new PlanoListIterator($lista);
+$pc = new EstadoCivilController();
+$lista = $pc->getList($descricao);
+$pListIterator = new EstadoCivilListIterator($lista);
 
 
 
@@ -64,7 +64,7 @@ $pListIterator = new PlanoListIterator($lista);
 
             <br>
 
-            <div class="col-lg-1" ><h2>Plano</h2></div>
+            <div class="col-lg-1" ><h2>Estado Civil</h2></div>
             <div class="col-lg-7" >
 
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="form-pesquisa">
@@ -80,12 +80,11 @@ $pListIterator = new PlanoListIterator($lista);
                 </form>
             </div>
             <div class="col-lg-4">
-                <a href="#" data-url="planocad.php" class="btn btn-primary novo-item">Novo Item</a>
+                <a href="#" data-url="estadocivilcad.php" class="btn btn-primary novo-item">Novo Item</a>
             </div>
             <div class="row"></div>
             <hr />
             <div class="mensagem alert "></div>
-            <script src="js/tooltip.js"></script>
             <div id="page-wrapper" class="tabela">
             <div class="graphs">
                 <div class="xs tabls">
@@ -95,28 +94,26 @@ $pListIterator = new PlanoListIterator($lista);
                             <tr>
                                 <th>#</th>
                                 <th>Descri&ccedil;&atilde;o</th>
-                                <th>Valor R$</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            $plano = new Plano();
-                            while ($pListIterator->hasNextPlano()){
-                                $plano =  $pListIterator->getNextPlano();
+                            $estadocivil = new EstadoCivil();
+                            while ($pListIterator->hasNextEstadoCivil()){
+                                $estadocivil =  $pListIterator->getNextEstadoCivil();
 
                                 ?>
                                 <tr>
-                                    <th scope="row"><?php echo $plano->getCdPlano(); ?></th>
-                                    <td><a href="#obs" onmouseover="toolTip('<?php echo $plano->getObsPlano(); ?>',0,100)" onmouseout="toolTip();"><?php echo $plano->getDsPlano(); ?></a></td>
-                                    <td><?php echo 'R$ '.number_format($plano->getNrValor(),2,',','.'); ?></td>
+                                    <th scope="row"><?php echo $estadocivil->getCdEstadoCivil(); ?></th>
+                                    <td><?php echo $estadocivil->getDsEstadoCivil(); ?></td>
                                     <td class="action">
-                                        <a href="#" data-url="planoalt.php" data-id="<?php echo $plano->getCdPlano();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
+                                        <a href="#" data-url="estadocivilalt.php" data-id="<?php echo $estadocivil->getCdEstadoCivil();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
                                         <a href="#" class="delete btn btn-warning btn-xs"
                                            data-toggle="modal"
                                            data-target="#delete-modal"
-                                           data-nome="<?php echo $plano->getDsPlano(); ?>"
-                                           data-id="<?php echo $plano->getCdPlano(); ?>"
+                                           data-nome="<?php echo $estadocivil->getDsEstadoCivil(); ?>"
+                                           data-id="<?php echo $estadocivil->getCdEstadoCivil(); ?>"
                                            data-action="E">Excluir</a>
                                     </td>
                                 </tr>
@@ -141,8 +138,17 @@ $pListIterator = new PlanoListIterator($lista);
         <!--footer section end-->
 
 <?php  include "include/enfile.php";?>
-        <script src="js/plano.js"></script>
+        <script src="js/estadocivil.js"></script>
     </section>
+    <script>
+        $( function() {
+            $('#btn-search').on('click', function(e) {
+                e.preventDefault();
+                $('#search').animate({width: 'toggle'}).focus();
 
+            });
+        } () );
+
+    </script>
  </body>
 </html>

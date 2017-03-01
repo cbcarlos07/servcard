@@ -184,4 +184,46 @@ class EnderecoDAO
         }
         return $endereco;
     }
+
+    public function getEnderecoByCep($cep){
+        require_once ("../beans/Endereco.class.php");
+        require_once ("../beans/Bairro.class.php");
+        require_once ("../beans/TpLogradouro.class.php");
+        require_once ("../beans/Cidade.class.php");
+        $endereco = null;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT E.*
+                  ,B.NM_BAIRRO
+                  ,L.DS_TP_LOGRADOURO
+                  ,B.CD_CIDADE
+            FROM endereco E
+            INNER JOIN bairro B ON B.CD_BAIRRO = E.CD_BAIRRO
+            INNER JOIN tp_logradouro L ON L.CD_TP_LOGRADOURO = E.CD_TP_LOGRADOURO
+            WHERE E.NR_CEP = :cep";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":cep", $cep, PDO::PARAM_INT);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $endereco = new Endereco();
+                $endereco->setCdEndereco($row['CD_ENDERECO']);
+                $endereco->setDsLogradouro($row['DS_LOGRADOURO']);
+                $endereco->setTpLogradouro(new TpLogradouro());
+                $endereco->getTpLogradouro()->setCdTpLogradouro($row['CD_TP_LOGRADOURO']);
+                $endereco->getTpLogradouro()->setDsTpLogradouro($row['DS_TP_LOGRADOURO']);
+                $endereco->setNrCep($row['NR_CEP']);
+                $endereco->setBairro(new Bairro());
+                $endereco->getBairro()->setCdBairro($row['CD_BAIRRO']);
+                $endereco->getBairro()->setNmBairro($row['NM_BAIRRO']);
+                $endereco->getBairro()->setCidade(new Cidade());
+                $endereco->getBairro()->getCidade()->setCdCidade($row['CD_CIDADE']);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $endereco;
+    }
 }

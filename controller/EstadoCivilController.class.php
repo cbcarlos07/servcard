@@ -30,16 +30,23 @@ class EstadoCivilController
     }
 
     public function getList($estadoCivil){
-        require_once ("../model/EstadoCivilDAO.class.php");
+        require_once ("model/EstadoCivilDAO.class.php");
         $estadoCivilDao = new EstadoCivilDAO();
         $retorno = $estadoCivilDao->getList($estadoCivil);
+        return $retorno;
+    }
+
+    public function getLista($estadoCivil){
+        require_once ("../model/EstadoCivilDAO.class.php");
+        $estadoCivilDao = new EstadoCivilDAO();
+        $retorno = $estadoCivilDao->getLista($estadoCivil);
         return $retorno;
     }
 
 
 
     public function getEstadoCivil($estadoCivil){
-        require_once ("../model/EstadoCivilDAO.class.php");
+        require_once ("model/EstadoCivilDAO.class.php");
         $estadoCivilDao = new EstadoCivilDAO();
         $retorno = $estadoCivilDao->getEstadoCivil($estadoCivil);
         return $retorno;

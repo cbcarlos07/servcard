@@ -30,6 +30,13 @@ class ClienteController
     }
 
     public function getList($cliente){
+        require_once ("model/ClienteDAO.class.php");
+        $clienteDao = new ClienteDAO();
+        $retorno = $clienteDao->getList($cliente);
+        return $retorno;
+    }
+
+    public function getLista($cliente){
         require_once ("../model/ClienteDAO.class.php");
         $clienteDao = new ClienteDAO();
         $retorno = $clienteDao->getList($cliente);

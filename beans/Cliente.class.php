@@ -10,6 +10,7 @@ class Cliente
 {
 private $cdCliente;
 private $nmCliente;
+private $nmSobrenome;
 private $nrCpf;
 private $nrRg;
 private $nrTelefone;
@@ -18,7 +19,86 @@ private $dtNascimento;
 private $tpSexo;
 private $estadoCivil;
 private $endereco;
+private $nrCasa;
+private $dsComplemento;
 private $dsSenha;
+private $snSenhaAtual;
+
+    /**
+     * @return mixed
+     */
+    public function getNmSobrenome()
+    {
+        return $this->nmSobrenome;
+    }
+
+    /**
+     * @param mixed $nmSobrenome
+     * @return Cliente
+     */
+    public function setNmSobrenome($nmSobrenome)
+    {
+        $this->nmSobrenome = $nmSobrenome;
+        return $this;
+    }
+
+  
+
+    /**
+     * @return mixed
+     */
+    public function getNrCasa()
+    {
+        return $this->nrCasa;
+    }
+
+    /**
+     * @param mixed $nrCasa
+     * @return Cliente
+     */
+    public function setNrCasa($nrCasa)
+    {
+        $this->nrCasa = $nrCasa;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDsComplemento()
+    {
+        return $this->dsComplemento;
+    }
+
+    /**
+     * @param mixed $dsComplemento
+     * @return Cliente
+     */
+    public function setDsComplemento($dsComplemento)
+    {
+        $this->dsComplemento = $dsComplemento;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSnSenhaAtual()
+    {
+        return $this->snSenhaAtual;
+    }
+
+    /**
+     * @param mixed $snSenhaAtual
+     * @return Cliente
+     */
+    public function setSnSenhaAtual($snSenhaAtual)
+    {
+        $this->snSenhaAtual = $snSenhaAtual;
+        return $this;
+    }
+
+
 
     /**
      * @return mixed

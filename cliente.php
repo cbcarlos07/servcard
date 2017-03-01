@@ -13,14 +13,14 @@ if(isset($_POST['search'])){
    $descricao =  $_POST['search'];
 }
 
-include_once "controller/PlanoController.class.php";
-include_once "beans/Plano.class.php";
-include_once "services/PlanoListIterator.class.php";
+include_once "controller/ClienteController.class.php";
+include_once "beans/Cliente.class.php";
+include_once "services/ClienteListIterator.class.php";
 
 
-$planoController = new PlanoController();
-$lista = $planoController->getList($descricao);
-$pListIterator = new PlanoListIterator($lista);
+$clienteController = new ClienteController();
+$lista = $clienteController->getList($descricao);
+$pListIterator = new ClienteListIterator($lista);
 
 
 
@@ -64,7 +64,7 @@ $pListIterator = new PlanoListIterator($lista);
 
             <br>
 
-            <div class="col-lg-1" ><h2>Plano</h2></div>
+            <div class="col-lg-1" ><h2>Cliente</h2></div>
             <div class="col-lg-7" >
 
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="form-pesquisa">
@@ -80,7 +80,7 @@ $pListIterator = new PlanoListIterator($lista);
                 </form>
             </div>
             <div class="col-lg-4">
-                <a href="#" data-url="planocad.php" class="btn btn-primary novo-item">Novo Item</a>
+                <a href="#" data-url="clientecad.php" class="btn btn-primary novo-item">Novo Item</a>
             </div>
             <div class="row"></div>
             <hr />
@@ -94,32 +94,52 @@ $pListIterator = new PlanoListIterator($lista);
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Descri&ccedil;&atilde;o</th>
-                                <th>Valor R$</th>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Telefone</th>
+                                <th>Dependentes</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            $plano = new Plano();
-                            while ($pListIterator->hasNextPlano()){
-                                $plano =  $pListIterator->getNextPlano();
+                            $cliente = new Cliente();
+                            while ($pListIterator->hasNextCliente()){
+                                $cliente =  $pListIterator->getNextCliente();
 
                                 ?>
                                 <tr>
-                                    <th scope="row"><?php echo $plano->getCdPlano(); ?></th>
-                                    <td><a href="#obs" onmouseover="toolTip('<?php echo $plano->getObsPlano(); ?>',0,100)" onmouseout="toolTip();"><?php echo $plano->getDsPlano(); ?></a></td>
-                                    <td><?php echo 'R$ '.number_format($plano->getNrValor(),2,',','.'); ?></td>
+                                    <th scope="row"><?php echo $cliente->getCdCliente(); ?></th>
+                                    <td><?php $cliente->getNmCliente(); ?></td>
+                                    <td><?php
+                                        $cpf1 = substr($endereco->getNrCep(), 0,3);
+                                        $cpf2 = substr($endereco->getNrCep(), 3,3);
+                                        $cpf3 = substr($endereco->getNrCep(), 6,3);
+                                        $cpf4 = substr($endereco->getNrCep(), 10,2);
+                                        $cpf = "$cpf1.$cpf2.$cpf3-$cpf4";
+                                        ?></td>
+                                    <td>
+                                        <?php
+                                          $telefone = $cliente->getNrTelefone();
+                                          $length =  strlen($telefone);
+                                          if($length == 11 )
+                                              echo "( ".substr($telefone, 0,2).")".substr($telefone,3,5)."-".substr($telefone,8,4);
+                                          else
+                                              echo "( ".substr($telefone, 0,2).")".substr($telefone,3,4)."-".substr($telefone,7,4);
+                                        ?>
+                                    </td>
+                                    <td>0</td>
                                     <td class="action">
-                                        <a href="#" data-url="planoalt.php" data-id="<?php echo $plano->getCdPlano();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
+                                        <a href="#" data-url="clientealt.php" data-id="<?php echo $cliente->getCdCliente();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
                                         <a href="#" class="delete btn btn-warning btn-xs"
                                            data-toggle="modal"
                                            data-target="#delete-modal"
-                                           data-nome="<?php echo $plano->getDsPlano(); ?>"
-                                           data-id="<?php echo $plano->getCdPlano(); ?>"
+                                           data-nome="<?php echo $cliente->getNmCliente(); ?>"
+                                           data-id="<?php echo $cliente->getCdCliente(); ?>"
                                            data-action="E">Excluir</a>
                                     </td>
                                 </tr>
+                                <?php // echo 'R$ '.number_format($cliente->getNrValor(),2,',','.'); ?>
                             <?php } ?>
                             </tbody>
                         </table>
@@ -141,7 +161,7 @@ $pListIterator = new PlanoListIterator($lista);
         <!--footer section end-->
 
 <?php  include "include/enfile.php";?>
-        <script src="js/plano.js"></script>
+        <script src="js/cliente.js"></script>
     </section>
 
  </body>

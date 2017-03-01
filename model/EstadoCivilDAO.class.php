@@ -76,8 +76,8 @@ class EstadoCivilDAO
     }
 
     public function getList($nome){
-        require_once ("../services/EstadoCivilList.class.php");
-        require_once ("../beans/EstadoCivil.class.php");
+        require_once ("services/EstadoCivilList.class.php");
+        require_once ("beans/EstadoCivil.class.php");
 
         $this->connection = null;
 
@@ -92,6 +92,38 @@ class EstadoCivilDAO
                           WHERE E.DS_ESTADO_CIVIL LIKE :nome";
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $estadoCivil = new EstadoCivil();
+                $estadoCivil->setCdEstadoCivil($row['CD_ESTADO_CIVIL']);
+                $estadoCivil->setDsEstadoCivil($row['DS_ESTADO_CIVIL']);
+                $estadoCivilList->addEstadoCivil($estadoCivil);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $estadoCivilList;
+    }
+
+    public function getLista($nome){
+        require_once ("../services/EstadoCivilList.class.php");
+        require_once ("../beans/EstadoCivil.class.php");
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $estadoCivilList = new EstadoCivilList();
+
+        try {
+
+            $sql = "SELECT *
+                          FROM estado_civil E
+                          WHERE E.DS_ESTADO_CIVIL LIKE :nome";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
 
             $stmt->execute();
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){

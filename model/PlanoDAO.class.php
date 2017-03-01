@@ -113,6 +113,40 @@ class PlanoDAO
         return $planoList;
     }
 
+    public function getLista($nome){
+        require_once ("../services/PlanoList.class.php");
+        require_once ("../beans/Plano.class.php");
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $planoList = new PlanoList();
+
+        try {
+
+            $sql = "SELECT *
+                          FROM plano E
+                          WHERE E.DS_PLANO LIKE :nome";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $plano = new Plano();
+                $plano->setCdPlano($row['CD_PLANO']);
+                $plano->setDsPlano($row['DS_PLANO']);
+                $plano->setObsPlano($row['OBS_PLANO']);
+                $plano->setNrValor($row['NR_VALOR']);
+                $planoList->addPlano($plano);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $planoList;
+    }
+
     public function getPlano($codigo){
         $plano = null;
         $connection = null;
