@@ -46,7 +46,7 @@ class ClienteController
 
 
     public function getCliente($cliente){
-        require_once ("../model/ClienteDAO.class.php");
+        require_once ("model/ClienteDAO.class.php");
         $clienteDao = new ClienteDAO();
         $retorno = $clienteDao->getCliente($cliente);
         return $retorno;

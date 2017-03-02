@@ -81,10 +81,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <input id="rg" type="text" class="form-control">
                     </div>
                     <div class="row"></div>
-                    <div class="form-group col-lg-5">
+                 <!--   <div class="form-group col-lg-5">
                         <label for="foto">Foto</label>
                         <input id="foto" type="file" class="form-control">
                     </div>
+                 -->
                     <div class="row"></div>
                     <hr />
                     <div class="btn-group">

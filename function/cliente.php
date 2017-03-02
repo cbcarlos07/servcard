@@ -68,6 +68,10 @@ if(isset($_POST['complemento'])){
     $complemento = $_POST['complemento'];
 }
 
+if(isset($_POST['numero'])){
+    $numero = $_POST['numero'];
+}
+
 if(isset($_POST['senha'])){
     $senha = $_POST['senha'];
 }
@@ -78,12 +82,12 @@ if(isset($_POST['senhaatual'])){
 switch ($acao){
     case 'C':
         add($nome, $sobrenome, $cpf, $rg, $telefone, $email, $nascimento,
-            $sexo, $estadoCivil, $cep, $endereco, $numero,
+            $sexo, $estadoCivil, $endereco, $numero,
             $complemento, $senha, $senhaatual);
         break;
     case 'A':
         change($id, $nome, $sobrenome, $cpf, $rg, $telefone, $email, $nascimento,
-            $sexo, $estadoCivil, $cep, $endereco, $numero,
+            $sexo, $estadoCivil,$endereco, $numero,
             $complemento, $senha, $senhaatual);
         break;
     case 'E':
@@ -96,25 +100,35 @@ switch ($acao){
 }
 
 function add($nome, $sobrenome, $cpf, $rg, $telefone, $email, $nascimento,
-             $sexo, $estadoCivil, $cep, $endereco, $numero,
+             $sexo, $estadoCivil,  $endereco, $numero,
              $complemento, $senha, $senhaatual){
    // echo "<script>alert('Adicionar'); </script>";
     require_once "../beans/Cliente.class.php";
+    require_once "../beans/EstadoCivil.class.php";
+    require_once "../beans/Endereco.class.php";
     require_once "../controller/ClienteController.class.php";
 
     $cliente = new Cliente();
     $cliente->setNmCliente($nome);
     $cliente->setNmSobrenome($sobrenome);
-    $cliente->setNrCpf($cpf);
-    $cliente->setNrRg($rg);
+    $vowels = array(".", "-");
+    $novocpf = str_replace($vowels,'',$cpf);
+    $cliente->setNrCpf($novocpf);
+    $cliente->setNrRg(str_replace("-",'',$rg));
     $cliente->setNrTelefone($telefone);
     $cliente->setDsEmail($email);
-    $cliente->setDtNascimento($nascimento);
+    $datas = explode("/", $nascimento);
+    $dia =  $datas[0];
+    $mes =  $datas[1];
+    $ano =  $datas[2];
+    $cliente->setDtNascimento("$ano-$mes-$dia");
     $cliente->setTpSexo($sexo);
     $cliente->setEstadoCivil(new EstadoCivil());
     $cliente->getEstadoCivil()->setCdEstadoCivil($estadoCivil);
     $cliente->setEndereco(new Endereco());
     $cliente->getEndereco()->setCdEndereco($endereco);
+    //echo "Numero: $numero<br>";
+
     $cliente->setNrCasa($numero);
     $cliente->setDsComplemento($complemento);
     $cliente->setDsSenha($senha);
@@ -131,20 +145,28 @@ function add($nome, $sobrenome, $cpf, $rg, $telefone, $email, $nascimento,
 
 
 function change($id, $nome, $sobrenome, $cpf, $rg, $telefone, $email, $nascimento,
-                $sexo, $estadoCivil, $cep, $endereco, $numero,
+                $sexo, $estadoCivil, $endereco, $numero,
                 $complemento, $senha, $senhaatual){
     require_once "../beans/Cliente.class.php";
+    require_once "../beans/EstadoCivil.class.php";
+    require_once "../beans/Endereco.class.php";
     require_once "../controller/ClienteController.class.php";
 
     $cliente = new Cliente();
     $cliente->setCdCliente($id);
     $cliente->setNmCliente($nome);
     $cliente->setNmSobrenome($sobrenome);
-    $cliente->setNrCpf($cpf);
-    $cliente->setNrRg($rg);
+    $vowels = array(".", "-");
+    $novocpf = str_replace($vowels,'',$cpf);
+    $cliente->setNrCpf($novocpf);
+    $cliente->setNrRg(str_replace("-",'',$rg));
     $cliente->setNrTelefone($telefone);
     $cliente->setDsEmail($email);
-    $cliente->setDtNascimento($nascimento);
+    $datas = explode("/", $nascimento);
+    $dia =  $datas[0];
+    $mes =  $datas[1];
+    $ano =  $datas[2];
+    $cliente->setDtNascimento("$ano-$mes-$dia");
     $cliente->setTpSexo($sexo);
     $cliente->setEstadoCivil(new EstadoCivil());
     $cliente->getEstadoCivil()->setCdEstadoCivil($estadoCivil);
@@ -177,6 +199,7 @@ function delete($id){
 
 function getLista($id){
     require_once "../beans/Cliente.class.php";
+
     require_once "../controller/ClienteController.class.php";
     require_once "../services/ClienteListIterator.class.php";
 

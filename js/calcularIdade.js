@@ -61,24 +61,7 @@ $(document).ready(function(){
     //return diferencaAnos;
     console.log("Idade:"+diferencaAnos);
     campoidade.value = diferencaAnos;
-     $.ajax({
-                dataType: 'json',
-                type: "POST",
-                url: "funcoes/valor.php",
-                
-                data: {
-                    'idade'    : diferencaAnos,
-                    'acao'      : 'R'
-                },
-                success: function( data )
-                {
-                    
-                    console.log("Data: "+data.idade);
-                    valor = data.valor;
-                    selecionarValor(data.idade);
-                    setTotal();
-                }
-        });
+
     }
     
 
