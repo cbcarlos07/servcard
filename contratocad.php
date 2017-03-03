@@ -10,7 +10,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 $descricao = "";
 
 if(isset($_POST['search'])){
-   $descricao =  $_POST['search'];
+   $descricao =  $_POST['search'] ;
 }
 
 include_once "controller/ClienteController.class.php";
