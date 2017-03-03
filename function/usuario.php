@@ -9,7 +9,8 @@
 $id      = 0;
 $nome    =  "";
 $login   =  "";
-$senha   = $_POST['acao'];
+$senha   = "";
+$acao   = $_POST['acao'];
 $ativo   = "";
 $cargo   = 0;
 $cpf     = "";
@@ -26,16 +27,44 @@ if(isset($_POST['nome'])){
     $nome = $_POST['nome'];
 }
 
-if(isset($_POST['obs'])){
-    $obs = $_POST['obs'];
+if(isset($_POST['login'])){
+    $login = $_POST['login'];
+}
+
+if(isset($_POST['senha'])){
+    $senha = $_POST['senha'];
+}
+
+if(isset($_POST['ativo'])){
+    $ativo = $_POST['ativo'];
+}
+if(isset($_POST['cargo'])){
+    $cargo = $_POST['cargo'];
+}
+
+if(isset($_POST['cpf'])){
+    $cpf = $_POST['cpf'];
+}
+if(isset($_POST['rg'])){
+    $rg = $_POST['rg'];
+}
+if(isset($_POST['foto'])){
+    $foto = $_POST['foto'];
+}
+if(isset($_POST['atual'])){
+    $senhaatual = $_POST['atual'];
 }
 
 switch ($acao){
     case 'C':
-        add($nome, $obs);
+        add( $nome, $login, $senha,
+            $ativo, $cargo, $cpf, $rg,
+            $foto, $senhaatual);
         break;
     case 'A':
-        change($id, $nome, $obs);
+        change($id, $nome, $login, $senha,
+            $ativo, $cargo, $cpf, $rg,
+            $foto, $senhaatual);
         break;
     case 'E':
         delete($id);
@@ -46,18 +75,29 @@ switch ($acao){
 
 }
 
-function add($nome, $obs){
+function add($nome, $login, $senha, $ativo, $cargo, $cpf, $rg, $foto, $senhaatual){
    // echo "<script>alert('Adicionar'); </script>";
+    require_once "../beans/Usuario.class.php";
     require_once "../beans/Cargo.class.php";
-    require_once "../controller/CargoController.class.php";
+    require_once "../controller/UsuarioController.class.php";
 
-    $cargo = new Cargo();
-    $cargo->setDsCargo($nome);
-    $cargo->setObsCargo($obs);
+    $usuario = new Usuario();
+    $usuario->setNmUsuario($nome);
+    $usuario->setDsLogin($login);
+    $usuario->setDsSenha($senha);
+    $usuario->setSnAtivo($ativo);
+    $usuario->setCargo(new Cargo());
+    $usuario->getCargo()->setCdCargo($cargo);
+    $vowels = array(".", "-");
+    $novocpf = str_replace($vowels,'',$cpf);
+    $usuario->setNrCPF($novocpf);
+    $usuario->setNrRg(str_replace("-",'',$rg));
+    $usuario->setDsFoto($foto);
+    $usuario->setSnSenhaAtual($senhaatual);
 
-    $cargoController = new CargoController();
-    $teste = $cargoController->insert($cargo);
-    //echo "Teste: $teste";
+    $usuarioController = new UsuarioController();
+    $teste = $usuarioController->insert($usuario);
+    echo "Teste: $teste";
     if($teste)
         echo json_encode(array('retorno' => 1));
     else
@@ -65,17 +105,28 @@ function add($nome, $obs){
 }
 
 
-function change($id, $nome, $obs){
+function change($id, $nome, $login, $senha, $ativo, $cargo, $cpf, $rg, $foto, $senhaatual){
+    require_once "../beans/Usuario.class.php";
     require_once "../beans/Cargo.class.php";
-    require_once "../controller/CargoController.class.php";
+    require_once "../controller/UsuarioController.class.php";
 
-    $cargo = new Cargo();
-    $cargo->setCdCargo($id);
-    $cargo->setDsCargo($nome);
-    $cargo->setObsCargo($obs);
+    $usuario = new Usuario();
+    $usuario->setCdUsuario($id);
+    $usuario->setNmUsuario($nome);
+    $usuario->setDsLogin($login);
+    $usuario->setDsSenha($senha);
+    $usuario->setSnAtivo($ativo);
+    $usuario->setCargo(new Cargo());
+    $usuario->getCargo()->setCdCargo($cargo);
+    $vowels = array(".", "-");
+    $novocpf = str_replace($vowels,'',$cpf);
+    $usuario->setNrCPF($novocpf);
+    $usuario->setNrRg(str_replace("-",'',$rg));
+    $usuario->setDsFoto($foto);
+    $usuario->setSnSenhaAtual($senhaatual);
 
-    $cargoController = new CargoController();
-    $teste = $cargoController->update($cargo);
+    $usuarioController = new UsuarioController();
+    $teste = $usuarioController->update($usuario);
 
     if($teste)
         echo json_encode(array('retorno' => 1));
@@ -84,9 +135,9 @@ function change($id, $nome, $obs){
 }
 
 function delete($id){
-    require_once "../controller/CargoController.class.php";
-    $cargoController = new CargoController();
-    $teste = $cargoController->delete($id);
+    require_once "../controller/UsuarioController.class.php";
+    $usuarioController = new UsuarioController();
+    $teste = $usuarioController->delete($id);
     //echo "Retorno: ".$teste;
     if($teste)
         echo json_encode(array('retorno' => 1));
@@ -95,23 +146,23 @@ function delete($id){
 }
 
 function getLista($id){
+    require_once "../beans/Usuario.class.php";
     require_once "../beans/Cargo.class.php";
-    require_once "../controller/CargoController.class.php";
-    require_once "../services/CargoListIterator.class.php";
+    require_once "../controller/UsuarioController.class.php";
 
-    $cargo =  new Cargo();
-    $cargoController = new CargoController();
-    $lista  = $cargoController->getListaByCargo("");
-    $cargoLista = new CargoListIterator($lista);
+    $usuario =  new Usuario();
+    $usuarioController = new UsuarioController();
+    $lista  = $usuarioController->getLista("");
+    $usuarioLista = new UsuarioListIterator($lista);
 
-    while ($cargoLista->hasNextCargo()){
-        $cargo = $cargoLista->getNextCargo();
+    while ($usuarioLista->hasNextUsuario()){
+        $usuario = $usuarioLista->getNextUsuario();
 
         $select = "";
-        if($id == $cargo->getCdCargo()){
+        if($id == $usuario->getCdUsuario()){
             $select = "selected";
         }
-        echo "<option $select value='".$cargo->getCdCargo()."'>".$cargo->getDsCargo()."</option>>";
+        echo "<option $select value='".$usuario->getCdusuario()."'>".$usuario->getNmUsuario()."</option>>";
     }
 
 }

@@ -17,7 +17,26 @@ class Usuario
    private $nrCPF;
    private $nrRg;
    private $dsFoto;
-   private $snAtual;
+   private $snSenhaAtual;
+
+    /**
+     * @return mixed
+     */
+    public function getSnSenhaAtual()
+    {
+        return $this->snSenhaAtual;
+    }
+
+    /**
+     * @param mixed $snSenhaAtual
+     * @return Usuario
+     */
+    public function setSnSenhaAtual($snSenhaAtual)
+    {
+        $this->snSenhaAtual = $snSenhaAtual;
+        return $this;
+    }
+
 
     /**
      * @return mixed

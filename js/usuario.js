@@ -34,7 +34,7 @@ function salvar(){
         $.ajax({
                 type    : 'post',
                 dataType: 'json',
-                url     : 'function/bairro.php',
+                url     : 'function/usuario.php',
                 beforeSend : carregando,
                 data: {
                     'id'         : codigo,
@@ -69,7 +69,7 @@ function deletar(codigo, acao){
     $.ajax({
         dataType: 'json',
         type: "POST",
-        url: "function/bairro.php",
+        url: "function/usuario.php",
         beforeSend: carregando,
         data: {
             'id' : codigo,
@@ -109,7 +109,7 @@ function sucesso(msg){
     var mensagem = $('.mensagem');
     mensagem.empty().html('<p class="alert alert-success"><strong>OK. </strong>'+msg+'<img src="images/ok.png" alt="Carregando..."></p>').fadeIn("fast");
     setTimeout(function (){
-        location.href = "bairro.php";
+        location.href = "usuario.php";
     },2000);
 }
 function sucesso_delete(msg){

@@ -18,8 +18,8 @@ class UsuarioDAO
          $this->connection = new ConnectionFactory();
          try{
              $query = "INSERT INTO usuario 
-                      (CD_USUARIO, NM_USUARIO, DS_LOGIN, DS_SENHA, SN_ATIVO, CD_CARGO, NR_CPF, NR_RG, DS_FOTO) VALUES 
-                      (NULL, :usuario, :login, :senha, :ativo, :cargo, :cpf, :rg, :foto)";
+                      (CD_USUARIO, NM_USUARIO, DS_LOGIN, DS_SENHA, SN_ATIVO, CD_CARGO, NR_CPF, NR_RG, DS_FOTO, SN_SENHA_ATUAL) VALUES 
+                      (NULL, :usuario, :login, :senha, :ativo, :cargo, :cpf, :rg, :foto, :atual)";
 
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":usuario", $usuario->getNmUsuario(), PDO::PARAM_STR);
@@ -30,6 +30,7 @@ class UsuarioDAO
              $stmt->bindValue(":cpf", $usuario->getNrCPF(), PDO::PARAM_STR);
              $stmt->bindValue(":rg", $usuario->getNrRg(), PDO::PARAM_STR);
              $stmt->bindValue(":foto", $usuario->getDsFoto(), PDO::PARAM_STR);
+             $stmt->bindValue(":atual", $usuario->getSnSenhaAtual(), PDO::PARAM_STR);
              $stmt->execute();
 
              $teste =  true;
