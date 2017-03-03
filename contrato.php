@@ -45,7 +45,7 @@ $cliente = $clienteController->getCliente($id);
  <body class="sticky-header left-side-collapsed"  >
     <section>
     <!-- left side start-->
-		<?php include "include/menu.html"?>
+		<?php include "include/menu.html"  ?>
     <!-- left side end-->
 
         <!-- Modal -->
