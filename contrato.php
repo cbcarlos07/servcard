@@ -13,14 +13,26 @@ if(isset($_POST['search'])){
    $descricao =  $_POST['search'];
 }
 
+include_once "controller/ContratoController.class.php";
+include_once "beans/Contrato.class.php";
 include_once "controller/ClienteController.class.php";
 include_once "beans/Cliente.class.php";
-include_once "services/ClienteListIterator.class.php";
+include_once "services/ContratoListIterator.class.php";
 
+
+$contratoController = new ContratoController();
+$lista = $contratoController->getList($descricao);
+$pListIterator = new ContratoListIterator($lista);
+
+$id = $_POST['id'];
+
+$cliente = new Cliente();
 
 $clienteController = new ClienteController();
-$lista = $clienteController->getList($descricao);
-$pListIterator = new ClienteListIterator($lista);
+
+$cliente = $clienteController->getCliente($id);
+
+
 
 
 
@@ -33,7 +45,7 @@ $pListIterator = new ClienteListIterator($lista);
  <body class="sticky-header left-side-collapsed"  >
     <section>
     <!-- left side start-->
-		<?php include "include/menu.html"?>
+		<?php include "include/menu.html"  ?>
     <!-- left side end-->
 
         <!-- Modal -->
@@ -44,7 +56,7 @@ $pListIterator = new ClienteListIterator($lista);
                         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="modalLabel">Excluir Item</h4>
                     </div>
-                    <div class="modal-body">Deseja realmente excluir o item <b><span class="nome"></span></b>? </div>
+                    <div class="modal-body">Deseja realmente excluir o contrato de n&uacute;mero <b><span class="nome"></span></b>? </div>
                     <div class="modal-footer">
                         <a href="#" type="button"  class="btn btn-primary delete-yes">Sim</a>
                         <button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
@@ -64,8 +76,8 @@ $pListIterator = new ClienteListIterator($lista);
 
             <br>
 
-            <div class="col-lg-1" ><h2>Cliente</h2></div>
-            <div class="col-lg-7" >
+            <div class="col-lg-2" ><h4>Contrato -  <?php echo $cliente->getNmCliente(); ?></h4></div>
+            <div class="col-lg-6" >
 
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="form-pesquisa">
                     <input type="hidden" name="acao" value="P">
@@ -80,7 +92,7 @@ $pListIterator = new ClienteListIterator($lista);
                 </form>
             </div>
             <div class="col-lg-4">
-                <a href="#" data-url="clientecad.php" class="btn btn-primary novo-item">Novo Item</a>
+                <a href="#" data-url="contratocad.php" class="btn btn-primary novo-item">Novo Item</a>
             </div>
             <div class="row"></div>
             <hr />
@@ -94,50 +106,34 @@ $pListIterator = new ClienteListIterator($lista);
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Nome</th>
-                                <th>CPF</th>
-                                <th>Telefone</th>
-                                <th>Dependentes</th>
+                                <th>Data do Contrato</th>
+                                <th>Usu&aacute;rio</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            $cliente = new Cliente();
-                            while ($pListIterator->hasNextCliente()){
-                                $cliente =  $pListIterator->getNextCliente();
+                            $contrato = new Contrato();
+                            while ($pListIterator->hasNextContrato()){
+                                $contrato =  $pListIterator->getNextContrato();
 
                                 ?>
                                 <tr>
-                                    <th scope="row"><?php echo $cliente->getCdCliente(); ?></th>
-                                    <td><?php echo $cliente->getNmCliente()." ".$cliente->getNmSobrenome(); ?></td>
-                                    <td><?php
-                                        $cpf1 = substr($cliente->getNrCpf(), 0,3);
-                                        $cpf2 = substr($cliente->getNrCpf(), 3,3);
-                                        $cpf3 = substr($cliente->getNrCpf(), 6,3);
-                                        $cpf4 = substr($cliente->getNrCpf(), 9,2);
-                                        echo $cpf = "$cpf1.$cpf2.$cpf3-$cpf4";
-                                        ?></td>
-                                    <td>
-                                        <?php
-                                          $telefone = $cliente->getNrTelefone();
-                                          $length =  strlen($telefone);
-                                          if($length == 11 )
-                                              echo "( ".substr($telefone, 0,2).")".substr($telefone,2,5)."-".substr($telefone,7,4);
-                                          else
-                                              echo "( ".substr($telefone, 0,2).")".substr($telefone,2,4)."-".substr($telefone,6,4);
-                                        ?>
-                                    </td>
-                                    <td>0</td>
+                                    <th scope="row"><?php echo $contrato->getCdContrato(); ?></th>
+                                    <td><?php echo $contrato->getDhContrato(); ?></td>
+                                    <td><?php echo $contrato->getUsuario()->getNmUsuario(); ?></td>
                                     <td class="action">
-                                        <a href="#" data-url="clientealt.php" data-id="<?php echo $cliente->getCdCliente();  ?>"  class="btn btn-danger btn-xs btn-alterar btn-acao">Alterar</a>
-                                        <a href="#" data-url="contrato.php"   data-id="<?php echo $cliente->getCdCliente(); ?>"   class="btn-acao btn btn-danger btn-xs btn-acao">Contrato</a>
-                                        <a href="#" data-url="clientealt.php" data-id="<?php echo $cliente->getCdCliente();  ?>" class="btn btn-danger btn-xs btn-imprimir btn-acao">Imprimir</a>
-                                        <a href="#" data-url="clientealt.php" data-id="<?php echo $cliente->getCdCliente();  ?>" class="btn btn-danger btn-xs btn-carteira btn-acao">Carteira</a>
+                                        <a href="#" data-url="bairroalt.php" data-id="<?php echo $contrato->getCdContrato();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
+                                        <a href="#" class="delete btn btn-warning btn-xs"
+                                           data-toggle="modal"
+                                           data-target="#delete-modal"
+                                           data-nome="<?php echo $contrato->getCdContrato(); ?>"
+                                           data-id="<?php echo $contrato->getCdContrato(); ?>"
+                                           data-action="E">Excluir</a>
                                     </td>
 
                                 </tr>
-                                <?php // echo 'R$ '.number_format($cliente->getNrValor(),2,',','.'); ?>
+                                <?php // echo 'R$ '.number_format($contrato->getNrValor(),2,',','.'); ?>
                             <?php } ?>
                             </tbody>
                         </table>
@@ -159,7 +155,7 @@ $pListIterator = new ClienteListIterator($lista);
         <!--footer section end-->
 
 <?php  include "include/enfile.php";?>
-        <script src="js/cliente.js"></script>
+        <script src="js/contrato.js"></script>
     </section>
 
  </body>

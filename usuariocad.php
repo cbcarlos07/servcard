@@ -39,6 +39,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <input id="id" value="0" type="hidden">
                     <input id="acao" value="C" type="hidden">
                     <input id="atual" value="N" type="hidden">
+                    <input id="ativo" value="S" type="hidden">
                     <input id="id-cargo" value="0" type="hidden">
 
                     <div class="form-group col-lg-12">
@@ -57,8 +58,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <input id="senha" type="password" class="form-control">
                     </div>
                     <div class="form-group col-lg-5">
-                        <label for="senha">Repita a Senha</label>
-                        <input id="senha" type="password" class="form-control">
+                        <label for="resenha">Repita a Senha</label>
+                        <input id="resenha" type="password" class="form-control">
                     </div>
                     <div class="row"></div>
                     <div class="form-group col-lg-5">
@@ -85,6 +86,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <label for="foto">Foto</label>
                         <input id="foto" type="file" class="form-control">
                     </div>
+
                     <div class="row"></div>
                     <hr />
                     <div class="btn-group">

@@ -30,7 +30,7 @@ class ContratoController
     }
 
     public function getList($contrato){
-        require_once ("../model/ContratoDAO.class.php");
+        require_once ("model/ContratoDAO.class.php");
         $contratoDao = new ContratoDAO();
         $retorno = $contratoDao->getList($contrato);
         return $retorno;

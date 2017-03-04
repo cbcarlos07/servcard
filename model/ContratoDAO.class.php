@@ -87,8 +87,9 @@ class ContratoDAO
     }
 
     public function getList($nome){
-        require_once ("../services/ContratoList.class.php");
-        require_once ("../beans/Contrato.class.php");
+        require_once ("services/ContratoList.class.php");
+        require_once ("beans/Contrato.class.php");
+        require_once ("beans/Cliente.class.php");
 
         $this->connection = null;
 

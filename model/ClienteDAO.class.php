@@ -119,6 +119,8 @@ class ClienteDAO
     public function getList($nome){
         require_once ("services/ClienteList.class.php");
         require_once ("beans/Cliente.class.php");
+        require_once ("beans/EstadoCivil.class.php");
+        require_once ("beans/Endereco.class.php");
 
         $this->connection = null;
 
@@ -153,8 +155,8 @@ class ClienteDAO
                 $cliente->setDtNascimento($row['DT_NASCIMENTO']);
                 $cliente->setTpSexo($row['TP_SEXO']);
                 $cliente->setEstadoCivil(new EstadoCivil());
-                $cliente->getEstadoCivil()->setEstadoCivil($row['CD_ESTADO_CIVIL']);
-                $cliente->getEstadoCivil()->setCdEstadoCivil($row['DS_ESTADO_CIVIL']);
+                $cliente->getEstadoCivil()->setCdEstadoCivil($row['CD_ESTADO_CIVIL']);
+                $cliente->getEstadoCivil()->setDsEstadoCivil($row['DS_ESTADO_CIVIL']);
                 $cliente->setEndereco(new Endereco());
                 $cliente->getEndereco()->setCdEndereco($row['CD_ENDERECO']);
                 $cliente->getEndereco()->setNrCep($row['NR_CEP']);
@@ -224,6 +226,9 @@ class ClienteDAO
     }
 
     public function getCliente($codigo){
+        require_once "beans/Cliente.class.php";
+        require_once "beans/Endereco.class.php";
+        require_once "beans/EstadoCivil.class.php";
         $cliente = null;
         $connection = null;
         $this->connection =  new ConnectionFactory();
@@ -252,11 +257,13 @@ class ClienteDAO
                 $cliente->setDtNascimento($row['DT_NASCIMENTO']);
                 $cliente->setTpSexo($row['TP_SEXO']);
                 $cliente->setEstadoCivil(new EstadoCivil());
-                $cliente->getEstadoCivil()->setEstadoCivil($row['CD_ESTADO_CIVIL']);
-                $cliente->getEstadoCivil()->setCdEstadoCivil($row['DS_ESTADO_CIVIL']);
+                $cliente->getEstadoCivil()->setCdEstadoCivil($row['CD_ESTADO_CIVIL']);
+                $cliente->getEstadoCivil()->setDsEstadoCivil($row['DS_ESTADO_CIVIL']);
                 $cliente->setEndereco(new Endereco());
                 $cliente->getEndereco()->setCdEndereco($row['CD_ENDERECO']);
                 $cliente->getEndereco()->setNrCep($row['NR_CEP']);
+                $cliente->setNrCasa($row['NR_CASA']);
+                $cliente->setDsComplemento($row['DS_COMPLEMENTO']);
                 $cliente->setDsSenha($row['DS_SENHA']);
                 $cliente->setSnSenhaAtual($row['SN_SENHA_ATUAL']);
             }

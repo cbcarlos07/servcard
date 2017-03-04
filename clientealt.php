@@ -8,7 +8,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 
 
-<?php include "include/head.php"; ?>
+<?php
+require_once "beans/Cliente.class.php";
+require_once "beans/EstadoCivil.class.php";
+require_once "beans/Endereco.class.php";
+require_once "controller/ClienteController.class.php";
+
+$id =  $_POST['id'];
+
+$cliente = new Cliente();
+$clienteController = new ClienteController();
+
+$cliente = $clienteController->getCliente($id);
+
+
+include "include/head.php"; ?>
 <link href="css/jquery.datetimepicker.min.css" rel="stylesheet" type="text/css" />
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.min.js"></script>
@@ -30,42 +44,42 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="row"></div>
             <br />
             <div style="text-align: center;">
-            <h3>Cadastro de Cliente</h3>
+            <h3>Altera&ccedil;&atilde;o de Cadastro de Cliente</h3>
             </div>
             <div class="col-lg-1"></div>
             <div class="col-lg-8">
 
                 <div class="mensagem alert "></div>
                 <form method="post" id="form" data-toggle="validator">
-                    <input id="id" value="0" type="hidden">
-                    <input id="acao" value="C" type="hidden">
-                    <input id="endereco"  type="hidden">
-                    <input id="cdestadocivil" value="0" type="hidden">
+                    <input id="id" value="<?php echo $cliente->getCdCliente(); ?>" type="hidden">
+                    <input id="acao" value="A" type="hidden">
+                    <input id="endereco"  value="<?php echo $cliente->getEndereco()->getCdEndereco(); ?>" type="hidden">
+                    <input id="cdestadocivil" value="<?php echo $cliente->getEstadoCivil()->getCdEstadoCivil(); ?>" type="hidden">
                     <input id="senhaatual" value="N" type="hidden">
                     <div class="form-group col-lg-5">
                         <label for="nome">Primeiro Nome</label>
-                        <input id="nome" class="form-control" required="" autofocus/>
+                        <input id="nome" class="form-control" required="" value="<?php echo $cliente->getNmCliente(); ?>" />
                     </div>
                     <div class="form-group col-lg-7">
                         <label for="sobrenome">Sobrenome</label>
-                        <input id="sobrenome" class="form-control" required=""/>
+                        <input id="sobrenome" class="form-control" required="" value="<?php echo $cliente->getNmSobrenome(); ?>"/>
                     </div>
                     <div class="row"></div>
                     <div class="form-group col-lg-4">
                         <label for="cpf">CPF</label>
-                        <input id="cpf" class="form-control" required="" placeholder="000.000.000.-00"/>
+                        <input id="cpf" class="form-control" required="" placeholder="000.000.000.-00" value="<?php echo $cliente->getNrCpf(); ?>"/>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="rg">RG</label>
-                        <input id="rg" class="form-control" required="" placeholder="0000000-0"/>
+                        <input id="rg" class="form-control" required="" placeholder="0000000-0" value="<?php echo $cliente->getNrRg(); ?>"/>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="telefone">Telefone  </label>
-                        <input id="telefone" type="tel" class="form-control" required="" placeholder="(00)0000-0000"/>
+                        <input id="telefone" type="tel" class="form-control" required="" placeholder="(00)0000-0000" value="<?php echo $cliente->getNrTelefone(); ?>"/>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="email">E-mail</label>
-                        <input type="email" id="email" class="form-control" required="" placeholder="exemplo@email.com"/>
+                        <input type="email" id="email" class="form-control" required="" placeholder="exemplo@email.com" value="<?php echo $cliente->getDsEmail(); ?>"/>
                     </div>
                     <div class="form-group col-lg-4">
                         <label for="senha">Senha</label>
@@ -82,7 +96,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="row"></div>
                     <div class="form-group col-lg-3">
                         <label for="nascimento">Data de Nascimento</label>
-                        <input id="nascimento" class="form-control data-nasc" required=""/>
+                        <?php
+                        $datas = explode('-', $cliente->getDtNascimento());
+                        $ano = $datas[0];
+                        $mes = $datas[1];
+                        $dia = $datas[2];
+
+                        ?>
+                        <input id="nascimento" class="form-control data-nasc" required="" value="<?php echo "$dia/$mes/$ano"; ?>"/>
                     </div>
                     <div class="form-group col-lg-1">
                         <label for="idade">Idade</label>
@@ -90,10 +111,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                     <div class="form-group col-lg-3">
                         <label for="sexo">Sexo</label>
+
                         <select id="sexo" class="form-control">
                             <option value="">Selecione</option>
-                            <option value="M">Masculino</option>
-                            <option value="F">Feminino</option>
+                            <option <?php if($cliente->getTpSexo() == 'M') echo "selected"; ?> value="M">Masculino</option>
+                            <option <?php if($cliente->getTpSexo() == 'F') echo "selected"; ?>value="F">Feminino</option>
                         </select>
                     </div>
                     <div class="form-group col-lg-3">
@@ -123,16 +145,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                     <div class="form-group col-lg-2">
                         <label for="numero">N&uacute;mero</label>
-                        <input id="numero" class="form-control" required="" />
+                        <input id="numero" class="form-control" required=""  value="<?php echo $cliente->getNrCasa(); ?>" />
                     </div>
                     <div class="form-group col-lg-12">
                         <label for="complemento">Complemento</label>
-                        <input id="complemento" class="form-control" required="" />
+                        <input id="complemento" class="form-control" required="" value="<?php echo $cliente->getDsComplemento(); ?>" />
                     </div>
                     <div class="row"></div>
                     <hr />
                     <div class="btn-group">
-                        <button type="submit" class="btn btn-success" onclick="salvar()">Salvar</button>
+                        <button class="btn btn-success" onclick="salvar()">Salvar</button>
                         <a class="btn btn-warning btn-voltar" data-url="pais.php" onclick="return verifica('Tem certeza de que deseja cancelar a opera&ccedil;&atilde;o?');">Cancelar</a>
                     </div>
 
@@ -167,7 +189,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     <script src="js/jquery.mask.js"></script>
     <script src="js/validarcpf.js"></script>
-    <script src="js/validator.min.js"></script>
     <script src="js/cliente.js"></script>
 
 

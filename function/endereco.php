@@ -51,6 +51,9 @@ switch ($acao){
     case 'G':
         getEndereco($cep);
         break;
+    case 'B':
+        getEnderecoById($id);
+        break;
 
 
 }
@@ -133,9 +136,33 @@ function getEndereco($cep){
 
     if($endereco != null)
         echo json_encode(array('retorno'    => 1
-                              ,'codigo'     => $endereco->getCdEndereco()
-                              ,'logradouro' => $endereco->getTpLogradouro()->getDsTpLogradouro()." ".$endereco->getDsLogradouro()
-                              ,'bairro'     => $endereco->getBairro()->getNmBairro()));
+        ,'codigo'     => $endereco->getCdEndereco()
+        ,'logradouro' => $endereco->getTpLogradouro()->getDsTpLogradouro()." ".$endereco->getDsLogradouro()
+        ,'bairro'     => $endereco->getBairro()->getNmBairro()));
+
+
+    else
+    {
+        echo json_encode(array('retorno' => 0));
+    }
+}
+
+function getEnderecoById($id){
+    require_once "../beans/Endereco.class.php";
+    require_once "../controller/EnderecoController.class.php";
+    require_once "../beans/Bairro.class.php";
+    require_once "../beans/TpLogradouro.class.php";
+
+    $endereco = new Endereco();
+    $enderecoController = new EnderecoController();
+    $endereco = $enderecoController->getEnderecoById($id);
+
+    if($endereco != null)
+        echo json_encode(array('retorno'    => 1
+        ,'codigo'     => $endereco->getCdEndereco()
+        ,'logradouro' => $endereco->getTpLogradouro()->getDsTpLogradouro()." ".$endereco->getDsLogradouro()
+        ,'bairro'     => $endereco->getBairro()->getNmBairro()
+        ,'cep'        => $endereco->getNrCep()));
 
 
     else

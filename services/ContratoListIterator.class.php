@@ -8,23 +8,30 @@
  */
 class ContratoListIterator
 {
-    public function addContrato(Contrato $_contrato_in) {
-        $this->setContratoCount($this->getContratoCount() + 1);
-        $this->_contrato[$this->getContratoCount()] = $_contrato_in;
-        return $this->getContratoCount();
+    protected $contratoList;
+    protected $currentContrato = 0;
+
+    public function __construct(ContratoList $contratoList_in) {
+        $this->contratoList = $contratoList_in;
     }
-    public function removeContrato(Contrato $_contrato_in) {
-        $counter = 0;
-        while (++$counter <= $this->getContratoCount()) {
-            if ($_contrato_in->getAuthorAndTitle() ==
-                $this->_contrato[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getContratoCount(); $x++) {
-                    $this->_contrato[$x] = $this->_contrato[$x + 1];
-                }
-                $this->setContratoCount($this->getContratoCount() - 1);
-            }
+    public function getCurrentContrato() {
+        if (($this->currentContrato > 0) &&
+            ($this->contratoList->getContratoCount() >= $this->currentContrato)) {
+            return $this->contratoList->getContrato($this->currentContrato);
         }
-        return $this->getContratoCount();
+    }
+    public function getNextContrato() {
+        if ($this->hasNextContrato()) {
+            return $this->contratoList->getContrato(++$this->currentContrato);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextContrato() {
+        if ($this->contratoList->getContratoCount() > $this->currentContrato) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

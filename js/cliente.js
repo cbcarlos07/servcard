@@ -20,8 +20,9 @@ function salvar(){
     jQuery('#form').submit(function () {
        // alert("Submit");
         var codigo      = document.getElementById('id').value;
+       // alert('End: '+codigo);
         var nome        = document.getElementById('nome').value;
-        var sobrenome   = document.getElementById('sobronome').value;
+        var sobrenome   = document.getElementById('sobrenome').value;
         var cpf         = document.getElementById('cpf').value;
         var rg          = document.getElementById('rg').value;
         var telefone    = document.getElementById('telefone').value;
@@ -31,10 +32,11 @@ function salvar(){
         var estadocivil = document.getElementById('estadocivil').value;
         var endereco    = document.getElementById('endereco').value;
         var numero      = document.getElementById('numero').value;
+        var complemento = document.getElementById('complemento').value;
         var senha       = document.getElementById('senha').value;
         var senhaatual  = document.getElementById('senhaatual').value;
         var acao        = document.getElementById('acao').value;
-        //alert("Acao: "+acao);
+        //alert("Numero: "+numero);
         $.ajax({
                 type    : 'post',
                 dataType: 'json',
@@ -53,12 +55,13 @@ function salvar(){
                     'estadocivil' : estadocivil,
                     'endereco'    : endereco,
                     'numero'      : numero,
+                    'complemento' : complemento,
                     'senha'       : senha,
                     'senhaatual'  : senhaatual,
                     'acao'        : acao
                 },
                 success: function (data) {
-                    alert(data.retorno);
+                   // alert(data.retorno);
                     if (data.retorno == 1) {
                         sucesso('Opera&ccedil;&atilde;o realizada com sucesso!');
                     }
@@ -154,6 +157,16 @@ $('.btn-alterar').on('click', function(){
     form.submit();
 });
 
+$('.btn-acao').on('click', function(){
+    var url = $(this).data('url'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
+    var id = $(this).data('id');
+    var form = $('<form action="'+url+'" method="post">' +
+        '<input type="hidden" value="'+id+'" name="id">'+
+        '</form>');
+    $('body').append(form);
+    form.submit();
+});
+
 $('.delete').on('click', function(){
     var nome = $(this).data('nome'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
     var id = $(this).data('id'); // vamos buscar o valor do atributo data-id
@@ -180,6 +193,8 @@ $("#nascimento").datetimepicker({
     format: 'd/m/Y',
     mask: true
 });
+
+
 $.datetimepicker.setLocale('pt-BR');
 
 var cmbestadocivil = $("#estadocivil");
@@ -197,6 +212,8 @@ $('.btn-refresh').on('click', function () {
             cmbestadocivil.append(data);
         });
 });
+
+
 
 $(document).ready(function(){
     var id = document.getElementById('cdestadocivil').value;
@@ -266,6 +283,47 @@ $('#cep').focusout(function () {
             }
         }
     })
+});
+
+$(document).ready(function () {
+    var id = document.getElementById("endereco").value;
+    if(id > 0){
+  //  alert('Buscar '+id);
+            $.ajax({
+                dataType: 'json',
+                type: "POST",
+                url: "function/endereco.php",
+                data: {
+                    'id': id,
+                    'acao': 'B' //[B]usca Endereco
+                },
+                success: function (data) {
+                    var logradouro   = document.getElementById('logradouro');
+                    var bairro       = document.getElementById('bairro');
+                    var endereco     = document.getElementById('endereco');
+                    var cep          = document.getElementById('cep');
+                    // alert("Retorno: " + data.retorno);
+                    if (data.retorno == 0) {
+                        logradouro.value = "";
+                        bairro.value     = "";
+                        endereco.value   = 0;
+                        errosend("CEP n&atilde;o localizado ou n&atilde;o est&aacute; cadastrado");
+
+                    } else {
+                        // alert('Codigo do endereco: ' + data.logradouro);
+                        var mensagem = $('.mensagem');
+                        mensagem.empty().html('<p class="alert "></p>');
+                        //alert('Cep: '+data.cep);
+                        logradouro.value = data.logradouro;
+                        bairro.value     = data.bairro;
+                        endereco.value   = data.codigo;
+                        cep.value        = data.cep;
+                        //numero.focus();
+
+                    }
+                }
+            })
+    } //fim do se
 });
 
 $('#cpf').focusout(function(){

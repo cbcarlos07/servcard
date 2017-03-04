@@ -19,38 +19,31 @@ function salvar(){
     //alert("Salvar");
     jQuery('#form').submit(function () {
        // alert("Submit");
-        var codigo    = document.getElementById('id').value;
-        var usuario   = document.getElementById('usuario').value;
-        var login     = document.getElementById('login').value;
-        var senha     = document.getElementById('senha').value;
-        var ativo     = document.getElementById('ativo').value;
-        var cargo     = document.getElementById('cargo').value;
-        var cpf       = document.getElementById('cpf').value;
-        var rg        = document.getElementById('rg').value;
-        var foto      = document.getElementById('foto').value;
-        var atual     = document.getElementById('atual').value;
-        var acao      = document.getElementById('acao').value;
-        //alert("Acao: "+acao);
+        var codigo      = document.getElementById('id').value;
+        var data        = document.getElementById('data-contrato').value;
+        var parcelas    = document.getElementById('parcela').value;
+        var juros       = document.getElementById('juros').value;
+        var vencimento  = document.getElementById('vencimento').value;
+        var total       = document.getElementById('total').value;
+        var acao        = document.getElementById('acao').value;
+        //alert("Numero: "+numero);
         $.ajax({
                 type    : 'post',
                 dataType: 'json',
-                url     : 'function/usuario.php',
+                url     : 'function/cliente.php',
                 beforeSend : carregando,
                 data: {
-                    'id'         : codigo,
-                    'usuario'    : usuario,
-                    'login'      : login,
-                    'senha'      : senha,
-                    'ativo'      : ativo,
-                    'cargo'      : cargo,
-                    'cpf'        : cpf,
-                    'rg'         : rg,
-                    'foto'       : foto,
-                    'atual'      : atual,
-                    'acao'       : acao
+                    'id'          : codigo,
+                    'data'        : data,
+                    'sobrenome'   : sobrenome,
+                    'parcelas'    : parcelas,
+                    'juros'       : juros,
+                    'vencimento'  : vencimento,
+                    'total'       : total,
+                    'acao'        : acao
                 },
                 success: function (data) {
-                    //alert(data.retorno);
+                   // alert(data.retorno);
                     if (data.retorno == 1) {
                         sucesso('Opera&ccedil;&atilde;o realizada com sucesso!');
                     }
@@ -69,10 +62,10 @@ function deletar(codigo, acao){
     $.ajax({
         dataType: 'json',
         type: "POST",
-        url: "function/usuario.php",
+        url: "function/cliente.php",
         beforeSend: carregando,
         data: {
-            'id' : codigo,
+            'id'       : codigo,
             'acao'     : acao
         },
         success: function( data )
@@ -109,7 +102,7 @@ function sucesso(msg){
     var mensagem = $('.mensagem');
     mensagem.empty().html('<p class="alert alert-success"><strong>OK. </strong>'+msg+'<img src="images/ok.png" alt="Carregando..."></p>').fadeIn("fast");
     setTimeout(function (){
-        location.href = "usuario.php";
+        location.href = "cliente.php";
     },2000);
 }
 function sucesso_delete(msg){
@@ -146,6 +139,16 @@ $('.btn-alterar').on('click', function(){
     form.submit();
 });
 
+$('.btn-acao').on('click', function(){
+    var url = $(this).data('url'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
+    var id = $(this).data('id');
+    var form = $('<form action="'+url+'" method="post">' +
+        '<input type="hidden" value="'+id+'" name="id">'+
+        '</form>');
+    $('body').append(form);
+    form.submit();
+});
+
 $('.delete').on('click', function(){
     var nome = $(this).data('nome'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
     var id = $(this).data('id'); // vamos buscar o valor do atributo data-id
@@ -166,42 +169,57 @@ $('.delete').on('click', function(){
 $('.btn-search').on('click', function () {
    alert('Form');
 });
-var  cargo = $("#cargo");
-$('.btn-refresh').on('click', function () {
-    var id = document.getElementById('id-cargo').value;
-    //alert('Codigo da cidade: '+cidade);
-    $.post("function/cargo.php",
-        {
-            'id': id,
-            'acao': "L"
-        },
-        function(data){
-            cargo.find("option").remove();
-            cargo.append(data);
-        });
+
+
+$("#data-contrato").datetimepicker({
+    timepicker: false,
+    format: 'd/m/Y',
+    mask: true
 });
 
-$(document).ready(function(){
-    var id = document.getElementById('id-cargo').value;
-    //alert('Codigo da cidade: '+cidade);
-    $.post("function/cargo.php",
-        {
-            'id': id,
-            'acao': "L"
-        },
-        function(data){
-            cargo.find("option").remove();
-            cargo.append(data);
-        });
+$("#vencimento").datetimepicker({
+    timepicker: false,
+    format: 'd/m/Y',
+    mask: true
+});
+
+$('.btn-parcela').on('click',function () {
+    var parcelas = document.getElementById('parcela').value;
+    var total   =  document.getElementById('total');
+    var tbody   =  document.getElementById('tbody');
+    var data = new Date();
+    var mesVencimento = data.getMonth() + 1;
+    var diaVencimento = data.getDate();
+    var auxiliar = 0;
+    var corpo = "" ;
+    var totalAPagar = 0;
+    while (auxiliar < parcelas){
+        auxiliar++;
+        var nova_data = new Date(data.getFullYear(), eval(auxiliar + mesVencimento), diaVencimento);
+        var diavenc   = data.getDate() < 10 ? '0' + data.getDate() : data.getDate();
+        var mesvenc   = nova_data.getMonth() < 10 ? '0' + nova_data.getMonth() : nova_data.getMonth() ;
+        var anovenc   = data.getFullYear();
+        corpo = corpo + '<tr>' +
+                            '<td>'+auxiliar+'</td>'+
+                            '<td>'+diavenc+'/'+mesvenc+'/'+anovenc+'</td>'+
+                            '<td>R$ 50,00</td>'+
+                        '</tr>';
+        totalAPagar += 50;
+
+    }
+    tbody.innerHTML = corpo;
+    total.value = 'R$ '+totalAPagar.toFixed(2);
 });
 
 
 $(document).ready(function(){
-    $('#cpf').mask('000.000.000-00');
-
-});
-
-$(document).ready(function(){
-    $('#rg').mask('0000000-0');
+    var data = new Date();
+    var mes = data.getMonth();
+    var new_data = new Date(data.getFullYear(), eval(2 + mes), data.getDate());
+    var dia      = data.getDate() < 10 ? '0' + data.getDate() : data.getDate();
+    var new_mes  = new_data.getMonth() < 10 ? '0' + new_data.getMonth() : new_data.getMonth();
+    var ano      = new_data.getFullYear() ;
+    //alert('Data '+dia+'/'+new_mes+'/'+ano);
+    document.getElementById('vencimento').value = dia+'/'+new_mes+'/'+ano;
 
 });
