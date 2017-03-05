@@ -46,7 +46,7 @@ class UsuarioController
 
 
     public function getUsuario($usuario){
-        require_once ("../model/UsuarioDAO.class.php");
+        require_once ("model/UsuarioDAO.class.php");
         $usuarioDao = new UsuarioDAO();
         $retorno = $usuarioDao->getUsuario($usuario);
         return $retorno;

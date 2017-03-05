@@ -1,5 +1,5 @@
 (function() {
-    "use strict";
+    /*"use strict";
 
     // custom scrollbar
 
@@ -12,7 +12,7 @@
     if ($('body').hasClass('left-side-collapsed')) {
         $(".left-side").getNiceScroll().hide();
     }
-
+*/
 
 
     // Toggle Left Menu
@@ -103,9 +103,9 @@
    });
    
 
-   searchform_reposition();
+  // searchform_reposition();
 
-   jQuery(window).resize(function(){
+   /*jQuery(window).resize(function(){
 
       if(jQuery('body').css('position') == 'relative') {
 
@@ -118,28 +118,29 @@
 
       searchform_reposition();
 
-   });
+   });*/
 
-   function searchform_reposition() {
+   /*function searchform_reposition() {
       if(jQuery('.searchform').css('position') == 'relative') {
          jQuery('.searchform').insertBefore('.left-side-inner .logged-user');
       } else {
          jQuery('.searchform').insertBefore('.menu-right');
       }
-   }
+   }*/
 })(jQuery);
 
-                      // Dropdowns Script
+              /*        // Dropdowns Script
 						$(document).ready(function() {
 						  $(document).on('click', function(ev) {
 						    ev.stopImmediatePropagation();
 						    $(".dropdown-toggle").dropdown("active");
 						  });
 						});
-						
+						*/
 	
-     
+
   /************** Search ****************/
+/*
 		$(function() {
 	    var button = $('#loginButton');
 	    var box = $('#loginBox');
@@ -159,4 +160,4 @@
 	        }
 	    });
 	});
-	
+	*/

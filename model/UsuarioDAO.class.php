@@ -19,7 +19,7 @@ class UsuarioDAO
          try{
              $query = "INSERT INTO usuario 
                       (CD_USUARIO, NM_USUARIO, DS_LOGIN, DS_SENHA, SN_ATIVO, CD_CARGO, NR_CPF, NR_RG, DS_FOTO, SN_SENHA_ATUAL) VALUES 
-                      (NULL, :usuario, :login, :senha, :ativo, :cargo, :cpf, :rg, :foto, :atual)";
+                      (NULL, :usuario, :login, MD5(:senha), :ativo, :cargo, :cpf, :rg, :foto, :atual)";
 
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":usuario", $usuario->getNmUsuario(), PDO::PARAM_STR);
@@ -48,8 +48,8 @@ class UsuarioDAO
         $this->connection = new ConnectionFactory();
         try{
             $query = "UPDATE usuario SET 
-                      NM_USUARIO = :usuario, DS_LOGIN = :login, DS_SENHA = :senha
-                      , SN_ATIVO = :senha, CD_CARGO = :cargo, NR_CPF = :cpf, NR_RG = :rg, DS_FOTO = :foto
+                      NM_USUARIO = :usuario, DS_LOGIN = :login, DS_SENHA = MD5(:senha)
+                      , SN_ATIVO = :ativo, CD_CARGO = :cargo, NR_CPF = :cpf, NR_RG = :rg, DS_FOTO = :foto
                       WHERE CD_USUARIO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":usuario", $usuario->getNmUsuario(), PDO::PARAM_STR);
@@ -94,6 +94,7 @@ class UsuarioDAO
     public function getList($nome){
         require_once ("services/UsuarioList.class.php");
         require_once ("beans/Usuario.class.php");
+        require_once ("beans/Cargo.class.php");
 
         $this->connection = null;
 
@@ -172,6 +173,8 @@ class UsuarioDAO
     }
 
     public function getUsuario($codigo){
+        require_once "beans/Usuario.class.php";
+        require_once "beans/Cargo.class.php";
         $usuario = null;
         $connection = null;
         $this->connection =  new ConnectionFactory();
@@ -190,6 +193,8 @@ class UsuarioDAO
                 $usuario->setDsLogin($row['DS_LOGIN']);
                 $usuario->setDsSenha($row['DS_SENHA']);
                 $usuario->setSnAtivo($row['SN_ATIVO']);
+                $usuario->setNrCPF($row['NR_CPF']);
+                $usuario->setNrRg($row['NR_RG']);
                 $usuario->setCargo(new Cargo());
                 $usuario->getCargo()->setCdCargo($row['CD_CARGO']);
                 $usuario->getCargo()->setDsCargo($row['DS_CARGO']);

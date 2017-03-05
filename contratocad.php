@@ -73,6 +73,7 @@ $pListIterator = new ClienteListIterator($lista);
                         <div class="col-lg-offset-1">
                             <input type="hidden" id="id" value="0">
                                <input type="hidden" id="usuario" value="1">
+                            <input type="hidden" id="id-plano" value="0">
                                 <div class="form-group col-lg-2">
                                     <label for="data-contrato">Data do Contrato</label>
                                     <input id="data-contrato" class="form-control " value="<?php echo date('d/m/Y'); ?>"/>
@@ -80,12 +81,20 @@ $pListIterator = new ClienteListIterator($lista);
                                 <div class="row"></div>
                                 <hr />
                                 <div class="row"></div>
-
+                                <div class="form-group col-lg-3">
+                                    <label for="plano">Plano</label>
+                                    <select class="form-control" id="plano"></select>
+                                </div>
+                                <div class="form-group col-lg-3">
+                                    <label for="valor">Valor</label>
+                                    <input id="valor" class="form-control" disabled/>
+                                </div>
+                            <div class="row"></div>
                                 <div class="form-group col-lg-2">
                                     <label for="parcela">N&ordm; de Parcela</label>
                                     <input id="parcela" type="number" class="form-control " min="1" />
                                 </div>
-                                <div class="form-group col-lg-1">
+                                <div class="form-group col-lg-2">
                                     <label for="juros">Juros atrasos</label>
                                     <input id="juros" type="number" class="form-control " min="1"/>
                                 </div>
@@ -128,7 +137,7 @@ $pListIterator = new ClienteListIterator($lista);
         <!--footer section end-->
 
 <?php  include "include/enfile.php";?>
-
+        <script src="js/jquery.min.js"></script>
         <script src="js/jquery.datetimepicker.full.js"></script>
         <script src="js/contrato.js"></script>
     </section>

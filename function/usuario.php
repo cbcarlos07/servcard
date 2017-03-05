@@ -97,7 +97,7 @@ function add($nome, $login, $senha, $ativo, $cargo, $cpf, $rg, $foto, $senhaatua
 
     $usuarioController = new UsuarioController();
     $teste = $usuarioController->insert($usuario);
-    echo "Teste: $teste";
+    //echo "Teste: $teste";
     if($teste)
         echo json_encode(array('retorno' => 1));
     else

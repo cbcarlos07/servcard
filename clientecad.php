@@ -100,7 +100,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <label for="estadocivil">Estado Civil</label>
                         <select id="estadocivil" class="form-control" ></select>
                     </div>
-                    <div class="col-lg-1 form-group" style="margin-top: 25px;">
+                    <div class="col-lg-1 form-group" style="margin-top: 0px;">
                         <label></label>
                         <a href="#" title="Clique para atualizar a lista" class="btn btn-refresh"><i class="lnr lnr-sync"></i></a>
                     </div>

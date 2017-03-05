@@ -111,7 +111,7 @@ $uListIterator = new UsuarioListIterator($lista);
                                 <tr>
                                     <th scope="row"><?php echo $usuario->getCdUsuario(); ?></th>
                                     <td><?php echo $usuario->getNmUsuario(); ?></td>
-                                    <td><?php echo $usuario->getLogin(); ?></td>
+                                    <td><?php echo $usuario->getDsLogin(); ?></td>
                                     <td><?php echo $usuario->getSnAtivo(); ?></td>
                                     <td><?php echo $usuario->getCargo()->getDsCargo(); ?></td>
                                     <td class="action">

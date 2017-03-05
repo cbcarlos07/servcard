@@ -172,4 +172,30 @@ class PlanoDAO
         }
         return $plano;
     }
+
+    public function getValorPlano($codigo){
+        $plano = null;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT *
+                          FROM plano E
+                          WHERE E.CD_PLANO = :codigo";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $plano = new Plano();
+                $plano->setCdPlano($row['CD_PLANO']);
+                $plano->setDsPlano($row['DS_PLANO']);
+                $plano->setObsPlano($row['OBS_PLANO']);
+                $plano->setNrValor($row['NR_VALOR']);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $plano;
+    }
 }

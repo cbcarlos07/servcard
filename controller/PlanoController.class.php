@@ -52,4 +52,11 @@ class PlanoController
         return $retorno;
     }
 
+    public function getValorPlano($plano){
+        require_once ("../model/PlanoDAO.class.php");
+        $planoDao = new PlanoDAO();
+        $retorno = $planoDao->getValorPlano($plano);
+        return $retorno;
+    }
+
 }

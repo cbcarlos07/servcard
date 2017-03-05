@@ -185,6 +185,8 @@ $("#vencimento").datetimepicker({
 
 $('.btn-parcela').on('click',function () {
     var parcelas = document.getElementById('parcela').value;
+    var valor    = document.getElementById('valor').value;
+    var new_valor = parseFloat(valor.replace("R$ ","").replace(",","."));
     var total   =  document.getElementById('total');
     var tbody   =  document.getElementById('tbody');
     var data = new Date();
@@ -193,6 +195,7 @@ $('.btn-parcela').on('click',function () {
     var auxiliar = 0;
     var corpo = "" ;
     var totalAPagar = 0;
+    alert("Novo valor: '"+new_valor+"'");
     while (auxiliar < parcelas){
         auxiliar++;
         var nova_data = new Date(data.getFullYear(), eval(auxiliar + mesVencimento), diaVencimento);
@@ -202,9 +205,9 @@ $('.btn-parcela').on('click',function () {
         corpo = corpo + '<tr>' +
                             '<td>'+auxiliar+'</td>'+
                             '<td>'+diavenc+'/'+mesvenc+'/'+anovenc+'</td>'+
-                            '<td>R$ 50,00</td>'+
+                            '<td>'+valor+'</td>'+
                         '</tr>';
-        totalAPagar += 50;
+        totalAPagar += new_valor;
 
     }
     tbody.innerHTML = corpo;
@@ -222,4 +225,35 @@ $(document).ready(function(){
     //alert('Data '+dia+'/'+new_mes+'/'+ano);
     document.getElementById('vencimento').value = dia+'/'+new_mes+'/'+ano;
 
+});
+
+var plano = $('#plano');
+$(document).ready(function(){
+    var id = document.getElementById('id-plano').value;
+    //alert('Codigo da cidade: '+cidade);
+    $.post("function/plano.php",
+        {
+            'id': id,
+            'acao': "L"
+        },
+        function(data){
+            plano.find("option").remove();
+            plano.append(data);
+        });
+
+});
+
+plano.on('change', function () {
+    var id_plano = document.getElementById('plano').value;
+    var valor    = document.getElementById('valor');
+
+      //alert('Codigo do plano: '+id_plano);
+    $.post("function/plano.php",
+        {
+            'id'  : id_plano,
+            'acao': "V"
+        },
+        function(data){
+            valor.value =  data;
+        });
 });

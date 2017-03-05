@@ -40,6 +40,9 @@ switch ($acao){
     case 'L':
         getPlano($id);
         break;
+    case 'V':
+        getValor($id);
+        break;
 
 }
 
@@ -104,7 +107,7 @@ function getPlano($id){
     $planoController = new PlanoController();
     $lista = $planoController->getLista("");
     $planoList = new PlanoListIterator($lista);
-
+    echo "<option value=''>Selecione</option>";
     if($planoList->hasNextPlano()) {
         while ($planoList->hasNextPlano()) {
             $plano = $planoList->getNextPlano();
@@ -117,4 +120,20 @@ function getPlano($id){
     }else{
         echo "<option value=''>N&atilde;o possui dados cadastrados</option>";
     }
+}
+
+function getValor($id){
+    require_once "../beans/Plano.class.php";
+    require_once "../controller/PlanoController.class.php";
+    $plano = new Plano();
+    $planoController = new PlanoController();
+    $plano = $planoController->getValorPlano($id);
+
+    if ($plano == null){
+        echo "";
+    }else{
+        echo 'R$ '.number_format($plano->getNrValor(),2,',','.');
+    }
+
+
 }
