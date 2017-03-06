@@ -96,7 +96,7 @@ $pListIterator = new ClienteListIterator($lista);
                                 </div>
                                 <div class="form-group col-lg-2">
                                     <label for="juros">Juros atrasos</label>
-                                    <input id="juros" type="number" class="form-control " min="1"/>
+                                    <input id="juros" type="number" class="form-control " min="0"/>
                                 </div>
                                 <div class="form-group col-lg-2">
                                     <label for="vencimento">Data do Vencimento</label>
@@ -120,6 +120,12 @@ $pListIterator = new ClienteListIterator($lista);
                             <div class="col-lg-2 form-group">
                                 <label for="total">Total a Pagar</label>
                                 <input id="total" class="form-control"/>
+                            </div>
+                            <div class="row"></div>
+                            <hr />
+                            <div class="btn-group">
+                                <button class="btn btn-success" onclick="salvar()">Salvar</button>
+                                <a class="btn btn-warning btn-voltar" data-url="contrato.php" onclick="return verifica('Tem certeza de que deseja cancelar a opera&ccedil;&atilde;o?');">Cancelar</a>
                             </div>
                         </div>
                     </form>

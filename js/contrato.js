@@ -19,18 +19,20 @@ function salvar(){
     //alert("Salvar");
     jQuery('#form').submit(function () {
        // alert("Submit");
+        verificarTabela();
         var codigo      = document.getElementById('id').value;
         var data        = document.getElementById('data-contrato').value;
         var parcelas    = document.getElementById('parcela').value;
         var juros       = document.getElementById('juros').value;
-        var vencimento  = document.getElementById('vencimento').value;
+        var usuario     = document.getElementById('usuario').value;
         var total       = document.getElementById('total').value;
+        var plano       = document.getElementById('plano').value;
         var acao        = document.getElementById('acao').value;
         //alert("Numero: "+numero);
         $.ajax({
                 type    : 'post',
                 dataType: 'json',
-                url     : 'function/cliente.php',
+                url     : 'function/contrato.php',
                 beforeSend : carregando,
                 data: {
                     'id'          : codigo,
@@ -38,8 +40,10 @@ function salvar(){
                     'sobrenome'   : sobrenome,
                     'parcelas'    : parcelas,
                     'juros'       : juros,
-                    'vencimento'  : vencimento,
+                    'vencimento'  : JSON.stringify(dadosDataTabela),
                     'total'       : total,
+                    'usuario'     : usuario,
+                    'plano'       : plano,
                     'acao'        : acao
                 },
                 success: function (data) {
@@ -56,6 +60,21 @@ function salvar(){
     });
 
 }
+
+var dadosDataTabela = [];
+
+function verificarTabela() {
+    $('.item').each(function () {
+       var todos_itens = {
+           nr_parcela   : $(this).children()[0].innerText,
+           vencimento   : $(this).children()[1].innerHTML,
+           nr_valor     : $(this).children()[2].innerHTML
+       };
+       dadosDataTabela.push(todos_itens);
+    });
+}
+
+
 
 function deletar(codigo, acao){
 
@@ -171,6 +190,7 @@ $('.btn-search').on('click', function () {
 });
 
 
+
 $("#data-contrato").datetimepicker({
     timepicker: false,
     format: 'd/m/Y',
@@ -184,36 +204,61 @@ $("#vencimento").datetimepicker({
 });
 
 $('.btn-parcela').on('click',function () {
+    var mensagem = $('.mensagem');
     var parcelas = document.getElementById('parcela').value;
-    var valor    = document.getElementById('valor').value;
-    var new_valor = parseFloat(valor.replace("R$ ","").replace(",","."));
-    var total   =  document.getElementById('total');
-    var tbody   =  document.getElementById('tbody');
-    var data = new Date();
-    var mesVencimento = data.getMonth() + 1;
-    var diaVencimento = data.getDate();
-    var auxiliar = 0;
-    var corpo = "" ;
-    var totalAPagar = 0;
-    alert("Novo valor: '"+new_valor+"'");
-    while (auxiliar < parcelas){
-        auxiliar++;
-        var nova_data = new Date(data.getFullYear(), eval(auxiliar + mesVencimento), diaVencimento);
-        var diavenc   = data.getDate() < 10 ? '0' + data.getDate() : data.getDate();
-        var mesvenc   = nova_data.getMonth() < 10 ? '0' + nova_data.getMonth() : nova_data.getMonth() ;
-        var anovenc   = data.getFullYear();
-        corpo = corpo + '<tr>' +
-                            '<td>'+auxiliar+'</td>'+
-                            '<td>'+diavenc+'/'+mesvenc+'/'+anovenc+'</td>'+
-                            '<td>'+valor+'</td>'+
-                        '</tr>';
-        totalAPagar += new_valor;
+    alert(parcelas);
+    if(parcelas == "" || parcelas == 0){
 
+        mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>O n&uacute;mero de parcelas est&aacute; vazio</p>').fadeIn("fast");
+        $('input[id="parcela"]').css("border-color","red").focus();
+    }else{
+        mensagem.empty().html('<p class="alert "></p>');
+        $('input[id="parcela"]').css("border-color","#ccc");
+        var valor    = document.getElementById('valor').value;
+        var new_valor = parseFloat(valor.replace("R$ ","").replace(",","."));
+        var total   =  document.getElementById('total');
+        var tbody   =  document.getElementById('tbody');
+        var data = new Date();
+        var mesVencimento = data.getMonth() + 1;
+        var diaVencimento = data.getDate();
+        var auxiliar = 0;
+        var corpo = "" ;
+        var totalAPagar = 0;
+        alert("Novo valor: '"+new_valor+"'");
+        while (auxiliar < parcelas){
+            auxiliar++;
+            var nova_data = new Date(data.getFullYear(), eval(auxiliar + mesVencimento), diaVencimento);
+            var diavenc   = data.getDate() < 10 ? '0' + data.getDate() : data.getDate();
+            var mesvenc   = nova_data.getMonth() < 10 ? '0' + nova_data.getMonth() : nova_data.getMonth() ;
+            var anovenc   = data.getFullYear();
+            corpo = corpo + '<tr class="item">' +
+                '<td>'+auxiliar+'</td>'+
+                '<td>'+diavenc+'/'+mesvenc+'/'+anovenc+'</td>'+
+                '<td>'+valor+'</td>'+
+                '</tr>';
+            totalAPagar += new_valor;
+
+        }
+        tbody.innerHTML = corpo;
+        total.value = 'R$ '+totalAPagar.toFixed(2);
     }
-    tbody.innerHTML = corpo;
-    total.value = 'R$ '+totalAPagar.toFixed(2);
+
+
+
 });
 
+$('#parcela').bind('keyup mouseup',function () {
+    //alert("Parcela focus out");
+    var parcelas = document.getElementById('parcela').value;
+    if(parcelas == "" || parcelas == 0){
+
+        mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>O n&uacute;mero de parcelas est&aacute; vazio</p>').fadeIn("fast");
+        $('input[id="parcela"]').css("border-color","red");
+    }else{
+        mensagem.empty().html('<p class="alert"></p>');
+        $('input[id="parcela"]').css("border-color","#ccc");
+    }
+});
 
 $(document).ready(function(){
     var data = new Date();

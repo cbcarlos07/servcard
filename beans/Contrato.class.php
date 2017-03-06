@@ -15,6 +15,27 @@ private $nrValor;
 private $nrParcela;
 private $cliente;
 private $usuario;
+private $plano;
+
+    /**
+     * @return mixed
+     */
+    public function getPlano()
+    {
+        return $this->plano;
+    }
+
+    /**
+     * @param mixed $plano
+     * @return Contrato
+     */
+    public function setPlano(Plano $plano)
+    {
+        $this->plano = $plano;
+        return $this;
+    }
+
+
 
     /**
      * @return mixed
