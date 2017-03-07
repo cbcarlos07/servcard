@@ -19,10 +19,12 @@ class ContratoDAO
          try{
              $query = "INSERT INTO contrato 
                        (CD_CONTRATO, DH_CONTRATO, SN_QUITE, NR_VALOR,
-                        NR_PARCELA, CD_CLIENTE, CD_USUARIO, CD_PLANO) 
+                        NR_PARCELA, CD_CLIENTE, CD_USUARIO, CD_PLANO
+                        ,NR_JUROS) 
                         VALUES 
                         (NULL, CURDATE(), :QUITE, :VALOR, 
-                        :PARCELA, :CLIENTE, :USUARIO, :PLANO)";
+                        :PARCELA, :CLIENTE, :USUARIO, :PLANO
+                        :JUROS)";
 
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":QUITE", $contrato->getSnQuite(), PDO::PARAM_STR);
@@ -31,6 +33,7 @@ class ContratoDAO
              $stmt->bindValue(":CLIENTE", $contrato->getCliente()->getCdCliente(), PDO::PARAM_INT);
              $stmt->bindValue(":USUARIO", $contrato->getUsuario()->getCdUsuario(), PDO::PARAM_INT);
              $stmt->bindValue(":PLANO", $contrato->getPlano()->getCdPlano(), PDO::PARAM_INT);
+             $stmt->bindValue(":JUROS", $contrato->getNrJuros(), PDO::PARAM_INT);
              $stmt->execute();
 
              $teste =  true;
@@ -51,6 +54,7 @@ class ContratoDAO
                        SN_QUITE = :QUITE, NR_VALOR = :VALOR, 
                        NR_PARCELA = :PARCELA, CD_CLIENTE =  :CLIENTE, CD_USUARIO = :USUARIO
                       ,CD_PLANO = :PLANO
+                      ,NR_JUROS = :JUROS
                       WHERE 
                        CD_CONTRATO = :CODIGO";
             $stmt = $this->connection->prepare($query);
@@ -61,6 +65,7 @@ class ContratoDAO
             $stmt->bindValue(":USUARIO", $contrato->getUsuario()->getCdUsuario(), PDO::PARAM_INT);
             $stmt->bindValue(":PLANO", $contrato->getPlano()->getCdPlano(), PDO::PARAM_INT);
             $stmt->bindValue(":CODIGO", $contrato->getCdContrato(), PDO::PARAM_INT);
+            $stmt->bindValue(":JUROS", $contrato->getNrJuros(), PDO::PARAM_INT);
             $stmt->execute();
 
             $teste =  true;
@@ -104,13 +109,11 @@ class ContratoDAO
 
         try {
 
-                $sql = "SELECT C.*, U.NM_USUARIO, P.DS_PLANO FROM 
-                        contrato C
-                        INNER JOIN cliente C ON C.CD_CLIENTE = C.CD_CLIENTE
-                        INNER JOIN usuario U ON C.CD_USUARIO = U.CD_USUARIO
-                        INNER JOIN plano   P ON C.CD_PLANO = P.CD_PLANO
-                        WHERE C.CD_CLIENTE = :cliente
-                        ORDER BY 1 DESC";
+                $sql = "SELECT C.*, U.NM_USUARIO, P.DS_PLANO, P.NR_VALOR FROM
+                         contrato C
+                         INNER JOIN usuario U ON C.CD_USUARIO = U.CD_USUARIO
+                         INNER JOIN plano   p ON C.CD_PLANO = p.CD_PLANO
+                         WHERE C.CD_CLIENTE = :cliente";
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":cliente",$cliente, PDO::PARAM_INT);
 
@@ -127,6 +130,7 @@ class ContratoDAO
                 $contrato->getCliente()->setCdCliente($row['CD_CLIENTE']);
                 $contrato->setUsuario(new Usuario());
                 $contrato->getUsuario()->setCdUsuario($row['CD_USUARIO']);
+                $contrato->getUsuario()->setNmUsuario($row['NM_USUARIO']);
 
                 $contratoList->addContrato($contrato);
             }
@@ -173,7 +177,7 @@ class ContratoDAO
                 $contrato->getCliente()->setCdCliente($row['CD_CLIENTE']);
                 $contrato->setUsuario(new Usuario());
                 $contrato->getUsuario()->setCdUsuario($row['CD_USUARIO']);
-
+                $contrato->getUsuario()->setNmUsuario($row['NM_USUARIO']);
                 $contratoList->addContrato($contrato);
             }
             $this->connection = null;

@@ -92,7 +92,7 @@ $cliente = $clienteController->getCliente($id);
                 </form>
             </div>
             <div class="col-lg-4">
-                <a href="#" data-url="contratocad.php" class="btn btn-primary novo-item">Novo Item</a>
+                <a href="#" data-url="contratocad.php" data-id="<?php echo $id; ?>"class="btn btn-primary novo-item">Novo Item</a>
             </div>
             <div class="row"></div>
             <hr />

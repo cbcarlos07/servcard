@@ -16,6 +16,27 @@ private $nrParcela;
 private $cliente;
 private $usuario;
 private $plano;
+private $nrJuros;
+
+    /**
+     * @return mixed
+     */
+    public function getNrJuros()
+    {
+        return $this->nrJuros;
+    }
+
+    /**
+     * @param mixed $nrJuros
+     * @return Contrato
+     */
+    public function setNrJuros($nrJuros)
+    {
+        $this->nrJuros = $nrJuros;
+        return $this;
+    }
+
+
 
     /**
      * @return mixed

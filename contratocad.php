@@ -7,20 +7,7 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
-$descricao = "";
-
-if(isset($_POST['search'])){
-   $descricao =  $_POST['search'] ;
-}
-
-include_once "controller/ClienteController.class.php";
-include_once "beans/Cliente.class.php";
-include_once "services/ClienteListIterator.class.php";
-
-
-$clienteController = new ClienteController();
-$lista = $clienteController->getList($descricao);
-$pListIterator = new ClienteListIterator($lista);
+$id = $_POST['id'];
 
 
 
@@ -72,8 +59,11 @@ $pListIterator = new ClienteListIterator($lista);
                     <form method="post" id="form">
                         <div class="col-lg-offset-1">
                             <input type="hidden" id="id" value="0">
-                               <input type="hidden" id="usuario" value="1">
+                            <input type="hidden" id="usuario" value="1">
+                            <input type="hidden" id="acao" value="C">
+                            <input type="hidden" id="quite" value="D">
                             <input type="hidden" id="id-plano" value="0">
+                            <input type="hidden" id="cliente" value="<?php echo $id; ?>">
                                 <div class="form-group col-lg-2">
                                     <label for="data-contrato">Data do Contrato</label>
                                     <input id="data-contrato" class="form-control " value="<?php echo date('d/m/Y'); ?>"/>
@@ -107,7 +97,7 @@ $pListIterator = new ClienteListIterator($lista);
                                 </div>
                             <div class="row"></div>
                             <div class="col-lg-5">
-                                <table class="table table-responsive table-hover" style="table-layout: fixed; word-break: break-all; height: 30px;" >
+                                <table class="table table-responsive table-hover" id="tabela" style="table-layout: fixed; word-break: break-all; height: 30px;" >
                                     <thead>
                                        <th>N&ordm; da Parc</th>
                                        <th>Data do pagamento</th>
@@ -144,6 +134,8 @@ $pListIterator = new ClienteListIterator($lista);
 
 <?php  include "include/enfile.php";?>
         <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.tabletojson.min.js"></script>
+
         <script src="js/jquery.datetimepicker.full.js"></script>
         <script src="js/contrato.js"></script>
     </section>

@@ -4,10 +4,11 @@
 
 $('.novo-item').on('click', function(){
 
-    var url = $(this).data('url');
+    var url    = $(this).data('url');
+    var codigo = $(this).data('id');
     //alert(url);
     var form = $('<form action="' + url + '" method="post">' +
-        //'<input type="text" name="codigo" value="' + codigo + '" />' +
+        '<input type="hidden" name="id" value="' + codigo + '" />' +
         '</form>');
    // var div = $('<div style="display: none;>"'+form+'</div>');
     $('body').append(form);
@@ -19,7 +20,7 @@ function salvar(){
     //alert("Salvar");
     jQuery('#form').submit(function () {
        // alert("Submit");
-        verificarTabela();
+
         var codigo      = document.getElementById('id').value;
         var data        = document.getElementById('data-contrato').value;
         var parcelas    = document.getElementById('parcela').value;
@@ -27,8 +28,12 @@ function salvar(){
         var usuario     = document.getElementById('usuario').value;
         var total       = document.getElementById('total').value;
         var plano       = document.getElementById('plano').value;
+        var venc  = $('.table').tableToJSON();
+        var cliente     = document.getElementById('cliente').value;
+        var quite       = document.getElementById('quite').value;
         var acao        = document.getElementById('acao').value;
-        //alert("Numero: "+numero);
+        var vencimento  = JSON.stringify(venc)
+        alert(JSON.stringify(venc));
         $.ajax({
                 type    : 'post',
                 dataType: 'json',
@@ -37,13 +42,14 @@ function salvar(){
                 data: {
                     'id'          : codigo,
                     'data'        : data,
-                    'sobrenome'   : sobrenome,
                     'parcelas'    : parcelas,
                     'juros'       : juros,
-                    'vencimento'  : JSON.stringify(dadosDataTabela),
-                    'total'       : total,
+                    'vencimento'  : vencimento,
+                    'total'       : total.replace("R$ ","").replace(",","."),
+                    'cliente'     : cliente,
                     'usuario'     : usuario,
                     'plano'       : plano,
+                    'quite'       : quite,
                     'acao'        : acao
                 },
                 success: function (data) {
@@ -61,18 +67,7 @@ function salvar(){
 
 }
 
-var dadosDataTabela = [];
 
-function verificarTabela() {
-    $('.item').each(function () {
-       var todos_itens = {
-           nr_parcela   : $(this).children()[0].innerText,
-           vencimento   : $(this).children()[1].innerHTML,
-           nr_valor     : $(this).children()[2].innerHTML
-       };
-       dadosDataTabela.push(todos_itens);
-    });
-}
 
 
 
@@ -206,7 +201,7 @@ $("#vencimento").datetimepicker({
 $('.btn-parcela').on('click',function () {
     var mensagem = $('.mensagem');
     var parcelas = document.getElementById('parcela').value;
-    alert(parcelas);
+  //  alert(parcelas);
     if(parcelas == "" || parcelas == 0){
 
         mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>O n&uacute;mero de parcelas est&aacute; vazio</p>').fadeIn("fast");
@@ -224,7 +219,7 @@ $('.btn-parcela').on('click',function () {
         var auxiliar = 0;
         var corpo = "" ;
         var totalAPagar = 0;
-        alert("Novo valor: '"+new_valor+"'");
+     //   alert("Novo valor: '"+new_valor+"'");
         while (auxiliar < parcelas){
             auxiliar++;
             var nova_data = new Date(data.getFullYear(), eval(auxiliar + mesVencimento), diaVencimento);
@@ -247,14 +242,16 @@ $('.btn-parcela').on('click',function () {
 
 });
 
-$('#parcela').bind('keyup mouseup',function () {
-    //alert("Parcela focus out");
+$('#parcela').focusout(function () {
+    var mensagem = $('.mensagem');
     var parcelas = document.getElementById('parcela').value;
+    //alert("Parcela focus out "+parcelas);
     if(parcelas == "" || parcelas == 0){
 
         mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>O n&uacute;mero de parcelas est&aacute; vazio</p>').fadeIn("fast");
         $('input[id="parcela"]').css("border-color","red");
     }else{
+       // alert("Parcelas nao esta vazio");
         mensagem.empty().html('<p class="alert"></p>');
         $('input[id="parcela"]').css("border-color","#ccc");
     }
