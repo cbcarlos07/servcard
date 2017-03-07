@@ -81,13 +81,15 @@ switch ($acao){
 function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $vencimento){
    // echo "<script>alert('Adicionar'); </script>";
     require_once "../beans/Contrato.class.php";
+    require_once "../beans/ContratoMensal.class.php";
     require_once "../controller/ContratoController.class.php";
+    require_once "../controller/ContratoMensalController.class.php";
     require_once "../beans/Cliente.class.php";
     require_once "../beans/Plano.class.php";
     require_once "../beans/Usuario.class.php";
 
 
-/*
+
     $contrato = new Contrato();
     $contrato->setDhContrato($data);
     $contrato->setSnQuite($quite);
@@ -103,22 +105,38 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
 
 
     $contratoController = new ContratoController();
-    $teste = $contratoController->insert($contrato);
-   */
-//echo "Teste: $teste";
+    $genId = $contratoController->insert($contrato);
+
     $arr = json_decode($vencimento);
-    foreach ($arr as $item => $value) {
-        echo '  ' . $value->{'Nº da Parc'} . "<br>";
-        echo '  ' . $value->{'Data do pagamento'} . "<br>";
-        echo '  ' . $value->{'valor a pagar'} . "<br>";
+
+    $contratoMensal = new ContratoMensal();
+    $cmc = new ContratoMensalController();
+    $teste = false;
+    //echo "Codigo gerado: $genId";
+    if($genId > 0){
+        foreach ($arr as $item => $value) {
+            $contratoMensal->setCdContrato($genId);
+            $contratoMensal->setDtVencimento($value->{'Data do pagamento'});
+            $contratoMensal->setNrValor($value->{'valor a pagar'});
+            $contratoMensal->setNrParcela($value->{'Nº da Parc'});
+            $contratoMensal->setTpStatus('D');
+
+            $teste = $cmc->insert($contratoMensal);
+
+
+
+        }
     }
+
    //var_dump(json_decode($vencimento, true));
 
 
-    $teste = true;
-    echo $teste;
-    if($teste)
-        echo json_encode(array('retorno' => 1));
+
+
+    if($teste){
+        echo json_encode(array('retorno' => 1, 'id' => $cliente));
+
+    }
     else
         echo json_encode(array('retorno' => 0));
 }

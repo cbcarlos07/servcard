@@ -14,7 +14,7 @@ class ContratoDAO
 
      public function insert (Contrato $contrato){
          $this->connection =  null;
-         $teste = false;
+         $teste = 0;
          $this->connection = new ConnectionFactory();
          try{
              $query = "INSERT INTO contrato 
@@ -23,7 +23,7 @@ class ContratoDAO
                         ,NR_JUROS) 
                         VALUES 
                         (NULL, CURDATE(), :QUITE, :VALOR, 
-                        :PARCELA, :CLIENTE, :USUARIO, :PLANO
+                        :PARCELA, :CLIENTE, :USUARIO, :PLANO,
                         :JUROS)";
 
              $stmt = $this->connection->prepare($query);
@@ -35,8 +35,8 @@ class ContratoDAO
              $stmt->bindValue(":PLANO", $contrato->getPlano()->getCdPlano(), PDO::PARAM_INT);
              $stmt->bindValue(":JUROS", $contrato->getNrJuros(), PDO::PARAM_INT);
              $stmt->execute();
-
-             $teste =  true;
+             $lastId = $this->connection->lastInsertId();
+             $teste =  $lastId; //pega o ultimom codigo inserido;
 
              $this->connection =  null;
          }catch(PDOException $exception){
@@ -100,6 +100,7 @@ class ContratoDAO
         require_once ("services/ContratoList.class.php");
         require_once ("beans/Contrato.class.php");
         require_once ("beans/Cliente.class.php");
+        require_once ("beans/Usuario.class.php");
 
         $this->connection = null;
 
@@ -112,8 +113,9 @@ class ContratoDAO
                 $sql = "SELECT C.*, U.NM_USUARIO, P.DS_PLANO, P.NR_VALOR FROM
                          contrato C
                          INNER JOIN usuario U ON C.CD_USUARIO = U.CD_USUARIO
-                         INNER JOIN plano   p ON C.CD_PLANO = p.CD_PLANO
-                         WHERE C.CD_CLIENTE = :cliente";
+                         INNER JOIN plano   P ON C.CD_PLANO = P.CD_PLANO
+                         WHERE C.CD_CLIENTE = :cliente
+                         ORDER BY 1 DESC";
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":cliente",$cliente, PDO::PARAM_INT);
 

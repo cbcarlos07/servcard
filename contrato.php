@@ -7,11 +7,7 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
-$descricao = "";
 
-if(isset($_POST['search'])){
-   $descricao =  $_POST['search'];
-}
 
 include_once "controller/ContratoController.class.php";
 include_once "beans/Contrato.class.php";
@@ -20,12 +16,13 @@ include_once "beans/Cliente.class.php";
 include_once "services/ContratoListIterator.class.php";
 
 
-$contratoController = new ContratoController();
-$lista = $contratoController->getList($descricao);
-$pListIterator = new ContratoListIterator($lista);
+
 
 $id = $_POST['id'];
 
+$contratoController = new ContratoController();
+$lista = $contratoController->getList($id);
+$pListIterator = new ContratoListIterator($lista);
 $cliente = new Cliente();
 
 $clienteController = new ClienteController();
@@ -79,17 +76,7 @@ $cliente = $clienteController->getCliente($id);
             <div class="col-lg-2" ><h4>Contrato -  <?php echo $cliente->getNmCliente(); ?></h4></div>
             <div class="col-lg-6" >
 
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="form-pesquisa">
-                    <input type="hidden" name="acao" value="P">
-                    <div class="input-group h2">
-                        <input  name="search"  id="search" class="form-control">
-                        <span class="input-group-btn">
-                                <button class="btn btn-primary" type="submit" >
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </button>
-                          </span>
-                    </div>
-                </form>
+
             </div>
             <div class="col-lg-4">
                 <a href="#" data-url="contratocad.php" data-id="<?php echo $id; ?>"class="btn btn-primary novo-item">Novo Item</a>
@@ -120,7 +107,12 @@ $cliente = $clienteController->getCliente($id);
                                 ?>
                                 <tr>
                                     <th scope="row"><?php echo $contrato->getCdContrato(); ?></th>
-                                    <td><?php echo $contrato->getDhContrato(); ?></td>
+                                    <td><?php
+                                        $dataArray = explode('-',$contrato->getDhContrato());
+                                        $ano = $dataArray[0];
+                                        $mes = $dataArray[1];
+                                        $dia = $dataArray[2];
+                                        echo "$dia/$mes/$ano"; ?></td>
                                     <td><?php echo $contrato->getUsuario()->getNmUsuario(); ?></td>
                                     <td class="action">
                                         <a href="#" data-url="bairroalt.php" data-id="<?php echo $contrato->getCdContrato();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>

@@ -20,11 +20,21 @@ class ContratoMensalDAO
              $query = "INSERT INTO contrato_mensal 
                        (CD_CONTRATO, DT_VENCIMENTO, NR_VALOR, NR_PARCELA, TP_STATUS) 
                        VALUES 
-                       (NULL, :vencimento, :valor, :parcela, :status_)";
+                       (:contrato, :vencimento, :valor, :parcela, :status_)";
 
              $stmt = $this->connection->prepare($query);
-             $stmt->bindValue(":vencimento", $contratoMensal->getDtVencimento(), PDO::PARAM_STR);
-             $stmt->bindValue(":valor", $contratoMensal->getNrValor(), PDO::PARAM_STR);
+             $dataArray = explode('/',$contratoMensal->getDtVencimento());
+             $dia = $dataArray[0];
+             $mes = $dataArray[1];
+             $ano = $dataArray[2];
+             //echo "Data: $ano-$mes-$dia <br>";
+
+             $valor = str_replace("R$ ", '',$contratoMensal->getNrValor());
+             $valor = str_replace(",",".",$valor);
+             //echo "Valor: $valor <br>";
+             $stmt->bindValue(":contrato", $contratoMensal->getCdContrato(), PDO::PARAM_INT);
+             $stmt->bindValue(":vencimento", "$ano-$mes-$dia", PDO::PARAM_STR);
+             $stmt->bindValue(":valor",$valor , PDO::PARAM_STR);
              $stmt->bindValue(":parcela", $contratoMensal->getNrParcela(), PDO::PARAM_INT);
              $stmt->bindValue(":status_", $contratoMensal->getTpStatus(), PDO::PARAM_STR);
              $stmt->execute();

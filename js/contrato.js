@@ -33,7 +33,7 @@ function salvar(){
         var quite       = document.getElementById('quite').value;
         var acao        = document.getElementById('acao').value;
         var vencimento  = JSON.stringify(venc)
-        alert(JSON.stringify(venc));
+        //alert(JSON.stringify(venc));
         $.ajax({
                 type    : 'post',
                 dataType: 'json',
@@ -42,10 +42,10 @@ function salvar(){
                 data: {
                     'id'          : codigo,
                     'data'        : data,
-                    'parcelas'    : parcelas,
+                    'parcela'     : parcelas,
                     'juros'       : juros,
                     'vencimento'  : vencimento,
-                    'total'       : total.replace("R$ ","").replace(",","."),
+                    'valor'       : total.replace("R$ ","").replace(",","."),
                     'cliente'     : cliente,
                     'usuario'     : usuario,
                     'plano'       : plano,
@@ -53,9 +53,9 @@ function salvar(){
                     'acao'        : acao
                 },
                 success: function (data) {
-                   // alert(data.retorno);
+                    //alert(data.retorno);
                     if (data.retorno == 1) {
-                        sucesso('Opera&ccedil;&atilde;o realizada com sucesso!');
+                        sucesso('Opera&ccedil;&atilde;o realizada com sucesso!', data.id);
                     }
                      else {
                         errosend('N&atilde;o foi poss&iacute;vel realizar opera&ccedil;&atilde;o. Verifique se todos os campos est&atilde;o preenchidos ');
@@ -111,12 +111,16 @@ function errosend(msg){
     var mensagem = $('.mensagem');
     mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>'+msg+'</p>').fadeIn("fast");
 }
-function sucesso(msg){
+function sucesso(msg, id){
     //alert("Mensagem: "+msg);
     var mensagem = $('.mensagem');
     mensagem.empty().html('<p class="alert alert-success"><strong>OK. </strong>'+msg+'<img src="images/ok.png" alt="Carregando..."></p>').fadeIn("fast");
     setTimeout(function (){
-        location.href = "cliente.php";
+        var form = $('<form action="contrato.php" method="post">' +
+                     '<input name="id" value="'+id+'"/>'+
+                     '</form>');
+        $('body').append(form);
+        form.submit();
     },2000);
 }
 function sucesso_delete(msg){
