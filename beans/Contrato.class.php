@@ -17,6 +17,105 @@ private $cliente;
 private $usuario;
 private $plano;
 private $nrJuros;
+private $tpStatus;
+private $usurioCancelou;
+private $dtCancelamento;
+private $dsObervacao;
+private $diasVencimento;
+
+    /**
+     * @return mixed
+     */
+    public function getDiasVencimento()
+    {
+        return $this->diasVencimento;
+    }
+
+    /**
+     * @param mixed $diasVencimento
+     * @return Contrato
+     */
+    public function setDiasVencimento($diasVencimento)
+    {
+        $this->diasVencimento = $diasVencimento;
+        return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getTpStatus()
+    {
+        return $this->tpStatus;
+    }
+
+    /**
+     * @param mixed $tpStatus
+     * @return Contrato
+     */
+    public function setTpStatus($tpStatus)
+    {
+        $this->tpStatus = $tpStatus;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsurioCancelou()
+    {
+        return $this->usurioCancelou;
+    }
+
+    /**
+     * @param mixed $usurioCancelou
+     * @return Contrato
+     */
+    public function setUsurioCancelou($usurioCancelou)
+    {
+        $this->usurioCancelou = $usurioCancelou;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDtCancelamento()
+    {
+        return $this->dtCancelamento;
+    }
+
+    /**
+     * @param mixed $dtCancelamento
+     * @return Contrato
+     */
+    public function setDtCancelamento($dtCancelamento)
+    {
+        $this->dtCancelamento = $dtCancelamento;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDsObervacao()
+    {
+        return $this->dsObervacao;
+    }
+
+    /**
+     * @param mixed $dsObervacao
+     * @return Contrato
+     */
+    public function setDsObervacao($dsObervacao)
+    {
+        $this->dsObervacao = $dsObervacao;
+        return $this;
+    }
+
+
+
 
     /**
      * @return mixed

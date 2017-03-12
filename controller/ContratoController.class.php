@@ -44,7 +44,7 @@ class ContratoController
 
 
     public function getContrato($contrato){
-        require_once ("../model/ContratoDAO.class.php");
+        require_once ("model/ContratoDAO.class.php");
         $contratoDao = new ContratoDAO();
         $retorno = $contratoDao->getContrato($contrato);
         return $retorno;

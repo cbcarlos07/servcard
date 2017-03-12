@@ -8,6 +8,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
 $id = $_POST['id'];
+include "include/error.php";
+require_once "beans/Contrato.class.php";
+require_once "beans/ContratoMensal.class.php";
+require_once "controller/ContratoController.class.php";
+require_once "controller/ContratoMensalController.class.php";
+require_once "services/ContratoMensalListIterator.class.php";
+
+$contrato = new Contrato();
+$contratoController = new ContratoController();
+$contrato = $contratoController->getContrato($id);
+
 
 
 
@@ -25,23 +36,6 @@ $id = $_POST['id'];
 		<?php include "include/menu.html"?>
     <!-- left side end-->
 
-        <!-- Modal -->
-        <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="modalLabel">Excluir Item</h4>
-                    </div>
-                    <div class="modal-body">Deseja realmente excluir o item <b><span class="nome"></span></b>? </div>
-                    <div class="modal-footer">
-                        <a href="#" type="button"  class="btn btn-primary delete-yes">Sim</a>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
     <!-- main content start-->
 		<div class="main-content main-content3 main-content3copy">
@@ -53,22 +47,27 @@ $id = $_POST['id'];
 
                     <div style="text-align: center">
                         <br>
-                       <h3 >Informa&ccedil;&otilde;es de Contrato</h3>
+                       <h3 >Alterar Informa&ccedil;&otilde;es de Contrato</h3>
                     </div>
                     <div class="mensagem alert col-lg-6"></div>
 
                     <form method="post" id="form" data-toggle="validator">
                         <div class="col-lg-offset-1">
-                            <input type="hidden" id="id" value="0">
-                            <input type="hidden" id="usuario" value="1">
-                            <input type="hidden" id="acao" value="C">
+                            <input type="hidden" id="id" value="<?php echo $contrato->getCdContrato(); ?>">
+                            <input type="hidden" id="usuario" value="<?php echo $contrato->getUsuario()->getCdUsuario(); ?>">
+                            <input type="hidden" id="acao" value="A">
                             <input type="hidden" id="quite" value="D">
-                            <input type="hidden" id="id-plano" value="0">
-                            <input type="hidden" id="cliente" value="<?php echo $id; ?>">
+                            <input type="hidden" id="id-plano" value="<?php echo $contrato->getPlano()->getCdPlano(); ?>">
+                            <input type="hidden" id="cliente" value="<?php echo $contrato->getCliente()->getCdCliente(); ?>">
                             <div class="row"></div>
                                 <div class="form-group col-lg-2">
                                     <label for="data-contrato">Data do Contrato</label>
-                                    <input id="data-contrato" class="form-control " value="<?php echo date('d/m/Y'); ?>"/>
+                                    <input id="data-contrato" class="form-control "
+                                           value="<?php $dataArray = explode('-',$contrato->getDhContrato());
+                                           $ano = $dataArray[0];
+                                           $mes = $dataArray[1];
+                                           $dia = $dataArray[2];
+                                           echo "$dia/$mes/$ano"; ?>"/>
                                 </div>
                                 <div class="row"></div>
                                 <hr />
@@ -84,16 +83,16 @@ $id = $_POST['id'];
                             <div class="row"></div>
                                 <div class="form-group col-lg-2">
                                     <label for="parcela">N&ordm; de Parcela</label>
-                                    <input id="parcela" type="number" class="form-control " min="1" value="1"/>
+                                    <input id="parcela" type="number" class="form-control " min="1" value="<?php echo $contrato->getNrParcela(); ?>"/>
                                 </div>
                                 <div class="form-group col-lg-2">
                                     <label for="juros">Juros atrasos</label>
-                                    <input id="juros" type="number" class="form-control " min="0" value="0"/>
+                                    <input id="juros" type="number" class="form-control " min="0" value="<?php echo $contrato->getNrJuros(); ?>"/>
                                 </div>
                             <div class="row"></div>
                             <div class="form-group col-lg-2">
                                 <label for="dias">Dias/Vencimento</label>
-                                <input id="dias" type="number" class="form-control " min="1" value="30" title="Apenas sugest&atilde;o"/>
+                                <input id="dias" type="number" class="form-control " min="1" value="30"/>
                             </div>
                                 <div class="form-group col-lg-2">
                                     <label for="vencimento">Data do Vencimento</label>
@@ -116,7 +115,7 @@ $id = $_POST['id'];
                             <div class="row"></div>
                             <div class="col-lg-2 form-group">
                                 <label for="total">Total a Pagar</label>
-                                <input id="total" class="form-control"/>
+                                <input id="total" class="form-control" value="<?php echo 'R$ '.number_format($contrato->getNrValor(),2,',','.'); ?>"/>
                             </div>
                             <div class="row"></div>
                             <hr />

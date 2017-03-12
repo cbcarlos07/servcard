@@ -29,10 +29,10 @@ class ContratoMensalController
         return $retorno;
     }
 
-    public function getList(){
+    public function getList($id){
         require_once ("../model/ContratoMensalDAO.class.php");
         $contratoMensalDao = new ContratoMensalDAO();
-        $retorno = $contratoMensalDao->getList();
+        $retorno = $contratoMensalDao->getList($id);
         return $retorno;
     }
 

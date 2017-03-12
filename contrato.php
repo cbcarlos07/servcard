@@ -8,7 +8,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
 
-
+include "../include/error.php";
 include_once "controller/ContratoController.class.php";
 include_once "beans/Contrato.class.php";
 include_once "controller/ClienteController.class.php";
@@ -73,8 +73,8 @@ $cliente = $clienteController->getCliente($id);
 
             <br>
 
-            <div class="col-lg-2" ><h4>Contrato -  <?php echo $cliente->getNmCliente(); ?></h4></div>
-            <div class="col-lg-6" >
+            <div class="col-lg-4" ><h4>Contrato -  <?php echo $cliente->getNmCliente(); ?></h4></div>
+            <div class="col-lg-4" >
 
 
             </div>
@@ -95,6 +95,7 @@ $cliente = $clienteController->getCliente($id);
                                 <th>#</th>
                                 <th>Data do Contrato</th>
                                 <th>Usu&aacute;rio</th>
+                                <th>Status</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -114,8 +115,9 @@ $cliente = $clienteController->getCliente($id);
                                         $dia = $dataArray[2];
                                         echo "$dia/$mes/$ano"; ?></td>
                                     <td><?php echo $contrato->getUsuario()->getNmUsuario(); ?></td>
+                                    <td><?php echo $contrato->getTpStatus();  ?></td>
                                     <td class="action">
-                                        <a href="#" data-url="bairroalt.php" data-id="<?php echo $contrato->getCdContrato();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
+                                        <a href="#" data-url="contratoalt.php" data-id="<?php echo $contrato->getCdContrato();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
                                         <a href="#" class="delete btn btn-warning btn-xs"
                                            data-toggle="modal"
                                            data-target="#delete-modal"

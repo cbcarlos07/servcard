@@ -28,7 +28,7 @@
     </script>
     <!--//end-animate-->
     <!----webfonts--->
-    <link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
+ <!--   <link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>-->
     <!---//webfonts--->
     <!-- Meters graphs -->
     <script src="js/jquery-1.10.2.min.js"></script>

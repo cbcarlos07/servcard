@@ -8,23 +8,30 @@
  */
 class ContratoMensalListIterator
 {
-    public function addContratoMensal(ContratoMensal $_contratoMensal_in) {
-        $this->setContratoMensalCount($this->getContratoMensalCount() + 1);
-        $this->_contratoMensal[$this->getContratoMensalCount()] = $_contratoMensal_in;
-        return $this->getContratoMensalCount();
+    protected $contratoMensalList;
+    protected $currentContratoMensal = 0;
+
+    public function __construct(ContratoMensalList $contratoMensalList_in) {
+        $this->contratoMensalList = $contratoMensalList_in;
     }
-    public function removeContratoMensal(ContratoMensal $_contratoMensal_in) {
-        $counter = 0;
-        while (++$counter <= $this->getContratoMensalCount()) {
-            if ($_contratoMensal_in->getAuthorAndTitle() ==
-                $this->_contratoMensal[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getContratoMensalCount(); $x++) {
-                    $this->_contratoMensal[$x] = $this->_contratoMensal[$x + 1];
-                }
-                $this->setContratoMensalCount($this->getContratoMensalCount() - 1);
-            }
+    public function getCurrentContratoMensal() {
+        if (($this->currentContratoMensal > 0) &&
+            ($this->contratoMensalList->getContratoMensalCount() >= $this->currentContratoMensal)) {
+            return $this->contratoMensalList->getContratoMensal($this->currentContratoMensal);
         }
-        return $this->getContratoMensalCount();
+    }
+    public function getNextContratoMensal() {
+        if ($this->hasNextContratoMensal()) {
+            return $this->contratoMensalList->getContratoMensal(++$this->currentContratoMensal);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextContratoMensal() {
+        if ($this->contratoMensalList->getContratoMensalCount() > $this->currentContratoMensal) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

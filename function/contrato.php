@@ -5,6 +5,7 @@
  * Date: 22/02/17
  * Time: 20:43
  */
+include "../include/error.php";
 
 $id         = 0;
 $data       = "";
@@ -16,11 +17,16 @@ $vencimento = 0;
 $usuario    = 0;
 $plano      = 0;
 $juros      = 0;
+$dias       = 0;
 $acao = $_POST['acao'];
 
 
 if(isset($_POST['id'])){
     $id = $_POST['id'];
+}
+
+if(isset($_POST['dias'])){
+    $dias = $_POST['dias'];
 }
 
 if(isset($_POST['juros'])){
@@ -64,10 +70,11 @@ if(isset($_POST['plano'])){
 switch ($acao){
     case 'C':
 
-        add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $vencimento);
+        add($data, $quite, $valor, $parcela, $cliente,
+            $usuario, $plano, $juros, $vencimento, $dias);
         break;
     case 'A':
-        change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros);
+        change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $dias);
         break;
 
     case 'E':
@@ -78,7 +85,7 @@ switch ($acao){
 
 }
 
-function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $vencimento){
+function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $vencimento, $dias){
    // echo "<script>alert('Adicionar'); </script>";
     require_once "../beans/Contrato.class.php";
     require_once "../beans/ContratoMensal.class.php";
@@ -102,6 +109,7 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
     $contrato->setPlano(new Plano());
     $contrato->getPlano()->setCdPlano($plano);
     $contrato->setNrJuros($juros);
+    $contrato->setDiasVencimento($dias);
 
 
     $contratoController = new ContratoController();
@@ -142,7 +150,7 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
 }
 
 
-function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros){
+function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $dias){
     // echo "<script>alert('Adicionar'); </script>";
     require_once "../beans/Contrato.class.php";
     require_once "../controller/ContratoController.class.php";
@@ -163,12 +171,12 @@ function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano
     $contrato->setPlano(new Plano());
     $contrato->getPlano()->setCdPlano($plano);
     $contrato->setNrJuros($juros);
-
+    $contrato->setDiasVencimento($dias);
     $contratoController = new ContratoController();
     $teste = $contratoController->update($contrato);
 
     if($teste)
-        echo json_encode(array('retorno' => 1));
+        echo json_encode(array('retorno' => 1,'id' => $cliente));
     else
         echo json_encode(array('retorno' => 0));
 }

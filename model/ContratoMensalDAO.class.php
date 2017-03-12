@@ -94,7 +94,7 @@ class ContratoMensalDAO
         return $teste;
     }
 
-    public function getList(){
+    public function getList($contrato){
         require_once ("../services/ContratoMensalList.class.php");
         require_once ("../beans/ContratoMensal.class.php");
 
@@ -106,8 +106,12 @@ class ContratoMensalDAO
 
         try {
 
-                $sql = "SELECT * FROM contrato_mensal";
+                $sql = "SELECT M.*, C.TP_STATUS STATUS FROM 
+                        contrato_mensal M
+                        INNER JOIN contrato C ON M.CD_CONTRATO = C.CD_CONTRATO
+                        WHERE C.CD_CONTRATO = :contrato";
                 $stmt = $this->connection->prepare($sql);
+                $stmt->bindValue(":contrato", $contrato, PDO::PARAM_INT);
 
 
             $stmt->execute();

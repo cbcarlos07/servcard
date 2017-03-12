@@ -33,6 +33,7 @@ function salvar(){
         var quite       = document.getElementById('quite').value;
         var acao        = document.getElementById('acao').value;
         var vencimento  = JSON.stringify(venc)
+        var dias        = document.getElementById('dias').value;
         //alert(JSON.stringify(venc));
         $.ajax({
                 type    : 'post',
@@ -50,6 +51,7 @@ function salvar(){
                     'usuario'     : usuario,
                     'plano'       : plano,
                     'quite'       : quite,
+                    'dias'        : dias,
                     'acao'        : acao
                 },
                 success: function (data) {
@@ -205,38 +207,88 @@ $("#vencimento").datetimepicker({
 $('.btn-parcela').on('click',function () {
     var mensagem = $('.mensagem');
     var parcelas = document.getElementById('parcela').value;
+    var juros    = document.getElementById('juros');
+    var plano    = document.getElementById('plano');
+    var corpo = "" ;
+    var valorJuros = 0;
+    if(juros.value == ""){
+
+        juros.value = 0;
+        valorJuros = 0;
+    }else{
+        valorJuros = juros.value;
+    }
   //  alert(parcelas);
     if(parcelas == "" || parcelas == 0){
 
         mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>O n&uacute;mero de parcelas est&aacute; vazio</p>').fadeIn("fast");
         $('input[id="parcela"]').css("border-color","red").focus();
-    }else{
+    }
+    else if(plano.selectedIndex == 0){
+        mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>Selecione um plano</p>').fadeIn("fast");
+        $('select[id="plano"]').css("border-color","red").focus();
+    }
+    else{
+
         mensagem.empty().html('<p class="alert "></p>');
         $('input[id="parcela"]').css("border-color","#ccc");
+        $('select[id="plano"]').css("border-color","#ccc");
         var valor    = document.getElementById('valor').value;
+        var dias     = parseInt(document.getElementById('dias').value);
         var new_valor = parseFloat(valor.replace("R$ ","").replace(",","."));
+        var dataVencimento = new Date();
+        dataVencimento.setDate(dataVencimento.getDate() + dias);
         var total   =  document.getElementById('total');
         var tbody   =  document.getElementById('tbody');
-        var data = new Date();
-        var mesVencimento = data.getMonth() + 1;
-        var diaVencimento = data.getDate();
+
         var auxiliar = 0;
-        var corpo = "" ;
+
         var totalAPagar = 0;
+
+
      //   alert("Novo valor: '"+new_valor+"'");
+        while (auxiliar <  parcelas)
+        {
+            auxiliar++;
+            totalAPagar += new_valor;
+
+        }
+
+        var new_valor = ((valorJuros * totalAPagar)/100) + totalAPagar;
+        var valorParcela = new_valor/parcelas;
+
+        auxiliar = 0;
+        totalAPagar = 0;
+        //console.log('Mes: '+dataVencimento.getMonth());
+        var soma = 0;
+        var mes = dataVencimento.getMonth();
+        var new_data;
+        var novo_mes;
         while (auxiliar < parcelas){
             auxiliar++;
-            var nova_data = new Date(data.getFullYear(), eval(auxiliar + mesVencimento), diaVencimento);
-            var diavenc   = data.getDate() < 10 ? '0' + data.getDate() : data.getDate();
-            var mesvenc   = nova_data.getMonth() < 10 ? '0' + nova_data.getMonth() : nova_data.getMonth() ;
-            var anovenc   = data.getFullYear();
+            soma++;
+            new_data = new Date(dataVencimento.getFullYear(), eval(soma + mes), dataVencimento.getDate());
+            novo_mes = new_data.getMonth();
+
+            if(novo_mes == 0){
+
+                new_data = new Date(dataVencimento.getFullYear(), eval(soma + mes), dataVencimento.getDate());
+                novo_mes = 12;
+            }
+            console.log('Mes inc: '+novo_mes);
+
+            var diavenc      = dataVencimento .getDate() < 10 ? '0' + dataVencimento.getDate() : dataVencimento.getDate();
+            var mesvenc      = novo_mes < 10 ? '0' +novo_mes : novo_mes;
+            var anovenc      = new_data.getFullYear() ;
+           // console.log('Auxiliar ['+auxiliar+']');
+            console.log('Mes: '+new_data.getMonth());
             corpo = corpo + '<tr class="item">' +
                 '<td>'+auxiliar+'</td>'+
                 '<td>'+diavenc+'/'+mesvenc+'/'+anovenc+'</td>'+
-                '<td>'+valor+'</td>'+
+                '<td>R$ '+valorParcela.toFixed(2)+'</td>'+
                 '</tr>';
-            totalAPagar += new_valor;
-
+            totalAPagar += valorParcela;
+           // dataVencimento.setDate(dataVencimento.getDate() + dias);
         }
         tbody.innerHTML = corpo;
         total.value = 'R$ '+totalAPagar.toFixed(2);
@@ -263,8 +315,11 @@ $('#parcela').focusout(function () {
 
 $(document).ready(function(){
     var data = new Date();
+    var dias = parseInt(document.getElementById('dias').value);
+    data.setDate(data.getDate() + dias);
+    //alert('Dia: '+data.getDate());
     var mes = data.getMonth();
-    var new_data = new Date(data.getFullYear(), eval(2 + mes), data.getDate());
+    var new_data = new Date(data.getFullYear(), eval(1+ mes), data.getDate());
     var dia      = data.getDate() < 10 ? '0' + data.getDate() : data.getDate();
     var new_mes  = new_data.getMonth() < 10 ? '0' + new_data.getMonth() : new_data.getMonth();
     var ano      = new_data.getFullYear() ;
@@ -272,6 +327,30 @@ $(document).ready(function(){
     document.getElementById('vencimento').value = dia+'/'+new_mes+'/'+ano;
 
 });
+
+$('#dias').bind('keyup mouseup',function () {
+    var mensagem = $('.mensagem');
+    //var dias = parseInt(document.getElementById('dias').value);
+    //alert("Parcela focus out "+dias);
+    var data = new Date();
+    var dias = parseInt(document.getElementById('dias').value);
+    if(dias > 0){
+        data.setDate(data.getDate() + dias);
+        //alert('Dia: '+data.getDate());
+        var mes = data.getMonth();
+        var new_data = new Date(data.getFullYear(), eval(1 + mes), data.getDate());
+        var dia      = data.getDate() < 10 ? '0' + data.getDate() : data.getDate();
+        var new_mes  = new_data.getMonth() < 10 ? '0' + new_data.getMonth() : new_data.getMonth();
+        var ano      = new_data.getFullYear() ;
+        //alert('Data '+dia+'/'+new_mes+'/'+ano);
+        document.getElementById('vencimento').value = dia+'/'+new_mes+'/'+ano;
+    }
+    else{
+        document.getElementById('vencimento').value = '';
+    }
+
+});
+
 
 var plano = $('#plano');
 $(document).ready(function(){
@@ -292,8 +371,35 @@ $(document).ready(function(){
 plano.on('change', function () {
     var id_plano = document.getElementById('plano').value;
     var valor    = document.getElementById('valor');
+    var mensagem = $('.mensagem');
+    //alert("Plano: '"+id_plano+"'");
+    if(id_plano == ""){
+     // alert("Igual ao vazio");
+    }else{
+        //alert("Obter valor");
 
-      //alert('Codigo do plano: '+id_plano);
+        mensagem.empty().html('<p class="alert "></p>');
+        $('select[id="plano"]').css("border-color","#ccc");
+        //alert('Codigo do plano: '+id_plano);
+        $.post("function/plano.php",
+            {
+                'id'  : id_plano,
+                'acao': "V"
+            },
+            function(data){
+                valor.value =  data;
+            });
+    }
+
+
+});
+
+$(document).ready(function () {
+
+    var id_plano = document.getElementById('id-plano').value;
+    var valor    = document.getElementById('valor');
+
+    //alert('Codigo do plano: '+id_plano);
     $.post("function/plano.php",
         {
             'id'  : id_plano,
@@ -303,3 +409,19 @@ plano.on('change', function () {
             valor.value =  data;
         });
 });
+
+$(document).ready(function () {
+    var tbody = document.getElementById('tbody');
+    var id    = document.getElementById('id').value;
+   // alert("Contrato nr: "+id);
+    $.post("function/contratomensal.php",
+        {
+            'id': id,
+            'acao': 'B'
+        },
+        function (data) {
+            tbody.innerHTML = data;
+        }
+    )
+
+})
