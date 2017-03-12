@@ -74,7 +74,8 @@ switch ($acao){
             $usuario, $plano, $juros, $vencimento, $dias);
         break;
     case 'A':
-        change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $dias);
+        change($id, $data, $quite, $valor, $parcela, $cliente,
+            $usuario, $plano, $juros, $dias, $vencimento);
         break;
 
     case 'E':
@@ -150,10 +151,12 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
 }
 
 
-function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $dias){
+function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $dias, $vencimento){
     // echo "<script>alert('Adicionar'); </script>";
+    require_once "../beans/ContratoMensal.class.php";
     require_once "../beans/Contrato.class.php";
     require_once "../controller/ContratoController.class.php";
+    require_once "../controller/ContratoMensalController.class.php";
     require_once "../beans/Cliente.class.php";
     require_once "../beans/Plano.class.php";
     require_once "../beans/Usuario.class.php";
@@ -174,6 +177,27 @@ function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano
     $contrato->setDiasVencimento($dias);
     $contratoController = new ContratoController();
     $teste = $contratoController->update($contrato);
+
+    $arr = json_decode($vencimento);
+
+    $contratoMensal = new ContratoMensal();
+    $cmc = new ContratoMensalController();
+    $teste = false;
+    //echo "Codigo gerado: $genId";
+
+        foreach ($arr as $item => $value) {
+            $contratoMensal->setCdContrato($id);
+            $contratoMensal->setDtVencimento($value->{'Data do pagamento'});
+            $contratoMensal->setNrValor($value->{'valor a pagar'});
+            $contratoMensal->setNrParcela($value->{'Nº da Parc'});
+            $contratoMensal->setTpStatus('D');
+
+            $teste = $cmc->insert($contratoMensal);
+
+
+        }
+
+
 
     if($teste)
         echo json_encode(array('retorno' => 1,'id' => $cliente));

@@ -62,7 +62,7 @@ $contrato = $contratoController->getContrato($id);
                             <div class="row"></div>
                                 <div class="form-group col-lg-2">
                                     <label for="data-contrato">Data do Contrato</label>
-                                    <input id="data-contrato" class="form-control "
+                                    <input id="data-contrato" class="form-control " disabled
                                            value="<?php $dataArray = explode('-',$contrato->getDhContrato());
                                            $ano = $dataArray[0];
                                            $mes = $dataArray[1];

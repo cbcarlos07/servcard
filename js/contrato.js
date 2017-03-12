@@ -264,22 +264,24 @@ $('.btn-parcela').on('click',function () {
         var mes = dataVencimento.getMonth();
         var new_data;
         var novo_mes;
+        var anovenc;
         while (auxiliar < parcelas){
             auxiliar++;
             soma++;
             new_data = new Date(dataVencimento.getFullYear(), eval(soma + mes), dataVencimento.getDate());
             novo_mes = new_data.getMonth();
-
+            anovenc  = new_data.getFullYear() ;
             if(novo_mes == 0){
 
                 new_data = new Date(dataVencimento.getFullYear(), eval(soma + mes), dataVencimento.getDate());
                 novo_mes = 12;
+                anovenc  = new_data.getFullYear() - 1;
             }
             console.log('Mes inc: '+novo_mes);
 
             var diavenc      = dataVencimento .getDate() < 10 ? '0' + dataVencimento.getDate() : dataVencimento.getDate();
             var mesvenc      = novo_mes < 10 ? '0' +novo_mes : novo_mes;
-            var anovenc      = new_data.getFullYear() ;
+
            // console.log('Auxiliar ['+auxiliar+']');
             console.log('Mes: '+new_data.getMonth());
             corpo = corpo + '<tr class="item">' +

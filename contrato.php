@@ -51,11 +51,18 @@ $cliente = $clienteController->getCliente($id);
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="modalLabel">Excluir Item</h4>
+                        <h4 class="modal-title" id="modalLabel">Cancelar contrato</h4>
                     </div>
-                    <div class="modal-body">Deseja realmente excluir o contrato de n&uacute;mero <b><span class="nome"></span></b>? </div>
+                    <div class="modal-body">Deseja realmente cancelar contrato n&ordm; <b><span class="nome"></span></b>  e todos seus dependentes (se houver) ? </div>
+                    <form>
+                    <div class="form-group col-lg-12">
+                        <label for="message-text" class="form-control-label">Observa&ccedil&atilde;o:</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                    </form>
                     <div class="modal-footer">
                         <a href="#" type="button"  class="btn btn-primary delete-yes">Sim</a>
+                        <a href="#" type="button"  class="btn btn-success delete-yes-all">N&atilde;o. Apenas o meu</a>
                         <button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
                     </div>
                 </div>
@@ -123,7 +130,7 @@ $cliente = $clienteController->getCliente($id);
                                            data-target="#delete-modal"
                                            data-nome="<?php echo $contrato->getCdContrato(); ?>"
                                            data-id="<?php echo $contrato->getCdContrato(); ?>"
-                                           data-action="E">Excluir</a>
+                                           data-action="E">Desativar</a>
                                     </td>
 
                                 </tr>
