@@ -22,6 +22,28 @@ private $usurioCancelou;
 private $dtCancelamento;
 private $dsObervacao;
 private $diasVencimento;
+private $tpTitular;
+
+    /**
+     * @return mixed
+     */
+    public function getTpTitular()
+    {
+        return $this->tpTitular;
+    }
+
+    /**
+     * @param mixed $tpTitular
+     * @return Contrato
+     */
+    public function setTpTitular($tpTitular)
+    {
+        $this->tpTitular = $tpTitular;
+        return $this;
+    }
+
+
+
 
     /**
      * @return mixed

@@ -21,11 +21,11 @@ class ContratoDAO
              $query = "INSERT INTO contrato 
                        (CD_CONTRATO, DH_CONTRATO, SN_QUITE, NR_VALOR,
                         NR_PARCELA, CD_CLIENTE, CD_USUARIO, CD_PLANO
-                        ,NR_JUROS, TP_STATUS, DIAS_VENCIMENTO) 
+                        ,NR_JUROS, TP_STATUS, DIAS_VENCIMENTO, TP_TITULAR) 
                         VALUES 
                         (NULL, CURDATE(), :QUITE, :VALOR, 
                         :PARCELA, :CLIENTE, :USUARIO, :PLANO,
-                        :JUROS, 'A', :DIAS)";
+                        :JUROS, 'A', :DIAS, :TITULAR)";
 
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":QUITE",   $contrato->getSnQuite(), PDO::PARAM_STR);
@@ -36,6 +36,7 @@ class ContratoDAO
              $stmt->bindValue(":PLANO",   $contrato->getPlano()->getCdPlano(), PDO::PARAM_INT);
              $stmt->bindValue(":JUROS",   $contrato->getNrJuros(), PDO::PARAM_INT);
              $stmt->bindValue(":DIAS",    $contrato->getDiasVencimento(), PDO::PARAM_INT);
+             $stmt->bindValue(":TITULAR", $contrato->getTpTitular(), PDO::PARAM_STR);
              $stmt->execute();
              $lastId = $this->connection->lastInsertId();
              $teste =  $lastId; //pega o ultimom codigo inserido;
@@ -48,10 +49,8 @@ class ContratoDAO
      }
 
 
-
-
     public function update (Contrato $contrato){
-        $this->delete_contrato($contrato->getCdContrato());
+        //$this->delete_contrato($contrato->getCdContrato());
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
@@ -62,6 +61,7 @@ class ContratoDAO
                       ,CD_PLANO = :PLANO
                       ,NR_JUROS = :JUROS
                       ,DIAS_VENCIMENTO = :DIAS
+                      ,TP_TITULAR = :TITULAR
                       WHERE 
                        CD_CONTRATO = :CODIGO";
             $stmt = $this->connection->prepare($query);
@@ -74,6 +74,7 @@ class ContratoDAO
             $stmt->bindValue(":CODIGO", $contrato->getCdContrato(), PDO::PARAM_INT);
             $stmt->bindValue(":JUROS", $contrato->getNrJuros(), PDO::PARAM_INT);
             $stmt->bindValue(":DIAS", $contrato->getDiasVencimento(), PDO::PARAM_INT);
+            $stmt->bindValue(":TITULAR",    $contrato->getTpTitular(), PDO::PARAM_STR);
             $stmt->execute();
 
             $teste =  true;
@@ -93,6 +94,33 @@ class ContratoDAO
             $query = "DELETE FROM contrato WHERE CD_CONTRATO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $teste =  true;
+
+            $this->connection =  null;
+        }catch(PDOException $exception){
+            echo "Erro: ".$exception->getMessage();
+        }
+        return $teste;
+    }
+
+
+    public function cancelar_contrato (Contrato $contrato){
+        $this->connection =  null;
+        $teste = false;
+        $this->connection = new ConnectionFactory();
+        try{
+            $query = "UPDATE contrato SET 
+                      TP_STATUS                  = 'C', 
+                      CD_USUARIO_CANCELOU        = :usuario,
+                      DT_CANCELAMENTO            = curdate(),
+                      DS_OBSERVACAO_CANCELAMENTO = :observacao
+                      WHERE CD_CONTRATO = :codigo";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bindValue(":usuario", $contrato->getUsuario()->getCdUsuario(), PDO::PARAM_INT);
+            $stmt->bindValue(":observacao", $contrato->getDsObervacao(), PDO::PARAM_STR);
+            $stmt->bindValue(":codigo", $contrato->getCdContrato(), PDO::PARAM_INT);
             $stmt->execute();
 
             $teste =  true;
@@ -259,7 +287,9 @@ class ContratoDAO
         $contrato = null;
         $connection = null;
         $this->connection =  new ConnectionFactory();
-        $sql = "SELECT * FROM contrato WHERE CD_CONTRATO = :codigo";
+        $sql = "SELECT C.*, P.DS_PLANO, P.NR_VALOR VALOR FROM contrato C
+                INNER JOIN plano P ON C.CD_PLANO = P.CD_PLANO
+                WHERE CD_CONTRATO = :codigo";
 
         try {
             $stmt = $this->connection->prepare($sql);
@@ -279,7 +309,10 @@ class ContratoDAO
                 $contrato->getUsuario()->setCdUsuario($row['CD_USUARIO']);
                 $contrato->setPlano(new Plano());
                 $contrato->getPlano()->setCdPlano($row['CD_PLANO']);
+                $contrato->getPlano()->setDsPlano($row['DS_PLANO']);
+                $contrato->getPlano()->setNrValor($row['VALOR']);
                 $contrato->setDiasVencimento($row['DIAS_VENCIMENTO']);
+                $contrato->setTpStatus($row['TP_STATUS']);
             }
             $this->connection = null;
         } catch (PDOException $ex) {

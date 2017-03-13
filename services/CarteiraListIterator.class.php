@@ -8,23 +8,30 @@
  */
 class CarteiraListIterator
 {
-    public function addCarteira(Carteira $_carteira_in) {
-        $this->setCarteiraCount($this->getCarteiraCount() + 1);
-        $this->_carteira[$this->getCarteiraCount()] = $_carteira_in;
-        return $this->getCarteiraCount();
+    protected $carteiraList;
+    protected $currentCarteira = 0;
+
+    public function __construct(CarteiraList $carteiraList_in) {
+        $this->carteiraList = $carteiraList_in;
     }
-    public function removeCarteira(Carteira $_carteira_in) {
-        $counter = 0;
-        while (++$counter <= $this->getCarteiraCount()) {
-            if ($_carteira_in->getAuthorAndTitle() ==
-                $this->_carteira[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getCarteiraCount(); $x++) {
-                    $this->_carteira[$x] = $this->_carteira[$x + 1];
-                }
-                $this->setCarteiraCount($this->getCarteiraCount() - 1);
-            }
+    public function getCurrentCarteira() {
+        if (($this->currentCarteira > 0) &&
+            ($this->carteiraList->getCarteiraCount() >= $this->currentCarteira)) {
+            return $this->carteiraList->getCarteira($this->currentCarteira);
         }
-        return $this->getCarteiraCount();
+    }
+    public function getNextCarteira() {
+        if ($this->hasNextCarteira()) {
+            return $this->carteiraList->getCarteira(++$this->currentCarteira);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextCarteira() {
+        if ($this->carteiraList->getCarteiraCount() > $this->currentCarteira) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

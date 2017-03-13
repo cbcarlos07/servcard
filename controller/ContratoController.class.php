@@ -29,6 +29,13 @@ class ContratoController
         return $retorno;
     }
 
+    public function cancelar_contrato (Contrato $contrato){
+        require_once ("../model/ContratoDAO.class.php");
+        $contratoDao = new ContratoDAO();
+        $retorno = $contratoDao->cancelar_contrato($contrato);
+        return $retorno;
+    }
+
     public function getList($contrato){
         require_once ("model/ContratoDAO.class.php");
         $contratoDao = new ContratoDAO();

@@ -23,6 +23,27 @@ private $nrCasa;
 private $dsComplemento;
 private $dsSenha;
 private $snSenhaAtual;
+private $dtCadastro;
+
+    /**
+     * @return mixed
+     */
+    public function getDtCadastro()
+    {
+        return $this->dtCadastro;
+    }
+
+    /**
+     * @param mixed $dtCadastro
+     * @return Cliente
+     */
+    public function setDtCadastro($dtCadastro)
+    {
+        $this->dtCadastro = $dtCadastro;
+        return $this;
+    }
+
+
 
     /**
      * @return mixed

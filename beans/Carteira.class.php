@@ -14,6 +14,48 @@ private $snAtivo;
 private $tpTitular;
 private $cliente;
 private $plano;
+private $contrato;
+private $nrCarteira;
+
+    /**
+     * @return mixed
+     */
+    public function getNrCarteira()
+    {
+        return $this->nrCarteira;
+    }
+
+    /**
+     * @param mixed $nrCarteira
+     * @return Carteira
+     */
+    public function setNrCarteira($nrCarteira)
+    {
+        $this->nrCarteira = $nrCarteira;
+        return $this;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getContrato()
+    {
+        return $this->contrato;
+    }
+
+    /**
+     * @param mixed $contrato
+     * @return Carteira
+     */
+    public function setContrato(Contrato $contrato)
+    {
+        $this->contrato = $contrato;
+        return $this;
+    }
+
+
 
     /**
      * @return mixed
@@ -99,7 +141,7 @@ private $plano;
      * @param mixed $cliente
      * @return Carteira
      */
-    public function setCliente( $cliente)
+    public function setCliente(Cliente $cliente)
     {
         $this->cliente = $cliente;
         return $this;

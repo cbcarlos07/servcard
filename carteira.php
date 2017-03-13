@@ -8,21 +8,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
 
-include "../include/error.php";
-include_once "controller/ContratoController.class.php";
-include_once "beans/Contrato.class.php";
+include "include/error.php";
+include_once "controller/CarteiraController.class.php";
+include_once "beans/Carteira.class.php";
 include_once "controller/ClienteController.class.php";
 include_once "beans/Cliente.class.php";
-include_once "services/ContratoListIterator.class.php";
+include_once "services/CarteiraListIterator.class.php";
 
 
 
 
 $id = $_POST['id'];
 
-$contratoController = new ContratoController();
-$lista = $contratoController->getList($id);
-$pListIterator = new ContratoListIterator($lista);
+$carteiraController = new CarteiraController();
+$lista = $carteiraController->getListByCarteira($id);
+$pListIterator = new CarteiraListIterator($lista);
 $cliente = new Cliente();
 
 $clienteController = new ClienteController();
@@ -82,13 +82,13 @@ $cliente = $clienteController->getCliente($id);
 
             <br>
 
-            <div class="col-lg-4" ><h4>Contrato -  <?php echo $cliente->getNmCliente(); ?></h4></div>
+            <div class="col-lg-4" ><h4>Carteira -  <?php echo $cliente->getNmCliente(); ?></h4></div>
             <div class="col-lg-4" >
 
 
             </div>
             <div class="col-lg-4">
-                <a href="#" data-url="contratocad.php" data-id="<?php echo $id; ?>"class="btn btn-primary novo-item">Novo Item</a>
+                <a href="#" data-url="carteiracad.php" data-id="<?php echo $id; ?>"class="btn btn-primary novo-item">Novo Item</a>
             </div>
             <div class="row"></div>
             <hr />
@@ -102,41 +102,52 @@ $cliente = $clienteController->getCliente($id);
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Data do Contrato</th>
-                                <th>Usu&aacute;rio</th>
-                                <th>Status</th>
+                                <th>Carteira</th>
+                                <th>Plano</th>
+                                <th>Validade</th>
+                                <th>Contrato</th>
+                                <th>Ativa?</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            $contrato = new Contrato();
-                            while ($pListIterator->hasNextContrato()){
-                                $contrato =  $pListIterator->getNextContrato();
+                            $carteira = new Carteira();
+                            while ($pListIterator->hasNextCarteira()){
+                                $carteira =  $pListIterator->getNextCarteira();
                                 $corLinha = "";
-                                if($contrato->getTpStatus() == 'C'){
+                                if($carteira->getSnAtivo() == 'N'){
                                     $corLinha = "#F95959";
                                 }
                                 ?>
                                 <tr style="background: <?php echo $corLinha; ?>">
-                                    <th scope="row"><?php echo $contrato->getCdContrato(); ?></th>
+                                    <th scope="row"><?php echo $carteira->getCdCarteira(); ?></th>
                                     <td><?php
-                                        $dataArray = explode('-',$contrato->getDhContrato());
+                                        $nrCarteira1 = substr($carteira->getNrCarteira(),0,5);
+                                        $nrCarteira2 = substr($carteira->getNrCarteira(),5,5);
+                                        $nrCarteira3 = substr($carteira->getNrCarteira(),11,5);
+                                        $nrCarteira4 = substr($carteira->getNrCarteira(),15,5);
+                                        echo "$nrCarteira1 $nrCarteira2 $nrCarteira3 $nrCarteira4"; ?></td>
+                                    <td><?php echo $carteira->getPlano()->getDsPlano(); ?></td>
+                                    <td><?php
+                                        $dataArray = explode('-',$carteira->getDtValidade());
                                         $ano = $dataArray[0];
                                         $mes = $dataArray[1];
                                         $dia = $dataArray[2];
                                         echo "$dia/$mes/$ano"; ?></td>
-                                    <td><?php echo $contrato->getUsuario()->getNmUsuario(); ?></td>
-                                    <td><?php echo $contrato->getTpStatus();  ?></td>
+                                    <td><?php echo $carteira->getContrato()->getCdContrato(); ?></td>
+                                    <td><?php echo $carteira->getSnAtivo();  ?></td>
                                     <td class="action">
-                                        <a href="#" data-url="contratoalt.php" data-id="<?php echo $contrato->getCdContrato();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
-                                        <a href="#" class="delete btn btn-warning btn-xs"
+                                        <a href="#" data-url="carteiraalt.php" data-id="<?php echo $carteira->getCdCarteira();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
+                                        <a href="#" data-url="carteiraficha.php" data-id="<?php echo $carteira->getCdCarteira(); ?>" class="btn btn-success btn-acao">Imprimir</a>
+                                        <!--<a href="#" class="delete btn btn-warning btn-xs"
                                            data-toggle="modal"
                                            data-target="#delete-modal"
                                            data-nome="<?php echo $contrato->getCdContrato(); ?>"
                                            data-id="<?php echo $contrato->getCdContrato(); ?>"
                                            data-action="D">Desativar</a>
-                                        <a href="#" data-url="contratoficha.php" data-id="<?php echo $contrato->getCdContrato(); ?>" class="btn btn-success btn-acao">Imprimir</a>
+                                         -->
+
                                     </td>
 
                                 </tr>

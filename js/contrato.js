@@ -34,7 +34,12 @@ function salvar(){
         var acao        = document.getElementById('acao').value;
         var vencimento  = JSON.stringify(venc)
         var dias        = document.getElementById('dias').value;
+        var sntitular     = document.getElementById('titular');
         //alert(JSON.stringify(venc));
+        var titular = "D";
+        if(sntitular.checked == true){
+            titular = "T";
+        }
         $.ajax({
                 type    : 'post',
                 dataType: 'json',
@@ -52,6 +57,7 @@ function salvar(){
                     'plano'       : plano,
                     'quite'       : quite,
                     'dias'        : dias,
+                    'titular'     : titular,
                     'acao'        : acao
                 },
                 success: function (data) {
@@ -74,14 +80,18 @@ function salvar(){
 
 
 function deletar(codigo, acao){
-
+    var usuario    = document.getElementById('usuario').value;
+    alert('usuario: '+usuario);
+    var observacao = document.getElementById('observacao').value;
     $.ajax({
         dataType: 'json',
         type: "POST",
-        url: "function/cliente.php",
+        url: "function/contrato.php",
         beforeSend: carregando,
         data: {
-            'id'       : codigo,
+            'id'         : codigo,
+            'usuario'    : usuario,
+            'observacao' : observacao,
             'acao'     : acao
         },
         success: function( data )
@@ -89,7 +99,7 @@ function deletar(codigo, acao){
             console.log("Excluir: "+data.retorno);
             if(data.retorno == 1){
                 $('#delete-modal').modal('hide');
-                sucesso_delete('Item excluido com sucesso. Aguarde atualiza&ccedil;&atilde;o');
+                sucesso_delete('Item desativado com sucesso. Aguarde atualiza&ccedil;&atilde;o');
             }else if(data.retorno == 0){
                 errosend('N&atilde;o foi poss&iacute;vel excluir');
             }

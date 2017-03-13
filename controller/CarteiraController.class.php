@@ -30,7 +30,7 @@ class CarteiraController
     }
 
     public function getListByCarteira ($carteira){
-        require_once ("../model/CarteiraDAO.class.php");
+        require_once ("model/CarteiraDAO.class.php");
         $carteiraDao = new CarteiraDAO();
         $retorno = $carteiraDao->getListByCarteira($carteira);
         return $retorno;
