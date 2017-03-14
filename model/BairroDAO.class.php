@@ -18,7 +18,10 @@ class BairroDAO
 
          $this->connection = new ConnectionFactory();
          try{
-             $query = "CALL PROC_BAIRRO(NULL, :bairro, :cidade, :zona,'I');";
+             $query = "INSERT INTO bairro 
+                       (CD_BAIRRO, NM_BAIRRO, CD_CIDADE, CD_ZONA) 
+                       VALUES 
+                       (NULL, :bairro, :cidade, :zona)";
 
 
              $stmt = $this->connection->prepare($query);
@@ -41,7 +44,9 @@ class BairroDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "CALL PROC_BAIRRO(:codigo, :bairro, :cidade, :zona,'A');";
+            $query = "UPDATE bairro SET 
+                       NM_BAIRRO = :bairro, CD_CIDADE = :cidade, CD_ZONA = :zona
+                       WHERE CD_BAIRRO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":bairro", $bairro->getNmBairro(), PDO::PARAM_STR);
             $stmt->bindValue(":cidade",$bairro->getCidade()->getCdCidade(), PDO::PARAM_INT);
@@ -63,7 +68,7 @@ class BairroDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "CALL PROC_BAIRRO(:codigo, NULL, NULL, NULL,'E');  ";
+            $query = "DELETE FROM bairro WHERE CD_BAIRRO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();

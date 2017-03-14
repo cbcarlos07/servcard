@@ -17,7 +17,8 @@ class PaisDAO
          $teste = false;
          $this->connection = new ConnectionFactory();
          try{
-             $query = "CALL PROC_PAIS(NULL, :pais, 'I');";
+             $query = "INSERT INTO pais 
+                       (CD_PAIS, DS_PAIS) VALUES (NULL, :pais)";
 
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":pais", $pais->getDsPais(), PDO::PARAM_STR);
@@ -37,7 +38,8 @@ class PaisDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "CALL PROC_PAIS(:codigo, :pais, 'A');";
+            $query = "UPDATE pais SET
+                      DS_PAIS = :pais WHERE CD_PAIS = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":pais", $pais->getDsPais(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $pais->getCdPais(), PDO::PARAM_INT);
@@ -58,7 +60,7 @@ class PaisDAO
         $this->connection = new ConnectionFactory();
         //echo "<script>alert(".$codigo.");</script>";
         try{
-            $query = "CALL PROC_PAIS(:codigo, NULL, 'E');";
+            $query = "DELETE FROM pais WHERE CD_PAIS = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
@@ -83,15 +85,11 @@ class PaisDAO
         $paisList = new PaisList();
 
         try {
-            if($nome == ""){
 
-                $sql = "CALL PROC_PAIS(NULL, NULL, 'T');";
-                $stmt = $this->connection->prepare($sql);
-            }else{
-                $sql = "CALL PROC_PAIS(NULL, :nome, 'N');";
+                $sql = "SELECT * FROM pais WHERE DS_PAIS LIKE :nome";
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
-            }
+
             $stmt->execute();
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $pais = new Pais();
@@ -118,15 +116,11 @@ class PaisDAO
         $paisList = new PaisList();
 
         try {
-            if($nome == ""){
 
-                $sql = "CALL PROC_PAIS(NULL, NULL, 'T');";
-                $stmt = $this->connection->prepare($sql);
-            }else{
-                $sql = "CALL PROC_PAIS(NULL, :nome, 'N');";
+                $sql = "SELECT * FROM pais WHERE DS_PAIS LIKE :nome";
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
-            }
+
             $stmt->execute();
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $pais = new Pais();
@@ -146,7 +140,7 @@ class PaisDAO
         $pais = null;
         $connection = null;
         $this->connection =  new ConnectionFactory();
-        $sql = "CALL PROC_PAIS(:codigo, NULL, 'C');";
+        $sql = "SELECT * FROM pais WHERE CD_PAIS LIKE :nome";
 
         try {
             $stmt = $this->connection->prepare($sql);

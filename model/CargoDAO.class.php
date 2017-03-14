@@ -17,7 +17,10 @@ class CargoDAO
          $teste = false;
          $this->connection = new ConnectionFactory();
          try{
-             $query = "CALL PROC_CARGO(NULL, :cargo, :obs, 'I');";
+             $query = "INSERT INTO cargo 
+                        (CD_CARGO, DS_CARGO, OBS_CARGO) 
+                        VALUES
+                        (NULL, :cargo, :obs)";
 
 
              $stmt = $this->connection->prepare($query);
@@ -39,7 +42,8 @@ class CargoDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "CALL PROC_CARGO(:codigo, :cargo, :obs, 'A');";
+            $query = "UPDATE cargo SET DS_CARGO = :cargo, OBS_CARGO = :obs 
+                      WHERE CD_CARGO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":cargo", $cargo->getDsCargo(), PDO::PARAM_STR);
             $stmt->bindValue(":obs",$cargo->getObsCargo(), PDO::PARAM_STR);
@@ -60,7 +64,7 @@ class CargoDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "CALL PROC_CARGO(:codigo, NULL, NULL, 'E');";
+            $query = "DELETE FROM cargo WHERE CD_CARGO - :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
@@ -86,7 +90,7 @@ class CargoDAO
 
         try {
 
-                $sql = "CALL PROC_CARGO(NULL, :cargo, NULL, 'N');";
+                $sql = "SELECT * FROM cargo WHERE DS_CARGO LIKE :cargo;";
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":cargo", "%$nome%", PDO::PARAM_STR);
 
@@ -144,7 +148,7 @@ class CargoDAO
         $cargo = null;
         $this->connection = null;
         $this->connection =  new ConnectionFactory();
-        $sql = "CALL PROC_CARGO(:codigo, NULL, NULL, 'C');";
+        $sql = "SELECT * FROM cargo WHERE CD_CARGO = :codigo";
 
         try {
             $stmt = $this->connection->prepare($sql);

@@ -28,6 +28,7 @@ class ClienteDAO
                        :endereco, :numero, :complemento, MD5(:senha), :atual, curdate())";
 
              $stmt = $this->connection->prepare($query);
+             echo "CPF: ".$cliente->getNrRg();
              $stmt->bindValue(":nome", $cliente->getNmCliente(), PDO::PARAM_STR);
              $stmt->bindValue(":sobrenome", $cliente->getNmSobrenome(), PDO::PARAM_STR);
              $stmt->bindValue(":cpf", $cliente->getNrCpf(), PDO::PARAM_STR);

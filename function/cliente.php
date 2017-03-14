@@ -5,7 +5,7 @@
  * Date: 22/02/17
  * Time: 20:43
  */
-
+include ("../include/error.php");
 $id           = 0;
 $nome         =  "";
 $sobrenome    =  "";
