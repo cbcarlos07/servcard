@@ -118,7 +118,7 @@ $id = $_POST['id'];
                                 <label for="total">Total a Pagar</label>
                                 <input id="total" class="form-control"/>
                             </div>
-                            <div class="checkbox-inline1"style="margin-top: 15px;"><label><input type="checkbox" value="T" id="titular"> Titular?</label></div>
+                            <div class="checkbox-inline1"style="margin-top: 15px;"><label><input type="checkbox" value="T" id="titular" checked> Titular?</label></div>
                             <div class="row"></div>
                             <hr />
                             <div class="btn-group">

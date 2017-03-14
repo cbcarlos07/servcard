@@ -16,6 +16,26 @@ private $cliente;
 private $plano;
 private $contrato;
 private $nrCarteira;
+private $titular;
+
+    /**
+     * @return mixed
+     */
+    public function getTitular()
+    {
+        return $this->titular;
+    }
+
+    /**
+     * @param mixed $titular
+     * @return Carteira
+     */
+    public function setTitular(Cliente $titular)
+    {
+        $this->titular = $titular;
+        return $this;
+    }
+
 
     /**
      * @return mixed

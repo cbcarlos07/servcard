@@ -42,10 +42,10 @@ class ContratoController
         $retorno = $contratoDao->getList($contrato);
         return $retorno;
     }
-    public function getLista($contrato){
+    public function getLista($nome){
         require_once ("../model/ContratoDAO.class.php");
         $contratoDao = new ContratoDAO();
-        $retorno = $contratoDao->getLista($contrato);
+        $retorno = $contratoDao->getLista($nome);
         return $retorno;
     }
 

@@ -236,6 +236,7 @@ class ContratoDAO
         require_once ("../services/ContratoList.class.php");
         require_once ("../beans/Contrato.class.php");
         require_once ("../beans/Cliente.class.php");
+        require_once ("../beans/Usuario.class.php");
 
         $this->connection = null;
 
@@ -245,15 +246,16 @@ class ContratoDAO
 
         try {
 
-            $sql = "SELECT C.*, U.NM_USUARIO, P.DS_PLANO FROM 
+            $sql = "SELECT * FROM 
                         contrato C
                         INNER JOIN cliente T ON C.CD_CLIENTE = T.CD_CLIENTE
                         INNER JOIN usuario U ON C.CD_USUARIO = U.CD_USUARIO
                         INNER JOIN plano   P ON C.CD_PLANO = P.CD_PLANO
-                        WHERE C.CD_CLIENTE = :cliente
+                        WHERE C.TP_STATUS = 'A'
+                         AND  T.NM_CLIENTE LIKE :cliente
                         ORDER BY 1 DESC";
             $stmt = $this->connection->prepare($sql);
-            $stmt->bindValue(":cliente", $cliente, PDO::PARAM_INT);
+            $stmt->bindValue(":cliente", "%$cliente%", PDO::PARAM_INT);
 
 
             $stmt->execute();
@@ -266,6 +268,7 @@ class ContratoDAO
                 $contrato->setNrParcela($row['NR_PARCELA']);
                 $contrato->setCliente(new Cliente());
                 $contrato->getCliente()->setCdCliente($row['CD_CLIENTE']);
+                $contrato->getCliente()->setNmCliente($row['NM_CLIENTE']);
                 $contrato->setUsuario(new Usuario());
                 $contrato->getUsuario()->setCdUsuario($row['CD_USUARIO']);
                 $contrato->getUsuario()->setNmUsuario($row['NM_USUARIO']);
@@ -278,6 +281,8 @@ class ContratoDAO
         }
         return $contratoList;
     }
+
+
 
 
     public function getContrato($codigo){

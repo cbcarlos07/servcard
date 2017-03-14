@@ -135,7 +135,7 @@ $cliente = $clienteController->getCliente($id);
                                         $mes = $dataArray[1];
                                         $dia = $dataArray[2];
                                         echo "$dia/$mes/$ano"; ?></td>
-                                    <td><?php echo $carteira->getContrato()->getCdContrato(); ?></td>
+                                    <td><div style="text-align: center;"></div> <?php echo $carteira->getContrato()->getCdContrato(); ?></div></td>
                                     <td><?php echo $carteira->getSnAtivo();  ?></td>
                                     <td class="action">
                                         <a href="#" data-url="carteiraalt.php" data-id="<?php echo $carteira->getCdCarteira();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
@@ -143,9 +143,9 @@ $cliente = $clienteController->getCliente($id);
                                         <!--<a href="#" class="delete btn btn-warning btn-xs"
                                            data-toggle="modal"
                                            data-target="#delete-modal"
-                                           data-nome="<?php echo $contrato->getCdContrato(); ?>"
-                                           data-id="<?php echo $contrato->getCdContrato(); ?>"
-                                           data-action="D">Desativar</a>
+                                           data-nome="<?php echo $carteira->getCdCarteira(); ?>"
+                                           data-id="<?php echo $carteira->getCdCarteira(); ?>"
+                                           data-action="D">Desativar</a>'
                                          -->
 
                                     </td>

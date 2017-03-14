@@ -117,6 +117,7 @@ $contrato = $contratoController->getContrato($id);
                                 <label for="total">Total a Pagar</label>
                                 <input id="total" class="form-control" value="<?php echo 'R$ '.number_format($contrato->getNrValor(),2,',','.'); ?>"/>
                             </div>
+                            <div class="checkbox-inline1"style="margin-top: 15px;"><label><input type="checkbox" value="T" id="titular" checked> Titular?</label></div>
                             <div class="row"></div>
                             <hr />
                             <div class="btn-group">

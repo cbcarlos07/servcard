@@ -93,7 +93,9 @@ switch ($acao){
         cancelar_contrato($id, $observacao, $usuario);
         break;
     case 'L': //bairro por cidade
-        getBairros($cidade, $bairro);
+        getListaContratos($id);
+    case 'T': //bairro por cidade
+        getTabelaContratos($observacao);
 
 }
 
@@ -153,7 +155,7 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
 
         $carteira->setTpTitular($titular);
         $carteira->setContrato(new Contrato());
-        echo "Codigo do contrato: ".$genId." \n";
+       // echo "Codigo do contrato: ".$genId." \n";
         $carteira->getContrato()->setCdContrato($genId);
         $carteira->setDtValidade($contratoMensal->getDtVencimento());
         $carteira->setPlano(new Plano());
@@ -161,6 +163,8 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
         $carteira->setCliente(new Cliente());
         $carteira->getCliente()->setCdCliente($cliente);
         $carteira->setSnAtivo('S');
+        $carteira->setTitular(new Cliente());
+        $carteira->getTitular()->setCdCliente(0);
         $teste1 = $carteiraController->insert($carteira);
 
 
@@ -169,7 +173,7 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
     }
 
    //var_dump(json_decode($vencimento, true));
-    echo $teste1;
+  //  echo $teste1;
 
 
 
@@ -261,14 +265,35 @@ function getListaContratos($id){
     require_once "../services/ContratoListIterator.class.php";
     $contrato = new Contrato();
     $contratoController = new ContratoController();
-    $lista = $contratoController->getLista($id);
+    $lista = $contratoController->getLista('');
     $bList = new ContratoListIterator($lista);
 
         while ($bList->hasNextContrato()) {
-            $bairro = $bList->getNextContrato();
+            $contrato = $bList->getNextContrato();
             $select = "";
-
-            echo "<option ".$select." value='" . $bairro->getCdBairro() . "'>" . $bairro->getNmBairro() . "</option>";
+            if($id == $contrato->getCdContrato()){
+                $select = "selected";
+            }
+            echo "<option ".$select." value='" . $contrato->getCdContrato() . "'>" . $contrato->getCliente()->getNmCliente() ." - " . $contrato->getCdContrato()."</option>";
         }
+
+}
+
+function getTabelaContratos($id){
+    require_once "../beans/Contrato.class.php";
+    require_once "../controller/ContratoController.class.php";
+    require_once "../services/ContratoListIterator.class.php";
+    $contrato = new Contrato();
+    $contratoController = new ContratoController();
+    $lista = $contratoController->getLista($id);
+    $bList = new ContratoListIterator($lista);
+
+    while ($bList->hasNextContrato()) {
+        $contrato = $bList->getNextContrato();
+
+        echo "<tr class='linha'>
+                <td> ".$contrato->getCdContrato()."</td><td>" . $contrato->getCliente()->getNmCliente() ."</td>
+             </tr>";
+    }
 
 }

@@ -20,23 +20,24 @@ class CarteiraDAO
          try{
                  $query = "INSERT INTO carteira 
                            (CD_CARTEIRA, DT_VALIDADE, SN_ATIVO, 
-                           TP_TITULAR, CD_CLIENTE, CD_PLANO, CD_CONTRATO) 
+                           TP_TITULAR, CD_CLIENTE, CD_PLANO, CD_CONTRATO, CD_TITULAR) 
                            VALUES (
                            NULL, :validade, :ativo, :titular,
-                            :cliente, :plano, :contrato
+                            :cliente, :plano, :contrato, :cdtitular
                            )";
 
 
              $stmt = $this->connection->prepare($query);
              $dataApp = explode('/',$carteira->getDtValidade());
-             echo "Data validade: $dataApp[2]-$dataApp[1]-$dataApp[0] \n";
-             echo "Cliente: ".$carteira->getCliente()->getCdCliente()." \n";
+          //   echo "Data validade: $dataApp[2]-$dataApp[1]-$dataApp[0] \n";
+           //  echo "Cliente: ".$carteira->getCliente()->getCdCliente()." \n";
              $stmt->bindValue(":cliente", $carteira->getCliente()->getCdCliente(), PDO::PARAM_INT);
              $stmt->bindValue(":plano",$carteira->getPlano()->getCdPlano(), PDO::PARAM_INT);
              $stmt->bindValue(":validade","$dataApp[2]-$dataApp[1]-$dataApp[0]", PDO::PARAM_STR);
              $stmt->bindValue(":ativo", $carteira->getSnAtivo(), PDO::PARAM_STR);
              $stmt->bindValue(":titular", $carteira->getTpTitular(), PDO::PARAM_STR);
              $stmt->bindValue(":contrato", $carteira->getContrato()->getCdContrato(), PDO::PARAM_INT);
+             $stmt->bindValue(":cdtitular", $carteira->getTitular()->getCdCliente(), PDO::PARAM_INT);
              $stmt->execute();
              $lastId = $this->connection->lastInsertId();
              $teste = true;
@@ -55,15 +56,15 @@ class CarteiraDAO
          $teste = false;
          $this->connection = new ConnectionFactory();
          $carteira = "";
-         echo "\n Codigo gerado: ".$codigo." \n";
+        // echo "\n Codigo gerado: ".$codigo." \n";
          $count = strlen($codigo);
-         echo "Numero de caractere: ".$count;
+        // echo "Numero de caractere: ".$count;
 
          for($i = 0;$i < (20 - $count); $i++){
                 $carteira = $carteira . "0";
          }
         $carteira = $carteira . $codigo;
-         echo "<br> ".$carteira."<br>";
+         //echo "<br> ".$carteira."<br>";
          try{
              $query = "UPDATE carteira SET 
                            NR_CARTEIRA = :carteira 
@@ -182,11 +183,17 @@ class CarteiraDAO
 
 
     public function getCarteira($codigo){
+        require_once "beans/Cliente.class.php";
+        require_once "beans/Plano.class.php";
+        require_once "beans/Contrato.class.php";
+        require_once "beans/Carteira.class.php";
         $carteira = null;
         $this->connection = null;
         $this->connection =  new ConnectionFactory();
-        $sql = "{CALL PROC_CARTEIRA(:codigo, NULL, NULL, NULL, NULL, 
-                            NULL, NULL, 'C')}";
+        $sql = "SELECT * FROM carteira C
+                INNER JOIN cliente CLI ON C.CD_CLIENTE = CLI.CD_CLIENTE
+                INNER JOIN plano   P   ON C.CD_PLANO = P.CD_PLANO
+                WHERE C.CD_CARTEIRA = :codigo";
 
         try {
             $stmt = $this->connection->prepare($sql);
