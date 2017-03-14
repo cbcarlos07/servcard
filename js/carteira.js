@@ -234,6 +234,19 @@ function carregar() {
             var tabela = $("#tabela");
             tabela.find("tr").remove();
             tabela.append(data);
+
+            $("tr").on('click',function() {
+                //console.log("Click");
+                var contrato = document.getElementById('contrato');
+                var nome = document.getElementById('nome');
+                var tableData = $(this).children("td").map(function() {
+                    return $(this).text();
+                }).get();
+
+                //console.log("Your data is: " + $.trim(tableData[0]) + " , " + $.trim(tableData[1]) + " , " + $.trim(tableData[2]));
+                contrato.value =    $.trim(tableData[0]);
+                nome.value = $.trim(tableData[1]);
+            });
         });
 
 
