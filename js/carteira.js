@@ -25,9 +25,9 @@ function salvar(){
         var snativo    = document.getElementById('ativo');
         var sntitular  = document.getElementById('tptitular');
         var cliente    = document.getElementById('cliente').value;
-        var plano      = document.getElementById('plano').value;
+
         var carteira   = document.getElementById('carteira').value;
-        var titular    = document.getElementById('titular').value;
+
         var contrato   = document.getElementById('contrato').value;
         var acao       = document.getElementById('acao').value;
         var tptitular = 'D';
@@ -51,10 +51,8 @@ function salvar(){
                     'ativo'     : ativo,
                     'tptitular' : tptitular,
                     'cliente'   : cliente,
-                    'plano'     : plano,
                     'carteira'  : carteira,
                     'contrato'  : contrato,
-                    'titular'   : titular,
                     'acao'      : acao
 
                 },
@@ -167,8 +165,8 @@ $('.delete').on('click', function(){
 
     $("tr").on('click',function() {
         //console.log("Click");
-        var contrato = document.getElementById('contrato');
-        var nome = document.getElementById('nome');
+        var contrato = document.getElementById('contrato-modal');
+        var nome = document.getElementById('nome-modal');
          var tableData = $(this).children("td").map(function() {
          return $(this).text();
          }).get();
@@ -237,8 +235,8 @@ function carregar() {
 
             $("tr").on('click',function() {
                 //console.log("Click");
-                var contrato = document.getElementById('contrato');
-                var nome = document.getElementById('nome');
+                var contrato = document.getElementById('contrato-modal');
+                var nome = document.getElementById('nome-modal');
                 var tableData = $(this).children("td").map(function() {
                     return $(this).text();
                 }).get();
@@ -248,9 +246,15 @@ function carregar() {
                 nome.value = $.trim(tableData[1]);
             });
         });
-
-
 }
+
+$('.btn-ok').on('click', function () {
+    var contrato_modal = document.getElementById('contrato-modal').value;
+    var nome_modal = document.getElementById('nome-modal').value;
+    var contrato = document.getElementById('contrato').value = contrato_modal;
+    var nome = document.getElementById('nome').value = nome_modal;
+
+})
 
 
 

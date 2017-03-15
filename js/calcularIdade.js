@@ -4,7 +4,37 @@
  * and open the template in the editor.
  */
 
+function chamarIdade() {
+    var hoje = new Date();
+    console.log("Hoje: "+hoje);
+    var data = document.getElementById("nascimento").value;
+    var dataNasc = data.split("/");
+    var dia = dataNasc[0];
+    var mes = dataNasc[1];
+    var ano = dataNasc[2];
+    console.log("Data do campo: "+data);
+    var nascimento = new Date(mes +"/"+dia+"/"+ano);
+    console.log("Nascimento: "+nascimento);
+    var campoidade = document.getElementById("idade");
+    var diferencaAnos = hoje.getFullYear() - nascimento.getFullYear();
+    if ( new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate()) <
+        new Date(hoje.getFullYear(), nascimento.getMonth(), nascimento.getDate()) )
+        diferencaAnos--;
+    //return diferencaAnos;
+    console.log("Idade 1 :"+diferencaAnos);
+    var mensagem = $('.mensagem');
+    if(diferencaAnos < 0 || Number.isNaN(diferencaAnos)){
+        campoidade.value = "";
+        mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>Insira uma data v&aacute;lida</p>').fadeIn("fast");
+        data.focus();
+    }else{
+        campoidade.value = diferencaAnos;
+        mensagem.empty().html('<p class="alert "></p>');
+    }
+    //campoidade.value = diferencaAnos;
 
+}
+/*
 $('.data-nasc').focusout(function (){
     var hoje = new Date();
     console.log("Hoje: "+hoje);
@@ -22,10 +52,10 @@ $('.data-nasc').focusout(function (){
         new Date(hoje.getFullYear(), nascimento.getMonth(), nascimento.getDate()) )
         diferencaAnos--;
     //return diferencaAnos;
-    console.log("Idade:"+diferencaAnos);
+    console.log("Idade 1 :"+diferencaAnos);
     var mensagem = $('.mensagem');
-    if(diferencaAnos < 0){
-
+    if(Number.isNaN(diferencaAnos)){
+        campoidade.value = "";
         mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>Insira uma data v&aacute;lida</p>').fadeIn("fast");
         data.focus();
     }else{
@@ -36,6 +66,7 @@ $('.data-nasc').focusout(function (){
 
 
 });
+*/
 
 $(document).ready(function(){
     
@@ -59,8 +90,14 @@ $(document).ready(function(){
          new Date(hoje.getFullYear(), nascimento.getMonth(), nascimento.getDate()) )
         diferencaAnos--;
     //return diferencaAnos;
-    console.log("Idade:"+diferencaAnos);
-    campoidade.value = diferencaAnos;
+    if(Number.isNaN(diferencaAnos)){
+        console.log("Idade 2:"+diferencaAnos);
+        campoidade.value = "";
+    }else{
+        console.log("Idade:"+diferencaAnos);
+        campoidade.value = diferencaAnos;
+    }
+
 
     }
     

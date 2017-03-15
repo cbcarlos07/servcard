@@ -13,29 +13,10 @@ private $dtValidade;
 private $snAtivo;
 private $tpTitular;
 private $cliente;
-private $plano;
+
 private $contrato;
 
 
-private $titular;
-
-    /**
-     * @return mixed
-     */
-    public function getTitular()
-    {
-        return $this->titular;
-    }
-
-    /**
-     * @param mixed $titular
-     * @return Carteira
-     */
-    public function setTitular(Cliente $titular)
-    {
-        $this->titular = $titular;
-        return $this;
-    }
 
 
 
@@ -152,23 +133,6 @@ private $titular;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPlano()
-    {
-        return $this->plano;
-    }
-
-    /**
-     * @param mixed $plano
-     * @return Carteira
-     */
-    public function setPlano(Plano $plano)
-    {
-        $this->plano = $plano;
-        return $this;
-    }
 
 
 }

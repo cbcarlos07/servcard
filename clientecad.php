@@ -82,7 +82,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="row"></div>
                     <div class="form-group col-lg-3">
                         <label for="nascimento">Data de Nascimento</label>
-                        <input id="nascimento" class="form-control data-nasc" required=""/>
+                        <input id="nascimento" class="form-control data-nasc" required="" onblur="chamarIdade()"/>
                     </div>
                     <div class="form-group col-lg-1">
                         <label for="idade">Idade</label>

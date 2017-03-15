@@ -82,7 +82,7 @@ $cliente = $clienteController->getCliente($id);
 
             <br>
 
-            <div class="col-lg-4" ><h4>Contrato -  <?php echo $cliente->getNmCliente(); ?></h4></div>
+            <div class="col-lg-4" ><h4><a href="#" data-url="cliente.php" class="btn-voltar">Contrato</a> -  <?php echo $cliente->getNmCliente(); ?></h4></div>
             <div class="col-lg-4" >
 
 

@@ -51,19 +51,19 @@ include "include/head.php"; ?>
                                     <table id="tabela" class="table table-hover"></table>
                                 </div>
                                 <div class="col-lg-2 form-group">
-                                    <label for="contrato">Contrato</label>
-                                    <input id="contrato" class="form-control col-lg-2" disabled/>
+                                    <label for="contrato-modal">Contrato</label>
+                                    <input id="contrato-modal" class="form-control col-lg-2" disabled/>
                                 </div>
                                 <div class="col-lg-10 form-group">
-                                    <label for="nome">Titular</label>
-                                    <input id="nome" class="form-control col-lg-10" disabled/>
+                                    <label for="nome-modal">Titular</label>
+                                    <input id="nome-modal" class="form-control col-lg-10" disabled/>
                                 </div>
                             </div>
                         </div>
                         <div class="row"></div>
                         <div class="modal-footer">
-                            <a href="#" type="button"  class="btn btn-primary delete-yes">Sim</a>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
+                            <!--<a href="#" type="button"  class="btn btn-primary delete-yes">Sim</a>-->
+                            <button type="button" class="btn btn-default btn-ok" data-dismiss="modal">OK</button>
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@ include "include/head.php"; ?>
                     <input id="cliente" value="<?php $id; ?>" type="hidden">
                     <input id="id-contrato" value="0" type="hidden">
                     <input id="acao" value="C" type="hidden">
-                    <div class="form-group">
+                    <div class="form-group col-lg-12">
                         <label for="carteira">Carteira</label>
                         <input id="carteira" class="form-control" required="" placeholder="AINDA N&Atilde;O POSSUI" disabled/>
                     </div>
@@ -93,11 +93,23 @@ include "include/head.php"; ?>
                     <div class="checkbox-inline1 col-lg-3"style="margin-top: 15px;"><label><input type="checkbox" value="S" id="ativo" checked> Ativo?</label></div>
                     <div class="checkbox-inline1 col-lg-3"style="margin-top: 15px;"><label><input type="checkbox" value="T" id="tptitular" checked> Titular?</label></div>
                     <div class="row"></div>
-                    <div class="form-group">
-                        <label for="contrato">Contrato - </label>
-                        <a href="#" data-toggle="modal" data-target="#delete-modal" class="delete"><span>Escolher Contratos</span></a>
-                        <select id="contrato" class="form-control"></select>
+                    <div class="form-group col-lg-7">
+                        <label for="contrato">Contrato - <a href="#" data-toggle="modal" data-target="#delete-modal" class="delete"><span style="font-size: 12px;">Escolher Contratos</span></a></label>
+
                     </div>
+                    <div class="row"></div>
+                        <div class="col-lg-2 form-group">
+                            <label for="contrato">Contrato</label>
+                            <input id="contrato" class="form-control col-lg-2" disabled/>
+                        </div>
+                        <div class="col-lg-10 form-group">
+                            <label for="nome">Titular</label>
+                            <input id="nome" class="form-control col-lg-10" disabled/>
+                        </div>
+                    <div class="row"></div>
+
+
+
                     <div class="row"></div>
                     <hr />
                     <div class="btn-group">
