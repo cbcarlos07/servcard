@@ -102,7 +102,6 @@ $cliente = $clienteController->getCliente($id);
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Carteira</th>
                                 <th>Plano</th>
                                 <th>Validade</th>
                                 <th>Contrato</th>
@@ -121,13 +120,13 @@ $cliente = $clienteController->getCliente($id);
                                 }
                                 ?>
                                 <tr style="background: <?php echo $corLinha; ?>">
-                                    <th scope="row"><?php echo $carteira->getCdCarteira(); ?></th>
-                                    <td><?php
-                                        $nrCarteira1 = substr($carteira->getNrCarteira(),0,5);
-                                        $nrCarteira2 = substr($carteira->getNrCarteira(),5,5);
-                                        $nrCarteira3 = substr($carteira->getNrCarteira(),11,5);
-                                        $nrCarteira4 = substr($carteira->getNrCarteira(),15,5);
-                                        echo "$nrCarteira1 $nrCarteira2 $nrCarteira3 $nrCarteira4"; ?></td>
+
+                                    <th scope="row"><?php
+                                        $nrCarteira1 = substr($carteira->getCdCarteira(),0,5);
+                                        $nrCarteira2 = substr($carteira->getCdCarteira(),5,5);
+                                        $nrCarteira3 = substr($carteira->getCdCarteira(),11,5);
+                                        $nrCarteira4 = substr($carteira->getCdCarteira(),15,5);
+                                        echo "$nrCarteira1 $nrCarteira2 $nrCarteira3 $nrCarteira4"; ?></th>
                                     <td><?php echo $carteira->getPlano()->getDsPlano(); ?></td>
                                     <td><?php
                                         $dataArray = explode('-',$carteira->getDtValidade());

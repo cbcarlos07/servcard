@@ -37,16 +37,16 @@ class CarteiraDAO
              $stmt->bindValue(":ativo", $carteira->getSnAtivo(), PDO::PARAM_STR);
              $stmt->bindValue(":titular", $carteira->getTpTitular(), PDO::PARAM_STR);
              $stmt->bindValue(":contrato", $carteira->getContrato()->getCdContrato(), PDO::PARAM_INT);
-             $stmt->bindValue(":cdtitular", $carteira->getTitular()->getCdCliente(), PDO::PARAM_INT);
+             $stmt->bindValue(":cdtitular", $carteira->getCliente()->getCdCliente(), PDO::PARAM_INT);
              $stmt->execute();
-             $lastId = $this->connection->lastInsertId();
+             //$lastId = $this->connection->lastInsertId();
              $teste = true;
 
              $this->connection =  null;
          }catch(PDOException $exception){
              echo "Erro: ".$exception->getMessage();
          }
-         $this->inserir_nr_carteira($lastId);
+        // $this->inserir_nr_carteira($lastId);
 
          return $teste;
      }
@@ -91,15 +91,20 @@ class CarteiraDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "{CALL PROC_CARTEIRA(:codigo, :cliente, :plano, :validade, :ativo, 
-                            :titular, :carteira, 'A')}";
+            $query = "UPDATE carteira SET 
+                      DT_VALIDADE = :validade, SN_ATIVO = :ativo,
+                      TP_TITULAR = :tptitular, CD_CLIENTE = :cliente,
+                      CD_PLANO = :plano, CD_TITULAR = :titular,
+                      CD_CONTRATO = :contrato
+                      WHERE CD_CARTEIRA = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $carteira->getCdCarteira(), PDO::PARAM_INT);
             $stmt->bindValue(":cliente", $carteira->getCliente()->getCdCliente(), PDO::PARAM_INT);
             $stmt->bindValue(":plano",$carteira->getPlano()->getCdPlano(), PDO::PARAM_INT);
             $stmt->bindValue(":validade",$carteira->getDtValidade(), PDO::PARAM_STR);
             $stmt->bindValue(":ativo", $carteira->getSnAtivo(), PDO::PARAM_STR);
-            $stmt->bindValue(":titular", $carteira->getTpTitular(), PDO::PARAM_STR);
+            $stmt->bindValue(":tptitular", $carteira->getTpTitular(), PDO::PARAM_STR);
+            $stmt->bindValue(":titular", $carteira->getCliente()->getCdCliente(), PDO::PARAM_STR);
             $stmt->execute();
 
             $teste =  true;

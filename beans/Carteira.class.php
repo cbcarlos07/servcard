@@ -15,7 +15,8 @@ private $tpTitular;
 private $cliente;
 private $plano;
 private $contrato;
-private $nrCarteira;
+
+
 private $titular;
 
     /**
@@ -37,23 +38,7 @@ private $titular;
     }
 
 
-    /**
-     * @return mixed
-     */
-    public function getNrCarteira()
-    {
-        return $this->nrCarteira;
-    }
 
-    /**
-     * @param mixed $nrCarteira
-     * @return Carteira
-     */
-    public function setNrCarteira($nrCarteira)
-    {
-        $this->nrCarteira = $nrCarteira;
-        return $this;
-    }
 
 
 

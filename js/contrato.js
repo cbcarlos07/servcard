@@ -35,7 +35,7 @@ function salvar(){
         var vencimento  = JSON.stringify(venc)
         var dias        = document.getElementById('dias').value;
         var sntitular     = document.getElementById('titular');
-        //alert(JSON.stringify(venc));
+        //alert('Acao: '+acao);
         var titular = "D";
         if(sntitular.checked == true){
             titular = "T";

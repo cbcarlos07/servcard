@@ -6,6 +6,7 @@
  * Date: 17/02/2017
  * Time: 14:34
  */
+
 include_once ("ConnectionFactory.class.php");
 
 class ClienteDAO
@@ -13,22 +14,26 @@ class ClienteDAO
      private $connection = null;
 
      public function insert (Cliente $cliente){
+
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
          try{
-             $query = "INSERT INTO `cliente`
-                       (`NM_CLIENTE`, `NM_SOBRENOME`,`NR_CPF`, `NR_RG`, `NR_TELEFONE`, 
-                       `DS_EMAIL`, `DT_NASCIMENTO`, `TP_SEXO`, `CD_ESTADO_CIVIL`, 
-                       `CD_ENDERECO`, `NR_CASA`, `DS_COMPLEMENTO`,`DS_SENHA`,`SN_SENHA_ATUAL`, 
-                       `DT_CADASTRO`) 
-                       VALUES 
-                       (:nome, :sobrenome, :cpf, :rg, :telefone, 
-                       :email, :nascimento, :sexo, :ec, 
-                       :endereco, :numero, :complemento, MD5(:senha), :atual, curdate())";
+             $query = "INSERT INTO cliente 
+                       (CD_CLIENTE, NM_CLIENTE, NM_SOBRENOME, NR_CPF, NR_RG, NR_TELEFONE, 
+                       DS_EMAIL, DT_NASCIMENTO, TP_SEXO, CD_ESTADO_CIVIL, 
+                       DS_SENHA, CD_ENDERECO, NR_CASA, DS_COMPLEMENTO, 
+                       SN_SENHA_ATUAL, DT_CADASTRO)
+                         VALUES (
+                         NULL, :nome, :sobrenome, :cpf, :rg, :telefone,
+                               :email, :nascimento, :sexo, :ec,
+                               MD5(:senha), :endereco, :numero, :complemento,
+                               :atual, curdate()
+                         )";
 
              $stmt = $this->connection->prepare($query);
-             echo "CPF: ".$cliente->getNrRg();
+
+
              $stmt->bindValue(":nome", $cliente->getNmCliente(), PDO::PARAM_STR);
              $stmt->bindValue(":sobrenome", $cliente->getNmSobrenome(), PDO::PARAM_STR);
              $stmt->bindValue(":cpf", $cliente->getNrCpf(), PDO::PARAM_STR);
@@ -38,14 +43,15 @@ class ClienteDAO
              $stmt->bindValue(":nascimento", $cliente->getDtNascimento(), PDO::PARAM_STR);
              $stmt->bindValue(":sexo", $cliente->getTpSexo(), PDO::PARAM_STR);
              $stmt->bindValue(":ec", $cliente->getEstadoCivil()->getCdEstadoCivil(), PDO::PARAM_INT);
+             $stmt->bindValue(":senha", $cliente->getDsSenha(), PDO::PARAM_STR);
              $stmt->bindValue(":endereco", $cliente->getEndereco()->getCdEndereco(), PDO::PARAM_INT);
              $stmt->bindValue(":numero", $cliente->getNrCasa(), PDO::PARAM_STR);
              $stmt->bindValue(":complemento", $cliente->getDsComplemento(), PDO::PARAM_STR);
-             $stmt->bindValue(":senha", $cliente->getDsSenha(), PDO::PARAM_STR);
              $stmt->bindValue(":atual", $cliente->getSnSenhaAtual(), PDO::PARAM_STR);
              $stmt->execute();
 
              $teste =  true;
+
 
              $this->connection =  null;
          }catch(PDOException $exception){
@@ -60,7 +66,8 @@ class ClienteDAO
         $this->connection = new ConnectionFactory();
         try{
             $query = "UPDATE `cliente` SET
-                       `NM_CLIENTE` = :nome, `NM_SOBRENOME` = :sobrenome, `NR_CPF` = :cpf, `NR_RG` = :rg, `NR_TELEFONE` = :telefone, 
+                       `NM_CLIENTE` = :nome, `NM_SOBRENOME` = :sobrenome, `NR_CPF` = :cpf,
+                        `NR_RG` = :rg, `NR_TELEFONE` = :telefone, 
                        `DS_EMAIL` = :email, `DT_NASCIMENTO` = :nascimento, `TP_SEXO` = :sexo, `CD_ESTADO_CIVIL` = :ec, 
                        `CD_ENDERECO` = :endereco, `NR_CASA` =  :numero, `DS_COMPLEMENTO` = :complemento, 
                        `DS_SENHA` = MD5(:senha),`SN_SENHA_ATUAL` = :atual, `DT_ATUALIZACAO` = curdate() 
