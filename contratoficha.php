@@ -356,7 +356,7 @@ class PDF extends FPDF {
                 $pdf->SetY(120);
                 $pdf->SetX(107);
                 //$pdf->Rect(10,$y,25,$l);
-                $pdf->MultiCell(40,6,utf8_decode('VALOR A PAGAR'),0,'L',false); //
+                $pdf->MultiCell(40,6,utf8_decode('TOTAL A PAGAR'),0,'L',false); //
 
                 $pdf->SetY(125);
                 $pdf->SetX(17);

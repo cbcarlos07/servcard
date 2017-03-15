@@ -8,7 +8,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
 
-include "../include/error.php";
+include "include/error.php";
 include_once "controller/ContratoController.class.php";
 include_once "beans/Contrato.class.php";
 include_once "controller/ClienteController.class.php";

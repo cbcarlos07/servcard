@@ -40,7 +40,7 @@ function salvar(){
                 ativo = 'N';
 
             //alert("Ativo: "+ativo);
-            alert("Senha: "+senha);
+            //
 
             $.ajax({
                 type    : 'post',

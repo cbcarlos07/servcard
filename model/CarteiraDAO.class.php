@@ -172,7 +172,6 @@ class CarteiraDAO
                 $carteira->setSnAtivo($row['SN_ATIVO']);
                 $carteira->setTpTitular($row['TP_TITULAR']);
                 $carteira->setDtValidade($row['DT_VALIDADE']);
-                $carteira->setNrCarteira($row['NR_CARTEIRA']);
                 $carteira->setContrato(new Contrato());
                 $carteira->getContrato()->setCdContrato($row['CD_CONTRATO']);
 
