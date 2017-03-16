@@ -5,15 +5,13 @@
  * Date: 22/02/17
  * Time: 20:43
  */
+include "../include/error.php";
 
 $id        = 0;
 $validade  = "";
 $ativo     = "";
 $tptitular   = "";
 $cliente   = 0;
-$plano     = 0;
-$carteira  = "";
-$titular   = 0;
 $contrato  = 0;
 
 $acao = $_POST['acao'];
@@ -32,7 +30,7 @@ if(isset($_POST['ativo'])){
 }
 
 if(isset($_POST['tptitular'])){
-    $titular = $_POST['tptitular'];
+    $tptitular = $_POST['tptitular'];
 }
 
 
@@ -40,28 +38,16 @@ if(isset($_POST['cliente'])){
     $cliente = $_POST['cliente'];
 }
 
-if(isset($_POST['plano'])){
-    $plano = $_POST['plano'];
-}
-
-if(isset($_POST['carteira'])){
-    $carteira = $_POST['carteira'];
-}
-
-if(isset($_POST['titular'])){
-    $titular = $_POST['titular'];
-}
 
 if(isset($_POST['contrato'])){
     $contrato = $_POST['contrato'];
 }
 switch ($acao){
     case 'C':
-        add($validade, $ativo, $tptitular, $cliente, $plano, $carteira,
-            $titular, $contrato);
+        add($validade, $tptitular, $ativo,  $cliente, $contrato);
         break;
     case 'A':
-        change($id, $nome, $obs);
+        change($id, $validade, $tptitular, $ativo,  $cliente, $contrato);
         break;
     case 'E':
         delete($id);
@@ -72,12 +58,11 @@ switch ($acao){
 
 }
 
-function add($validade, $ativo, $tptitular, $cliente, $plano, $nrcarteira,
-             $titular, $contrato){
+function add($validade, $tptitular, $ativo,  $cliente, $contrato){
    // echo "<script>alert('Adicionar'); </script>";
     require_once "../beans/Carteira.class.php";
-    require_once "../beans/Plano.class.php";
     require_once "../beans/Cliente.class.php";
+    require_once "../beans/Contrato.class.php";
     require_once "../controller/CarteiraController.class.php";
 
     $carteira =  new Carteira();
@@ -86,10 +71,7 @@ function add($validade, $ativo, $tptitular, $cliente, $plano, $nrcarteira,
     $carteira->setTpTitular($tptitular);
     $carteira->setCliente(new Cliente());
     $carteira->getCliente()->setCdCliente($cliente);
-    $carteira->setPlano(new Plano());
-    $carteira->getPlano()->setCdPlano($plano);
-    $carteira->setContrato(new Contrato());
-    $carteira->setNrCarteira($nrcarteira); //a carteira será gerada automaticamente
+    $carteira->setContrato(new Contrato()); //a carteira será gerada automaticamente
     $carteira->getContrato()->setCdContrato($contrato);
 
 
@@ -103,18 +85,25 @@ function add($validade, $ativo, $tptitular, $cliente, $plano, $nrcarteira,
 }
 
 
-function change($id, $nome, $obs){
-    require_once "../beans/Cargo.class.php";
-    require_once "../controller/CargoController.class.php";
+function change($id, $validade, $tptitular, $ativo,  $cliente, $contrato){
+    require_once "../beans/Carteira.class.php";
+    require_once "../beans/Cliente.class.php";
+    require_once "../beans/Contrato.class.php";
+    require_once "../controller/CarteiraController.class.php";
 
-    $cargo = new Cargo();
-    $cargo->setCdCargo($id);
-    $cargo->setDsCargo($nome);
-    $cargo->setObsCargo($obs);
+    $carteira =  new Carteira();
+    $carteira->setCdCarteira($id);
+    $carteira->setDtValidade($validade);
+    $carteira->setSnAtivo($ativo);
+    $carteira->setTpTitular($tptitular);
+    $carteira->setCliente(new Cliente());
+    $carteira->getCliente()->setCdCliente($cliente);
+    $carteira->setContrato(new Contrato()); //a carteira será gerada automaticamente
+    $carteira->getContrato()->setCdContrato($contrato);
 
-    $cargoController = new CargoController();
-    $teste = $cargoController->update($cargo);
 
+    $carteiraController = new CarteiraController();
+    $teste = $carteiraController->update($carteira);
     if($teste)
         echo json_encode(array('retorno' => 1));
     else

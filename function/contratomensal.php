@@ -20,6 +20,11 @@ switch ($acao){
 
     case 'B': //bairro por cidade
         getMensalidade($id);
+        break;
+    case 'V':
+        getVencimento($id);
+        break;
+
 
 }
 
@@ -84,3 +89,35 @@ function getMensalidade($contrato){
 
     }
 }
+
+function getVencimento($contrato){
+    include "../include/error.php";
+    require_once "../beans/ContratoMensal.class.php";
+    require_once "../controller/ContratoMensalController.class.php";
+    require_once "../services/ContratoMensalListIterator.class.php";
+    $contratoMensal = new ContratoMensal();
+    $cmc            = new ContratoMensalController();
+    $lista          = $cmc->getList($contrato);
+    $bList = new ContratoMensalListIterator($lista);
+    //'R$ '.number_format($plano->getNrValor(),2,',','.')
+    $dataArray = "";
+    if($bList->hasNextContratoMensal()) {
+        while ($bList->hasNextContratoMensal()) {
+            $contratoMensal = $bList->getNextContratoMensal();
+            $select = "";
+            if($contrato > 0){
+                if($contrato == $contratoMensal->getCdContrato()){
+                    $select = "selected";
+                }
+            }
+            $dataArray = explode('-',$contratoMensal->getDtVencimento());
+
+
+        }
+    }else {
+
+
+    }
+    echo json_encode(array('vencimento' => "$dataArray[2]/$dataArray[1]/$dataArray[0]"));
+}
+

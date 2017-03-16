@@ -14,6 +14,7 @@ include "include/error.php";
 
 
 include "include/head.php"; ?>
+<link href="css/jquery.datetimepicker.min.css" rel="stylesheet" type="text/css" />
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.min.js"></script>
 
@@ -81,7 +82,7 @@ include "include/head.php"; ?>
                 <div class="mensagem alert "></div>
                 <form method="post" id="form">
                     <input id="id" value="0" type="hidden">
-                    <input id="cliente" value="<?php $id; ?>" type="hidden">
+                    <input id="cliente" value="<?php echo $id; ?>" type="hidden">
                     <input id="id-contrato" value="0" type="hidden">
                     <input id="acao" value="C" type="hidden">
                     <div class="form-group col-lg-12">
@@ -91,7 +92,7 @@ include "include/head.php"; ?>
                     <div class="row"></div>
 
                     <div class="checkbox-inline1 col-lg-3"style="margin-top: 15px;"><label><input type="checkbox" value="S" id="ativo" checked> Ativo?</label></div>
-                    <div class="checkbox-inline1 col-lg-3"style="margin-top: 15px;"><label><input type="checkbox" value="T" id="tptitular" checked> Titular?</label></div>
+                    <div class="checkbox-inline1 col-lg-3"style="margin-top: 15px;"><label><input type="checkbox" value="T" id="tptitular" disabled=""> Titular?</label></div>
                     <div class="row"></div>
                     <div class="form-group col-lg-7">
                         <label for="contrato">Contrato - <a href="#" data-toggle="modal" data-target="#delete-modal" class="delete"><span style="font-size: 12px;">Escolher Contratos</span></a></label>
@@ -107,6 +108,10 @@ include "include/head.php"; ?>
                             <input id="nome" class="form-control col-lg-10" disabled/>
                         </div>
                     <div class="row"></div>
+                    <div class="form-group col-lg-3">
+                        <label for="validade">Vencimento</label>
+                        <input id="validade" class="form-control data-nasc" required="" />
+                    </div>
 
 
 
@@ -143,7 +148,7 @@ include "include/head.php"; ?>
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.nicescroll.js"></script>
     <script src="js/scripts.js"></script>
-
+    <script src="js/jquery.datetimepicker.full.js"></script>
 
 
 

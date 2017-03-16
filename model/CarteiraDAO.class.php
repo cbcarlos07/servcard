@@ -46,45 +46,11 @@ class CarteiraDAO
          }catch(PDOException $exception){
              echo "Erro: ".$exception->getMessage();
          }
-        // $this->inserir_nr_carteira($lastId);
+
 
          return $teste;
      }
 
-     private function inserir_nr_carteira($codigo){
-         $this->connection =  null;
-         $teste = false;
-         $this->connection = new ConnectionFactory();
-         $carteira = "";
-        // echo "\n Codigo gerado: ".$codigo." \n";
-         $count = strlen($codigo);
-        // echo "Numero de caractere: ".$count;
-
-         for($i = 0;$i < (20 - $count); $i++){
-                $carteira = $carteira . "0";
-         }
-        $carteira = $carteira . $codigo;
-         //echo "<br> ".$carteira."<br>";
-         try{
-             $query = "UPDATE carteira SET 
-                           NR_CARTEIRA = :carteira 
-                           WHERE CD_CARTEIRA = :codigo";
-
-
-             $stmt = $this->connection->prepare($query);
-             $stmt->bindValue(":carteira", $carteira, PDO::PARAM_STR);
-             $stmt->bindValue(":codigo",   $codigo, PDO::PARAM_STR);
-
-             $stmt->execute();
-
-             $teste =  true;
-
-             $this->connection =  null;
-         }catch(PDOException $exception){
-             echo "Erro: ".$exception->getMessage();
-         }
-         return $teste;
-     }
 
     public function update (Carteira $carteira){
         $this->connection =  null;
@@ -120,8 +86,7 @@ class CarteiraDAO
         $teste = false;
         $this->connection = new ConnectionFactory();
         try{
-            $query = "{CALL PROC_CARTEIRA(:codigo, NULL, NULL, NULL, NULL, 
-                            NULL, NULL, 'E')}";
+            $query = "DELETE FROM carteira WHERE CD_CARTEIRA = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
@@ -150,9 +115,17 @@ class CarteiraDAO
 
         try {
 
-                $sql = "SELECT * FROM carteira C
-                        INNER JOIN cliente CLI ON C.CD_CLIENTE = CLI.CD_CLIENTE
-                        INNER JOIN plano   P   ON C.CD_PLANO = P.CD_PLANO
+                $sql = "SELECT C.*
+                               ,CLI.*
+                               ,CO.CD_CONTRATO  CONTRATO
+                               ,CO.CD_CLIENTE   COD_CLIENTE
+                               ,CLIE.NM_CLIENTE CLIENTE
+                               ,P.*
+                          FROM carteira C
+                        INNER JOIN cliente  CLI  ON C.CD_CLIENTE = CLI.CD_CLIENTE
+                        INNER JOIN contrato CO   ON C.CD_CONTRATO = CO.CD_CONTRATO
+                        INNER JOIN cliente  CLIE ON CLIE.CD_CLIENTE = CO.CD_CLIENTE
+                        INNER JOIN plano   P    ON CO.CD_PLANO = P.CD_PLANO
                         WHERE C.CD_CLIENTE = :cliente
                         ORDER BY C.CD_CARTEIRA DESC";
                 $stmt = $this->connection->prepare($sql);
@@ -165,14 +138,17 @@ class CarteiraDAO
                 $carteira->setCliente(new Cliente());
                 $carteira->getCliente()->setCdCliente($row['CD_CLIENTE']);
                 $carteira->getCliente()->setNmCliente($row['NM_CLIENTE']);
-                $carteira->setPlano(new Plano());
-                $carteira->getPlano()->setCdPlano($row['CD_PLANO']);
-                $carteira->getPlano()->setDsPlano($row['DS_PLANO']);
                 $carteira->setSnAtivo($row['SN_ATIVO']);
                 $carteira->setTpTitular($row['TP_TITULAR']);
                 $carteira->setDtValidade($row['DT_VALIDADE']);
                 $carteira->setContrato(new Contrato());
                 $carteira->getContrato()->setCdContrato($row['CD_CONTRATO']);
+                $carteira->getContrato()->setPlano(new Plano());
+                $carteira->getContrato()->getPlano()->setCdPlano($row['CD_PLANO']);
+                $carteira->getContrato()->getPlano()->setDsPlano($row['DS_PLANO']);
+                $carteira->getContrato()->setCliente(new Cliente());
+                $carteira->getContrato()->getCliente()->setCdCliente($row['COD_CLIENTE']);
+                $carteira->getContrato()->getCliente()->setNmCliente($row['CLIENTE']);
 
 
                 $carteiraList->addCarteira($carteira);

@@ -88,7 +88,7 @@ $cliente = $clienteController->getCliente($id);
 
             </div>
             <div class="col-lg-4">
-                <a href="#" data-url="carteiracad.php" data-id="<?php echo $id; ?>"class="btn btn-primary novo-item">Novo Item</a>
+                <a href="#" data-url="carteiracad.php" data-id="<?php echo $id; ?>" class="btn btn-primary novo-item">Novo Item</a>
             </div>
             <div class="row"></div>
             <hr />
@@ -105,6 +105,7 @@ $cliente = $clienteController->getCliente($id);
                                 <th>Plano</th>
                                 <th>Validade</th>
                                 <th>Contrato</th>
+                                <th>Titular</th>
                                 <th>Ativa?</th>
                                 <th></th>
                             </tr>
@@ -127,7 +128,7 @@ $cliente = $clienteController->getCliente($id);
                                         $nrCarteira3 = substr($carteira->getCdCarteira(),11,5);
                                         $nrCarteira4 = substr($carteira->getCdCarteira(),15,5);
                                         echo "$nrCarteira1 $nrCarteira2 $nrCarteira3 $nrCarteira4"; ?></th>
-                                    <td><?php echo $carteira->getPlano()->getDsPlano(); ?></td>
+                                    <td><?php echo $carteira->getContrato()->getPlano()->getDsPlano(); ?></td>
                                     <td><?php
                                         $dataArray = explode('-',$carteira->getDtValidade());
                                         $ano = $dataArray[0];
@@ -135,6 +136,7 @@ $cliente = $clienteController->getCliente($id);
                                         $dia = $dataArray[2];
                                         echo "$dia/$mes/$ano"; ?></td>
                                     <td><div style="text-align: center;"></div> <?php echo $carteira->getContrato()->getCdContrato(); ?></div></td>
+                                    <td><?php echo $carteira->getContrato()->getCliente()->getNmCliente();  ?></td>
                                     <td><?php echo $carteira->getSnAtivo();  ?></td>
                                     <td class="action">
                                         <a href="#" data-url="carteiraalt.php" data-id="<?php echo $carteira->getCdCarteira();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>

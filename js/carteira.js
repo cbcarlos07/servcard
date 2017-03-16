@@ -25,21 +25,20 @@ function salvar(){
         var snativo    = document.getElementById('ativo');
         var sntitular  = document.getElementById('tptitular');
         var cliente    = document.getElementById('cliente').value;
-
-        var carteira   = document.getElementById('carteira').value;
-
         var contrato   = document.getElementById('contrato').value;
         var acao       = document.getElementById('acao').value;
         var tptitular = 'D';
         var ativo   = 'N';
-        if(sntitular.checked == true)
+        if(sntitular.checked == true) {
             tptitular = 'T';
+        }
 
-        if(snativo.checked == true)
+        if(snativo.checked == true) {
             ativo = 'S';
+        }
 
 
-        //alert("Acao: "+acao);
+       // alert("Contrato: "+contrato);
         $.ajax({
                 type    : 'post',
                 dataType: 'json',
@@ -51,7 +50,6 @@ function salvar(){
                     'ativo'     : ativo,
                     'tptitular' : tptitular,
                     'cliente'   : cliente,
-                    'carteira'  : carteira,
                     'contrato'  : contrato,
                     'acao'      : acao
 
@@ -59,7 +57,7 @@ function salvar(){
                 success: function (data) {
                     //alert(data.retorno);
                     if (data.retorno == 1) {
-                        sucesso('Opera&ccedil;&atilde;o realizada com sucesso!');
+                        sucesso('Opera&ccedil;&atilde;o realizada com sucesso!', cliente);
                     }
                      else {
                         errosend('N&atilde;o foi poss&iacute;vel realizar opera&ccedil;&atilde;o. Verifique se todos os campos est&atilde;o preenchidos ');
@@ -111,12 +109,17 @@ function errosend(msg){
     var mensagem = $('.mensagem');
     mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>'+msg+'</p>').fadeIn("fast");
 }
-function sucesso(msg){
+function sucesso(msg, cliente){
     //alert("Mensagem: "+msg);
     var mensagem = $('.mensagem');
     mensagem.empty().html('<p class="alert alert-success"><strong>OK. </strong>'+msg+'<img src="images/ok.png" alt="Carregando..."></p>').fadeIn("fast");
     setTimeout(function (){
-        location.href = "cargo.php";
+        location.href = "carteira.php";
+        var form = $('<form action="carteira.php" method="post">' +
+                   '<input name="id" value="'+cliente+'">'+
+                   '</form>');
+        $('body').append(form);
+        form.submit();
     },2000);
 }
 function sucesso_delete(msg){
@@ -250,11 +253,36 @@ function carregar() {
 
 $('.btn-ok').on('click', function () {
     var contrato_modal = document.getElementById('contrato-modal').value;
-    var nome_modal = document.getElementById('nome-modal').value;
-    var contrato = document.getElementById('contrato').value = contrato_modal;
-    var nome = document.getElementById('nome').value = nome_modal;
+    var nome_modal     = document.getElementById('nome-modal').value;
+    var contrato       = document.getElementById('contrato').value = contrato_modal;
+    var nome           = document.getElementById('nome').value = nome_modal;
+    var vencimento     = document.getElementById('validade');
+    $.ajax({
+        type    : 'post',
+        dataType: 'json',
+        url     : 'function/contratomensal.php',
 
-})
+        data: {
+            'id'        : contrato_modal,
+            'acao'      : 'V'
+
+        },
+        success: function (data) {
+            vencimento.value = data.vencimento;
+        }
+    });
+
+
+});
+
+$("#vencimento").datetimepicker({
+    timepicker: false,
+    format: 'd/m/Y',
+    mask: true
+});
+
+
+
 
 
 

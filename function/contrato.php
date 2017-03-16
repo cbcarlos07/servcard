@@ -158,13 +158,9 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
        // echo "Codigo do contrato: ".$genId." \n";
         $carteira->getContrato()->setCdContrato($genId);
         $carteira->setDtValidade($contratoMensal->getDtVencimento());
-        $carteira->setPlano(new Plano());
-        $carteira->getPlano()->setCdPlano($plano);
         $carteira->setCliente(new Cliente());
         $carteira->getCliente()->setCdCliente($cliente);
         $carteira->setSnAtivo('S');
-        $carteira->setTitular(new Cliente());
-        $carteira->getTitular()->setCdCliente(0);
         $teste1 = $carteiraController->insert($carteira);
 
 
@@ -297,3 +293,4 @@ function getTabelaContratos($id){
     }
 
 }
+
