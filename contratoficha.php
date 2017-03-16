@@ -192,7 +192,7 @@ class PDF extends FPDF {
                 $pdf->MultiCell(27,5,$dia.'/'.$mes.'/'.$ano,0,'C',false); //nascimento
 
                  $pdf->SetY(45.5);
-                 $pdf->SetX(44);
+                 $pdf->SetX(43);
                 //$pdf->Rect(129,$y,70,$l);
                 $cpf1 = substr($cliente->getNrCpf(), 0,3);
                 $cpf2 = substr($cliente->getNrCpf(), 3,3);
@@ -216,7 +216,7 @@ class PDF extends FPDF {
 
 
                 $pdf->SetY(50.5);
-                $pdf->SetX(43);
+                $pdf->SetX(44);
                 $pdf->MultiCell(35,5,formataTelefone($cliente->getNrTelefone()),0,'C',false); //Telefone
 
 
@@ -410,7 +410,8 @@ class PDF extends FPDF {
 
                 $pdf->SetY(130.5);
                 $pdf->SetX(43);
-                $pdf->MultiCell(35,5,$contrato->getTpStatus(),0,'L',false); //
+
+                $pdf->MultiCell(35,5,$contrato->getTpStatus() == 'A' ? 'Ativo' : 'Cancelado',0,'L',false); //
 
 $pdf->Footer();
 $pdf->Output(); // IMPRIME O PDF NA TELA

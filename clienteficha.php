@@ -213,7 +213,7 @@
 
 
             $pdf->SetY(50.5);
-            $pdf->SetX(43);
+            $pdf->SetX(44.5);
             $pdf->MultiCell(35,5,formataTelefone($cliente->getNrTelefone()),0,'C',false); //Telefone
 
 
