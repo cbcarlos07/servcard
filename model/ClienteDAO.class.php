@@ -145,7 +145,10 @@ class ClienteDAO
                         FROM cliente C 
                         INNER JOIN estado_civil EC ON EC.CD_ESTADO_CIVIL = C.CD_ESTADO_CIVIL
                         INNER JOIN endereco     E  ON E.CD_ENDERECO = C.CD_ENDERECO
-                        WHERE NM_CLIENTE LIKE :nome ";
+                        WHERE NM_CLIENTE LIKE :nome
+                        ORDER BY NM_CLIENTE ASC
+                        LIMIT :inicio, 10
+                        ";
 
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
