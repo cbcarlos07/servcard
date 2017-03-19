@@ -118,6 +118,7 @@ function getVencimento($contrato){
 
 
     }
+    //echo $dataArray;
     echo json_encode(array('vencimento' => "$dataArray[2]/$dataArray[1]/$dataArray[0]"));
 }
 

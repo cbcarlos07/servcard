@@ -56,7 +56,7 @@ $contrato = $contratoController->getContrato($id);
                             <input type="hidden" id="id" value="<?php echo $contrato->getCdContrato(); ?>">
                             <input type="hidden" id="usuario" value="<?php echo $contrato->getUsuario()->getCdUsuario(); ?>">
                             <input type="hidden" id="acao" value="A">
-                            <input type="hidden" id="quite" value="D">
+                            <input type="hidden" id="quite" value="N">
                             <input type="hidden" id="id-plano" value="<?php echo $contrato->getPlano()->getCdPlano(); ?>">
                             <input type="hidden" id="cliente" value="<?php echo $contrato->getCliente()->getCdCliente(); ?>">
                             <div class="row"></div>
@@ -117,12 +117,12 @@ $contrato = $contratoController->getContrato($id);
                                 <label for="total">Total a Pagar</label>
                                 <input id="total" class="form-control" value="<?php echo 'R$ '.number_format($contrato->getNrValor(),2,',','.'); ?>"/>
                             </div>
-                            <div class="checkbox-inline1"style="margin-top: 15px;"><label><input type="checkbox" value="T" id="titular" checked> Titular?</label></div>
+                            <div class="checkbox-inline1"style="margin-top: 15px;"><label><input type="checkbox" value="S" id="titular" checked> Titular?</label></div>
                             <div class="row"></div>
                             <hr />
                             <div class="btn-group">
                                 <button class="btn btn-success" onclick="salvar()">Salvar</button>
-                                <a class="btn btn-warning btn-voltar" data-url="contrato.php" onclick="return verifica('Tem certeza de que deseja cancelar a opera&ccedil;&atilde;o?');">Cancelar</a>
+                                <a class="btn btn-warning btn-voltar" data-url="contrato.php" data-id="<?php echo $contrato->getCliente()->getCdCliente(); ?>" onclick="return verifica('Tem certeza de que deseja cancelar a opera&ccedil;&atilde;o?');">Cancelar</a>
                             </div>
                         </div>
                     </form>

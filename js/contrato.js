@@ -36,9 +36,9 @@ function salvar(){
         var dias        = document.getElementById('dias').value;
         var sntitular     = document.getElementById('titular');
         //alert('Acao: '+acao);
-        var titular = "D";
+        var titular = "N";
         if(sntitular.checked == true){
-            titular = "T";
+            titular = "S";
         }
         $.ajax({
                 type    : 'post',
@@ -81,7 +81,7 @@ function salvar(){
 
 function deletar(codigo, acao){
     var usuario    = document.getElementById('usuario').value;
-    alert('usuario: '+usuario);
+    //alert('usuario: '+usuario);
     var observacao = document.getElementById('observacao').value;
     $.ajax({
         dataType: 'json',
@@ -152,8 +152,9 @@ function verifica(Msg)
 $('.btn-voltar').on('click', function(){
     var url = $(this).data('url'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
     //alert('Url: '+url);
+    var id = $(this).data('id');
     var form = $('<form action="'+url+'" method="post">' +
-
+               '<input type="hidden" name="id" value="'+id+'">'+
         '</form>');
     $('body').append(form);
     form.submit();
@@ -172,8 +173,10 @@ $('.btn-alterar').on('click', function(){
 $('.btn-acao').on('click', function(){
     var url = $(this).data('url'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
     var id = $(this).data('id');
+    var cliente = $(this).data('cliente');
     var form = $('<form action="'+url+'" method="post">' +
         '<input type="hidden" value="'+id+'" name="id">'+
+        '<input type="hidden" value="'+cliente+'" name="cliente">'+
         '</form>');
     $('body').append(form);
     form.submit();

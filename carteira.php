@@ -53,7 +53,7 @@ $cliente = $clienteController->getCliente($id);
                         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="modalLabel">Cancelar contrato</h4>
                     </div>
-                    <div class="modal-body">Deseja realmente cancelar contrato n&ordm; <b><span class="nome"></span></b>  e todos seus dependentes (se houver) ? </div>
+                    <div class="modal-body">Deseja realmente inativar esta carteira de n&ordm; <b><span class="nome"></span></b>? </div>
                     <form>
                         <input type="hidden" id="usuario" value="1">
 
@@ -64,13 +64,40 @@ $cliente = $clienteController->getCliente($id);
                     </form>
                     <div class="modal-footer">
                         <a href="#" type="button"  class="btn btn-primary delete-yes">Sim</a>
-                        <a href="#" type="button"  class="btn btn-success delete-yes-all">N&atilde;o. Apenas o meu</a>
+
                         <button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <link rel="stylesheet" type="text/css" href="css/carteira.css">
+        <!-- Modal -->
+        <div class="modal fade" id="card-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalLabel">Carteira</h4>
+                    </div>
+                    <div class="modal-body">Deseja imprimir carteira de  <b><span class="nome"></span></b>? </div>
+                         <div class="col-lg-12" style="margin-left: 35px;">
+                             <div class="nome-card"><span class="nome"></span></div>
+                             <span class="validade"></span>
+                             <span class="carteira"></span>
+                             <div class="beneficiario">Nome do Benefici&aacute;rio</div>
+                             <div class="text-validade">Validade</div>
+
+                                <img src="images/carteira.jpg" width="450" class="img-responsive">
+                         </div>
+                    <div class="modal-footer">
+                        <a href="#" type="button"  class="btn btn-primary delete-yes">Sim</a>
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <!-- main content start-->
 		<div class="main-content main-content3 main-content3copy">
@@ -116,8 +143,24 @@ $cliente = $clienteController->getCliente($id);
                             while ($pListIterator->hasNextCarteira()){
                                 $carteira =  $pListIterator->getNextCarteira();
                                 $corLinha = "";
+                                $inativar = "<a href='#' class='btn-inativar  btn btn-warning btn-xs'
+                                           data-toggle='modal'
+                                           data-target='#delete-modal'
+                                           data-id='".$carteira->getCdCarteira()."'
+                                           data-action='I'>Inativar</a>";
                                 if($carteira->getSnAtivo() == 'N'){
                                     $corLinha = "#F95959";
+                                    $inativar = "<a href='#' 
+                                                    data-url='carteirades.php' 
+                                                    data-id='".$carteira->getCdCarteira()."' 
+                                                    class='btn-acao btn btn-warning btn-xs'
+                                                     >Inativada</a>";
+                                }
+                                if($carteira->getContrato()->getSnAtivo() == 'N'){
+                                    $corLinha = "#F95959";
+                                    $inativar = "<a href='#' 
+                                                    class=' btn btn-warning btn-xs'
+                                                     >Contrato Desativado</a>";
                                 }
                                 ?>
                                 <tr style="background: <?php echo $corLinha; ?>">
@@ -140,15 +183,14 @@ $cliente = $clienteController->getCliente($id);
                                     <td><?php echo $carteira->getSnAtivo();  ?></td>
                                     <td class="action">
                                         <a href="#" data-url="carteiraalt.php" data-id="<?php echo $carteira->getCdCarteira();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
-                                        <a href="#" data-url="carteiraficha.php" data-id="<?php echo $carteira->getCdCarteira(); ?>" class="btn btn-success btn-acao">Imprimir</a>
-                                        <!--<a href="#" class="delete btn btn-warning btn-xs"
+                                        <a href="#" class="btn-mostrar btn btn-warning btn-xs"
                                            data-toggle="modal"
-                                           data-target="#delete-modal"
-                                           data-nome="<?php echo $carteira->getCdCarteira(); ?>"
-                                           data-id="<?php echo $carteira->getCdCarteira(); ?>"
-                                           data-action="D">Desativar</a>'
-                                         -->
-
+                                           data-target="#card-modal"
+                                           data-nome="<?php echo $carteira->getCliente()->getNmCliente().' '.$carteira->getCliente()->getNmSobrenome(); ?>"
+                                           data-id="<?php echo "$nrCarteira1 $nrCarteira2 $nrCarteira3 $nrCarteira4"; ?>"
+                                           data-validade="<?php echo "$dia/$mes/$ano"; ?>"
+                                           data-action="E">Visulizar</a>
+                                        <?php echo $inativar; ?>
                                     </td>
 
                                 </tr>
@@ -174,7 +216,7 @@ $cliente = $clienteController->getCliente($id);
         <!--footer section end-->
 
 <?php  include "include/enfile.php";?>
-        <script src="js/contrato.js"></script>
+        <script src="js/carteira.js"></script>
     </section>
 
  </body>

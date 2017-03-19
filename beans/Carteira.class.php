@@ -11,33 +11,83 @@ class Carteira
 private $cdCarteira;
 private $dtValidade;
 private $snAtivo;
-private $tpTitular;
+private $snTitular;
 private $cliente;
-
 private $contrato;
-
-
-
-
-
-
-
+private $dtCadatro;
+private $dtInativacao;
+private $usuario;
+private $obsInativacao;
 
     /**
      * @return mixed
      */
-    public function getContrato()
+    public function getDtCadatro()
     {
-        return $this->contrato;
+        return $this->dtCadatro;
     }
 
     /**
-     * @param mixed $contrato
+     * @param mixed $dtCadatro
      * @return Carteira
      */
-    public function setContrato(Contrato $contrato)
+    public function setDtCadatro($dtCadatro)
     {
-        $this->contrato = $contrato;
+        $this->dtCadatro = $dtCadatro;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDtInativacao()
+    {
+        return $this->dtInativacao;
+    }
+
+    /**
+     * @param mixed $dtInativacao
+     * @return Carteira
+     */
+    public function setDtInativacao($dtInativacao)
+    {
+        $this->dtInativacao = $dtInativacao;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+
+    /**
+     * @param mixed $usuario
+     * @return Carteira
+     */
+    public function setUsuario(Usuario $usuario)
+    {
+        $this->usuario = $usuario;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getObsInativacao()
+    {
+        return $this->obsInativacao;
+    }
+
+    /**
+     * @param mixed $obsInativacao
+     * @return Carteira
+     */
+    public function setObsInativacao($obsInativacao)
+    {
+        $this->obsInativacao = $obsInativacao;
         return $this;
     }
 
@@ -100,18 +150,18 @@ private $contrato;
     /**
      * @return mixed
      */
-    public function getTpTitular()
+    public function getSnTitular()
     {
-        return $this->tpTitular;
+        return $this->snTitular;
     }
 
     /**
-     * @param mixed $tpTitular
+     * @param mixed $snTitular
      * @return Carteira
      */
-    public function setTpTitular($tpTitular)
+    public function setSnTitular($snTitular)
     {
-        $this->tpTitular = $tpTitular;
+        $this->snTitular = $snTitular;
         return $this;
     }
 
@@ -127,11 +177,32 @@ private $contrato;
      * @param mixed $cliente
      * @return Carteira
      */
-    public function setCliente(Cliente $cliente)
+    public function setCliente($cliente)
     {
         $this->cliente = $cliente;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getContrato()
+    {
+        return $this->contrato;
+    }
+
+    /**
+     * @param mixed $contrato
+     * @return Carteira
+     */
+    public function setContrato($contrato)
+    {
+        $this->contrato = $contrato;
+        return $this;
+    }
+
+
+
 
 
 

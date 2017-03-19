@@ -18,7 +18,7 @@ class ContratoMensalDAO
          $this->connection = new ConnectionFactory();
          try{
              $query = "INSERT INTO contrato_mensal 
-                       (CD_CONTRATO, DT_VENCIMENTO, NR_VALOR, NR_PARCELA, TP_STATUS) 
+                       (CD_CONTRATO, DT_VENCIMENTO, NR_VALOR, NR_PARCELA, SN_PAGO) 
                        VALUES 
                        (:contrato, :vencimento, :valor, :parcela, :status_)";
 
@@ -36,7 +36,7 @@ class ContratoMensalDAO
              $stmt->bindValue(":vencimento", "$ano-$mes-$dia", PDO::PARAM_STR);
              $stmt->bindValue(":valor",$valor , PDO::PARAM_STR);
              $stmt->bindValue(":parcela", $contratoMensal->getNrParcela(), PDO::PARAM_INT);
-             $stmt->bindValue(":status_", $contratoMensal->getTpStatus(), PDO::PARAM_STR);
+             $stmt->bindValue(":status_", $contratoMensal->getSnPago(), PDO::PARAM_STR);
              $stmt->execute();
 
              $teste =  true;
@@ -55,14 +55,14 @@ class ContratoMensalDAO
         try{
             $query = "UPDATE contrato_mensal SET 
                         DT_VENCIMENTO = :vencimento, NR_VALOR = :valor,
-                        NR_PARCELA = :parcela, TP_STATUS =  :status_
+                        NR_PARCELA = :parcela, SN_PAGO =  :status_
                        WHERE 
                        CD_CONTRATO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":vencimento", $contratoMensal->getDtVencimento(), PDO::PARAM_STR);
             $stmt->bindValue(":valor", $contratoMensal->getNrValor(), PDO::PARAM_STR);
             $stmt->bindValue(":parcela", $contratoMensal->getNrParcela(), PDO::PARAM_INT);
-            $stmt->bindValue(":status_", $contratoMensal->getTpStatus(), PDO::PARAM_STR);
+            $stmt->bindValue(":status_", $contratoMensal->getSnPago(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $contratoMensal->getCdContrato(), PDO::PARAM_INT);
             $stmt->execute();
 
@@ -106,7 +106,7 @@ class ContratoMensalDAO
 
         try {
 
-                $sql = "SELECT M.*, C.TP_STATUS STATUS FROM 
+                $sql = "SELECT M.* FROM 
                         contrato_mensal M
                         INNER JOIN contrato C ON M.CD_CONTRATO = C.CD_CONTRATO
                         WHERE C.CD_CONTRATO = :contrato";
@@ -121,7 +121,7 @@ class ContratoMensalDAO
                 $contratoMensal->setDtVencimento($row['DT_VENCIMENTO']);
                 $contratoMensal->setNrValor($row['NR_VALOR']);
                 $contratoMensal->setNrParcela($row['NR_PARCELA']);
-                $contratoMensal->setTpStatus($row['TP_STATUS']);
+                $contratoMensal->setSnPago($row['SN_PAGO']);
 
                 $contratoMensalList->addContratoMensal($contratoMensal);
             }
@@ -148,7 +148,7 @@ class ContratoMensalDAO
                 $contratoMensal->setDtVencimento($row['DT_VENCIMENTO']);
                 $contratoMensal->setNrValor($row['NR_VALOR']);
                 $contratoMensal->setNrParcela($row['NR_PARCELA']);
-                $contratoMensal->setTpStatus($row['TP_STATUS']);
+                $contratoMensal->setSnPago($row['SN_PAGO']);
             }
             $this->connection = null;
         } catch (PDOException $ex) {

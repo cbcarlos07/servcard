@@ -27,10 +27,10 @@ function salvar(){
         var cliente    = document.getElementById('cliente').value;
         var contrato   = document.getElementById('contrato').value;
         var acao       = document.getElementById('acao').value;
-        var tptitular = 'D';
+        var tptitular = 'N';
         var ativo   = 'N';
         if(sntitular.checked == true) {
-            tptitular = 'T';
+            tptitular = 'S';
         }
 
         if(snativo.checked == true) {
@@ -69,16 +69,20 @@ function salvar(){
 
 }
 
-function deletar(codigo, acao){
-
+function inativar(codigo, acao){
+     var usuario    = document.getElementById('usuario').value;
+     var observacao = document.getElementById('observacao').value;
+     //alert("Obs: "+observacao);
     $.ajax({
         dataType: 'json',
         type: "POST",
-        url: "function/cargo.php",
+        url: "function/carteira.php",
         beforeSend: carregando,
         data: {
-            'id' : codigo,
-            'acao'     : acao
+            'id'         : codigo,
+            'usuario'    : usuario,
+            'observacao' : observacao,
+            'acao' : acao
         },
         success: function( data )
         {
@@ -140,7 +144,7 @@ $('.btn-voltar').on('click', function(){
     var url = $(this).data('url'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
     //alert('Url: '+url);
     var form = $('<form action="'+url+'" method="post">' +
-
+        '<input type="hidden" name="id" value="'+id+'">'+
         '</form>');
     $('body').append(form);
     form.submit();
@@ -155,6 +159,17 @@ $('.btn-alterar').on('click', function(){
     $('body').append(form);
     form.submit();
 });
+
+$('.btn-acao').on('click', function(){
+    var url = $(this).data('url'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
+    var id = $(this).data('id');
+    var form = $('<form action="'+url+'" method="post">' +
+        '<input type="hidden" value="'+id+'" name="id">'+
+        '</form>');
+    $('body').append(form);
+    form.submit();
+});
+
 
 $('.delete').on('click', function(){
     var nome = $(this).data('nome'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
@@ -181,6 +196,53 @@ $('.delete').on('click', function(){
    /* $('.delete-yes').on('click', function(){
         deletar(id,acao);
     });*/
+    //$('.delete-yes').attr('href', 'curso?acao=E&id=' +id); // mudar dinamicamente o link, href do botão confirmar da modal
+
+    //$('#myModal').modal('show'); // modal aparece
+});
+
+
+$('.btn-inativar').on('click', function(){
+
+    var id = $(this).data('id'); // vamos buscar o valor do atributo data-id
+    var acao = $(this).data('action');
+
+    //$('span.nome').text(nome+ ' (id = ' +id+ ')'); // inserir na o nome na pergunta de confirmação dentro da modal
+    //console.log("Nome para deletar: "+nome);
+    $('span.nome').text(id);
+
+    $('.delete-yes').on('click', function(){
+        inativar(id,acao);
+    });
+    //$('.delete-yes').attr('href', 'curso?acao=E&id=' +id); // mudar dinamicamente o link, href do botão confirmar da modal
+
+    //$('#myModal').modal('show'); // modal aparece
+});
+
+
+$('.btn-mostrar').on('click', function(){
+
+    var id = $(this).data('id'); // vamos buscar o valor do atributo data-id
+    var nome = $(this).data('nome'); // vamos buscar o valor do atributo data-id
+    var validade = $(this).data('validade'); // vamos buscar o valor do atributo data-id
+    var acao = $(this).data('action');
+
+    //$('span.nome').text(nome+ ' (id = ' +id+ ')'); // inserir na o nome na pergunta de confirmação dentro da modal
+    //console.log("Nome para deletar: "+nome);
+    $('span.nome').text(nome);
+    $('span.carteira').text(id);
+    $('span.validade').text(validade);
+
+    $('.delete-yes').on('click', function(){
+        //alert('Click');
+        var form = $('<form action="carteiraficha.php" method="post">' +
+            '<input type="hidden" value="'+id+'" name="id">'+
+            '<input type="hidden" value="'+nome+'" name="nome">'+
+            '<input type="hidden" value="'+validade+'" name="validade">'+
+            '</form>');
+        $('body').append(form);
+        form.submit();
+    });
     //$('.delete-yes').attr('href', 'curso?acao=E&id=' +id); // mudar dinamicamente o link, href do botão confirmar da modal
 
     //$('#myModal').modal('show'); // modal aparece

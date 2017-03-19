@@ -62,7 +62,7 @@ $id = $_POST['id'];
                             <input type="hidden" id="id" value="0">
                             <input type="hidden" id="usuario" value="1">
                             <input type="hidden" id="acao" value="C">
-                            <input type="hidden" id="quite" value="D">
+                            <input type="hidden" id="quite" value="N">
                             <input type="hidden" id="id-plano" value="0">
                             <input type="hidden" id="cliente" value="<?php echo $id; ?>">
                             <div class="row"></div>
@@ -118,12 +118,12 @@ $id = $_POST['id'];
                                 <label for="total">Total a Pagar</label>
                                 <input id="total" class="form-control"/>
                             </div>
-                            <div class="checkbox-inline1"style="margin-top: 15px;"><label><input type="checkbox" value="T" id="titular" checked> Titular?</label></div>
+                            <div class="checkbox-inline1"style="margin-top: 15px;"><label><input type="checkbox" value="S" id="titular" checked> Titular?</label></div>
                             <div class="row"></div>
                             <hr />
                             <div class="btn-group">
                                 <button class="btn btn-success" onclick="salvar()">Salvar</button>
-                                <a class="btn btn-warning btn-voltar" data-url="contrato.php" onclick="return verifica('Tem certeza de que deseja cancelar a opera&ccedil;&atilde;o?');">Cancelar</a>
+                                <a class="btn btn-warning btn-voltar" data-id="<?php echo $id; ?>" data-url="contrato.php" onclick="return verifica('Tem certeza de que deseja cancelar a opera&ccedil;&atilde;o?');">Cancelar</a>
                             </div>
                         </div>
                     </form>

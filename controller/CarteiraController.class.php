@@ -45,4 +45,32 @@ class CarteiraController
         return $retorno;
     }
 
+    public function inativar_carteira($carteira){
+        require_once ("../model/CarteiraDAO.class.php");
+        $carteiraDao = new CarteiraDAO();
+        $retorno = $carteiraDao->inativar_carteira($carteira);
+        return $retorno;
+    }
+
+    public function getCarteiraCancelada($codigo){
+        require_once ("model/CarteiraDAO.class.php");
+        $carteiraDao = new CarteiraDAO();
+        $retorno = $carteiraDao->getCarteiraCancelada($codigo);
+        return $retorno;
+    }
+
+    public function getDependente($contrato){
+        require_once ("model/CarteiraDAO.class.php");
+        $carteiraDao = new CarteiraDAO();
+        $retorno = $carteiraDao->getDependente($contrato);
+        return $retorno;
+    }
+
+    public function getListaDependente($codigo){
+        require_once ("model/CarteiraDAO.class.php");
+        $carteiraDao = new CarteiraDAO();
+        $retorno = $carteiraDao->getListaDependente($codigo);
+        return $retorno;
+    }
+
 }

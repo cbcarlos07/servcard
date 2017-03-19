@@ -20,6 +20,7 @@ include_once "services/ContratoListIterator.class.php";
 
 $id = $_POST['id'];
 
+
 $contratoController = new ContratoController();
 $lista = $contratoController->getList($id);
 $pListIterator = new ContratoListIterator($lista);
@@ -64,7 +65,7 @@ $cliente = $clienteController->getCliente($id);
                     </form>
                     <div class="modal-footer">
                         <a href="#" type="button"  class="btn btn-primary delete-yes">Sim</a>
-                        <a href="#" type="button"  class="btn btn-success delete-yes-all">N&atilde;o. Apenas o meu</a>
+
                         <button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
                     </div>
                 </div>
@@ -92,6 +93,7 @@ $cliente = $clienteController->getCliente($id);
             </div>
             <div class="row"></div>
             <hr />
+
             <div class="mensagem alert "></div>
             <script src="js/tooltip.js"></script>
             <div id="page-wrapper" class="tabela">
@@ -105,6 +107,7 @@ $cliente = $clienteController->getCliente($id);
                                 <th>Data do Contrato</th>
                                 <th>Usu&aacute;rio</th>
                                 <th>Status</th>
+                                <th>Dependentes</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -114,8 +117,15 @@ $cliente = $clienteController->getCliente($id);
                             while ($pListIterator->hasNextContrato()){
                                 $contrato =  $pListIterator->getNextContrato();
                                 $corLinha = "";
-                                if($contrato->getTpStatus() == 'C'){
+                                $desativado = "<a href='#' class='delete btn btn-warning btn-xs'
+                                           data-toggle='modal'
+                                           data-target='#delete-modal'
+                                           data-nome='".$contrato->getCdContrato()."'
+                                           data-id='". $contrato->getCdContrato()."'
+                                           data-action='D'>Desativar</a>";
+                                if($contrato->getSnAtivo() == 'N'){
                                     $corLinha = "#F95959";
+                                    $desativado = "<a href='#' data-url='contratodes.php' data-id='".$contrato->getCdContrato()."' class='btn btn-xs btn-default btn-acao'><span style='color: #00aaf1; font-weight: bold'>Desativado</span></a>";
                                 }
                                 ?>
                                 <tr style="background: <?php echo $corLinha; ?>">
@@ -127,16 +137,26 @@ $cliente = $clienteController->getCliente($id);
                                         $dia = $dataArray[2];
                                         echo "$dia/$mes/$ano"; ?></td>
                                     <td><?php echo $contrato->getUsuario()->getNmUsuario(); ?></td>
-                                    <td><?php echo $contrato->getTpStatus();  ?></td>
+                                    <td><?php echo $contrato->getSnAtivo();  ?></td>
+                                    <th>
+                                        <?php
+                                          $link = "0";
+                                          $total = $contrato->getTotal();
+                                          if($total > 0){
+                                              $link = "<a href='#' 
+                                                       data-url='contratopendente.php' 
+                                                       data-id='".$contrato->getCdContrato()."'
+                                                       class='btn-acao'
+                                                       data-cliente='".$id."'>".$total."</a>";
+
+                                          }
+                                          echo $link;
+                                        ?>
+                                    </th>
                                     <td class="action">
                                         <a href="#" data-url="contratoalt.php" data-id="<?php echo $contrato->getCdContrato();  ?>" class="btn btn-primary btn-xs btn-alterar">Alterar</a>
-                                        <a href="#" class="delete btn btn-warning btn-xs"
-                                           data-toggle="modal"
-                                           data-target="#delete-modal"
-                                           data-nome="<?php echo $contrato->getCdContrato(); ?>"
-                                           data-id="<?php echo $contrato->getCdContrato(); ?>"
-                                           data-action="D">Desativar</a>
-                                        <a href="#" data-url="contratoficha.php" data-id="<?php echo $contrato->getCdContrato(); ?>" class="btn btn-success btn-acao">Imprimir</a>
+                                        <?php echo $desativado; ?>
+                                        <a href="#" data-url="contratoficha.php" data-id="<?php echo $contrato->getCdContrato(); ?>" class="btn btn-success btn-xs btn-acao">Imprimir</a>
                                     </td>
 
                                 </tr>

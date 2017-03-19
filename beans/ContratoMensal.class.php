@@ -12,7 +12,7 @@ private $cdContrato;
 private $dtVencimento;
 private $nrValor;
 private $nrParcela;
-private $tpStatus;
+private $snPago;
 
     /**
      * @return mixed
@@ -24,7 +24,7 @@ private $tpStatus;
 
     /**
      * @param mixed $cdContrato
-     * @return Contrato_Mensal
+     * @return ContratoMensal
      */
     public function setCdContrato($cdContrato)
     {
@@ -42,7 +42,7 @@ private $tpStatus;
 
     /**
      * @param mixed $dtVencimento
-     * @return Contrato_Mensal
+     * @return ContratoMensal
      */
     public function setDtVencimento($dtVencimento)
     {
@@ -60,7 +60,7 @@ private $tpStatus;
 
     /**
      * @param mixed $nrValor
-     * @return Contrato_Mensal
+     * @return ContratoMensal
      */
     public function setNrValor($nrValor)
     {
@@ -78,7 +78,7 @@ private $tpStatus;
 
     /**
      * @param mixed $nrParcela
-     * @return Contrato_Mensal
+     * @return ContratoMensal
      */
     public function setNrParcela($nrParcela)
     {
@@ -89,20 +89,21 @@ private $tpStatus;
     /**
      * @return mixed
      */
-    public function getTpStatus()
+    public function getSnPago()
     {
-        return $this->tpStatus;
+        return $this->snPago;
     }
 
     /**
-     * @param mixed $tpStatus
-     * @return Contrato_Mensal
+     * @param mixed $snPago
+     * @return ContratoMensal
      */
-    public function setTpStatus($tpStatus)
+    public function setSnPago($snPago)
     {
-        $this->tpStatus = $tpStatus;
+        $this->snPago = $snPago;
         return $this;
     }
+
 
 
 }

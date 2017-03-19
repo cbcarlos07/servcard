@@ -98,7 +98,6 @@ $pListIterator = new ClienteListIterator($lista);
                                 <th>Nome</th>
                                 <th>CPF</th>
                                 <th>Telefone</th>
-                                <th>Dependentes</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -129,7 +128,7 @@ $pListIterator = new ClienteListIterator($lista);
                                               echo "( ".substr($telefone, 0,2).")".substr($telefone,2,4)."-".substr($telefone,6,4);
                                         ?>
                                     </td>
-                                    <td>0</td>
+
                                     <td class="action">
                                         <a href="#" data-url="clientealt.php" data-id="<?php echo $cliente->getCdCliente();  ?>"  class="btn btn-danger btn-xs btn-alterar btn-acao">Alterar</a>
                                         <a href="#" data-url="contrato.php"   data-id="<?php echo $cliente->getCdCliente(); ?>"   class="btn-acao btn btn-danger btn-xs btn-acao">Contrato</a>

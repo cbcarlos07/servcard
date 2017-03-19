@@ -411,7 +411,7 @@ class PDF extends FPDF {
                 $pdf->SetY(130.5);
                 $pdf->SetX(43);
 
-                $pdf->MultiCell(35,5,$contrato->getTpStatus() == 'A' ? 'Ativo' : 'Cancelado',0,'L',false); //
+                $pdf->MultiCell(35,5,$contrato->getSnAtivo() == 'A' ? 'Ativo' : 'Cancelado',0,'L',false); //
 
 $pdf->Footer();
 $pdf->Output(); // IMPRIME O PDF NA TELA

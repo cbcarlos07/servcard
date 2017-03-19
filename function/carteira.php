@@ -13,7 +13,8 @@ $ativo     = "";
 $tptitular   = "";
 $cliente   = 0;
 $contrato  = 0;
-
+$observacao = "";
+$usuario =  0;
 $acao = $_POST['acao'];
 
 
@@ -42,6 +43,14 @@ if(isset($_POST['cliente'])){
 if(isset($_POST['contrato'])){
     $contrato = $_POST['contrato'];
 }
+
+if(isset($_POST['usuario'])){
+    $usuario = $_POST['usuario'];
+}
+
+if(isset($_POST['observacao'])){
+    $observacao = $_POST['observacao'];
+}
 switch ($acao){
     case 'C':
         add($validade, $tptitular, $ativo,  $cliente, $contrato);
@@ -49,8 +58,8 @@ switch ($acao){
     case 'A':
         change($id, $validade, $tptitular, $ativo,  $cliente, $contrato);
         break;
-    case 'E':
-        delete($id);
+    case 'I':
+        inativar($id, $usuario, $observacao);
         break;
     case 'L':
         getLista($id);
@@ -68,7 +77,7 @@ function add($validade, $tptitular, $ativo,  $cliente, $contrato){
     $carteira =  new Carteira();
     $carteira->setDtValidade($validade);
     $carteira->setSnAtivo($ativo);
-    $carteira->setTpTitular($tptitular);
+    $carteira->setSnTitular($tptitular);
     $carteira->setCliente(new Cliente());
     $carteira->getCliente()->setCdCliente($cliente);
     $carteira->setContrato(new Contrato()); //a carteira será gerada automaticamente
@@ -95,7 +104,7 @@ function change($id, $validade, $tptitular, $ativo,  $cliente, $contrato){
     $carteira->setCdCarteira($id);
     $carteira->setDtValidade($validade);
     $carteira->setSnAtivo($ativo);
-    $carteira->setTpTitular($tptitular);
+    $carteira->setSnTitular($tptitular);
     $carteira->setCliente(new Cliente());
     $carteira->getCliente()->setCdCliente($cliente);
     $carteira->setContrato(new Contrato()); //a carteira será gerada automaticamente
@@ -110,10 +119,17 @@ function change($id, $validade, $tptitular, $ativo,  $cliente, $contrato){
         echo json_encode(array('retorno' => 0));
 }
 
-function delete($id){
-    require_once "../controller/CargoController.class.php";
-    $cargoController = new CargoController();
-    $teste = $cargoController->delete($id);
+function inativar($id, $usuario, $observacao){
+    require_once "../beans/Carteira.class.php";
+    require_once "../beans/Usuario.class.php";
+    require_once "../controller/CarteiraController.class.php";
+    $carteiraController = new CarteiraController();
+    $carteira = new Carteira();
+    $carteira->setCdCarteira($id);
+    $carteira->setUsuario(new Usuario());
+    $carteira->getUsuario()->setCdUsuario($usuario);
+    $carteira->setObsInativacao($observacao);
+    $teste = $carteiraController->inativar_carteira($carteira);
     //echo "Retorno: ".$teste;
     if($teste)
         echo json_encode(array('retorno' => 1));

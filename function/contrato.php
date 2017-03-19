@@ -94,8 +94,10 @@ switch ($acao){
         break;
     case 'L': //bairro por cidade
         getListaContratos($id);
+        break;
     case 'T': //bairro por cidade
         getTabelaContratos($observacao);
+        break;
 
 }
 
@@ -126,7 +128,7 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
     $contrato->getPlano()->setCdPlano($plano);
     $contrato->setNrJuros($juros);
     $contrato->setDiasVencimento($dias);
-    $contrato->setTpTitular($titular);
+    $contrato->setSnTitular($titular);
 
 
     $contratoController = new ContratoController();
@@ -145,7 +147,7 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
             $contratoMensal->setDtVencimento($value->{'Data do pagamento'});
             $contratoMensal->setNrValor($value->{'valor a pagar'});
             $contratoMensal->setNrParcela($value->{'Nº da Parc'});
-            $contratoMensal->setTpStatus('D');
+            $contratoMensal->setSnPago('N');
 
             $teste = $cmc->insert($contratoMensal);
         }
@@ -153,7 +155,7 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
         $carteira = new Carteira();
         $carteiraController = new CarteiraController();
 
-        $carteira->setTpTitular($titular);
+        $carteira->setSnTitular($titular);
         $carteira->setContrato(new Contrato());
        // echo "Codigo do contrato: ".$genId." \n";
         $carteira->getContrato()->setCdContrato($genId);
@@ -206,7 +208,7 @@ function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano
     $contrato->getPlano()->setCdPlano($plano);
     $contrato->setNrJuros($juros);
     $contrato->setDiasVencimento($dias);
-    $contrato->setTpTitular($titular);
+    $contrato->setSnTitular($titular);
     $contratoController = new ContratoController();
     $teste = $contratoController->update($contrato);
 
@@ -222,7 +224,7 @@ function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano
             $contratoMensal->setDtVencimento($value->{'Data do pagamento'});
             $contratoMensal->setNrValor($value->{'valor a pagar'});
             $contratoMensal->setNrParcela($value->{'Nº da Parc'});
-            $contratoMensal->setTpStatus('D');
+            $contratoMensal->setSnPago('N');
 
             $teste = $cmc->insert($contratoMensal);
 

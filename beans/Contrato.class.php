@@ -17,28 +17,67 @@ private $cliente;
 private $usuario;
 private $plano;
 private $nrJuros;
-private $tpStatus;
+private $snAtivo;
 private $usurioCancelou;
 private $dtCancelamento;
 private $dsObervacao;
 private $diasVencimento;
-private $tpTitular;
+private $snTitular;
+private $total;
 
     /**
      * @return mixed
      */
-    public function getTpTitular()
+    public function getTotal()
     {
-        return $this->tpTitular;
+        return $this->total;
     }
 
     /**
-     * @param mixed $tpTitular
+     * @param mixed $total
      * @return Contrato
      */
-    public function setTpTitular($tpTitular)
+    public function setTotal($total)
     {
-        $this->tpTitular = $tpTitular;
+        $this->total = $total;
+        return $this;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getSnAtivo()
+    {
+        return $this->snAtivo;
+    }
+
+    /**
+     * @param mixed $snAtivo
+     */
+    public function setSnAtivo($snAtivo)
+    {
+        $this->snAtivo = $snAtivo;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getSnTitular()
+    {
+        return $this->snTitular;
+    }
+
+    /**
+     * @param mixed $snTitular
+     * @return Contrato
+     */
+    public function setSnTitular($snTitular)
+    {
+        $this->snTitular = $snTitular;
         return $this;
     }
 
@@ -67,20 +106,7 @@ private $tpTitular;
     /**
      * @return mixed
      */
-    public function getTpStatus()
-    {
-        return $this->tpStatus;
-    }
 
-    /**
-     * @param mixed $tpStatus
-     * @return Contrato
-     */
-    public function setTpStatus($tpStatus)
-    {
-        $this->tpStatus = $tpStatus;
-        return $this;
-    }
 
     /**
      * @return mixed
