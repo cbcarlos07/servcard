@@ -18,6 +18,7 @@ class ClienteDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO cliente 
                        (CD_CLIENTE, NM_CLIENTE, NM_SOBRENOME, NR_CPF, NR_RG, NR_TELEFONE, 
@@ -49,6 +50,7 @@ class ClienteDAO
              $stmt->bindValue(":complemento", $cliente->getDsComplemento(), PDO::PARAM_STR);
              $stmt->bindValue(":atual", $cliente->getSnSenhaAtual(), PDO::PARAM_STR);
              $stmt->execute();
+             $this->connection->commit();
 
              $teste =  true;
 
