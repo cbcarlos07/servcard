@@ -64,4 +64,11 @@ class ContratoController
         return $retorno;
     }
 
+    public function getListaByCPF($cpf){
+        require_once ("../model/ContratoDAO.class.php");
+        $contratoDao = new ContratoDAO();
+        $retorno = $contratoDao->getListaByCPF($cpf);
+        return $retorno;
+    }
+
 }

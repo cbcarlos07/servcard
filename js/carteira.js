@@ -310,6 +310,7 @@ function carregar() {
                 contrato.value =    $.trim(tableData[0]);
                 nome.value = $.trim(tableData[1]);
             });
+
         });
 }
 
@@ -342,6 +343,7 @@ $("#vencimento").datetimepicker({
     format: 'd/m/Y',
     mask: true
 });
+
 
 
 

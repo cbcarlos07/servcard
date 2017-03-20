@@ -127,7 +127,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                     <div class="form-group col-lg-12">
                         <label for="complemento">Complemento</label>
-                        <input id="complemento" class="form-control" required="" />
+                        <input id="complemento" class="form-control" />
                     </div>
                     <div class="row"></div>
                     <hr />

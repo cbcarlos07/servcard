@@ -36,12 +36,26 @@ class ContratoMensalController
         return $retorno;
     }
 
+    public function getLista($id){
+        require_once ("model/ContratoMensalDAO.class.php");
+        $contratoMensalDao = new ContratoMensalDAO();
+        $retorno = $contratoMensalDao->getLista($id);
+        return $retorno;
+    }
+
 
 
     public function getContratoMensal($contratoMensal){
         require_once ("../model/ContratoMensalDAO.class.php");
         $contratoMensalDao = new ContratoMensalDAO();
         $retorno = $contratoMensalDao->getContratoMensal($contratoMensal);
+        return $retorno;
+    }
+
+    public function efetua_pagamento (ContratoMensal $contratoMensal){
+        require_once ("../model/ContratoMensalDAO.class.php");
+        $contratoMensalDao = new ContratoMensalDAO();
+        $retorno = $contratoMensalDao->efetua_pagamento($contratoMensal);
         return $retorno;
     }
 

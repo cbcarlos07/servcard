@@ -98,6 +98,9 @@ switch ($acao){
     case 'T': //bairro por cidade
         getTabelaContratos($observacao);
         break;
+    case 'P': //bairro por cidade
+        getContratos($observacao);
+        break;
 
 }
 
@@ -143,7 +146,8 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
     //echo "Codigo gerado: $genId";
     if($genId > 0){
         foreach ($arr as $item => $value) {
-            $contratoMensal->setCdContrato($genId);
+            $contratoMensal->setContrato(new Contrato());
+            $contratoMensal->getContrato()->setCdContrato($genId);
             $contratoMensal->setDtVencimento($value->{'Data do pagamento'});
             $contratoMensal->setNrValor($value->{'valor a pagar'});
             $contratoMensal->setNrParcela($value->{'Nº da Parc'});
@@ -220,7 +224,8 @@ function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano
     //echo "Codigo gerado: $genId";
 
         foreach ($arr as $item => $value) {
-            $contratoMensal->setCdContrato($id);
+            $contratoMensal->setContrato(new Contrato());
+            $contratoMensal->getContrato()->setCdContrato($id);
             $contratoMensal->setDtVencimento($value->{'Data do pagamento'});
             $contratoMensal->setNrValor($value->{'valor a pagar'});
             $contratoMensal->setNrParcela($value->{'Nº da Parc'});
@@ -292,6 +297,46 @@ function getTabelaContratos($id){
         echo "<tr class='linha'>
                 <td> ".$contrato->getCdContrato()."</td><td>" . $contrato->getCliente()->getNmCliente() ."</td>
              </tr>";
+    }
+
+}
+
+function getContratos($id){
+    require_once "../beans/Contrato.class.php";
+    require_once "../controller/ContratoController.class.php";
+    require_once "../services/ContratoListIterator.class.php";
+    $contrato = new Contrato();
+    $contratoController = new ContratoController();
+    $vowels = array(".", "-");
+    $novocpf = str_replace($vowels,'',$id);
+
+    $lista = $contratoController->getListaByCPF($novocpf);
+    $bList = new ContratoListIterator($lista);
+
+    while ($bList->hasNextContrato()) {
+        $contrato = $bList->getNextContrato();
+        $dataMySQL = explode('-',$contrato->getDhContrato());
+        $tabela = "<table class='table table-hover' id='tabela'>
+                            <thead>
+                             <tr>
+                                <th>Contrato</th>
+                                <th>Nome</th>
+                                <th>Data do Contrato</th>
+                                <th>Usuario</th>
+                             </tr>
+                            </thead>
+                            <tbody>";
+
+        $tabela .=  "<tr class='linha'>
+                        <td> ".$contrato->getCdContrato()."</td>
+                        <td><a href='#' onclick='mensalidade(".$contrato->getCdContrato().",".$contrato->getCliente()->getCdCliente().",\"pagamentomensal.php\")'>" . $contrato->getCliente()->getNmCliente() ."</td>
+                        <td>$dataMySQL[2]/$dataMySQL[1]/$dataMySQL[0]</td>
+                        <td>".$contrato->getUsuario()->getDsLogin()."</td>
+                     </tr>";
+
+        $tabela .= "</tbody>
+                    </table>";
+        echo $tabela;
     }
 
 }

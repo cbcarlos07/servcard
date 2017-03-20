@@ -149,7 +149,7 @@ include "include/head.php"; ?>
                     </div>
                     <div class="form-group col-lg-12">
                         <label for="complemento">Complemento</label>
-                        <input id="complemento" class="form-control" required="" value="<?php echo $cliente->getDsComplemento(); ?>" />
+                        <input id="complemento" class="form-control"  value="<?php echo $cliente->getDsComplemento(); ?>" />
                     </div>
                     <div class="row"></div>
                     <hr />

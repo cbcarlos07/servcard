@@ -298,10 +298,10 @@ $('.btn-parcela').on('click',function () {
            // console.log('Auxiliar ['+auxiliar+']');
             console.log('Mes: '+new_data.getMonth());
             corpo = corpo + '<tr class="item">' +
-                '<td>'+auxiliar+'</td>'+
-                '<td>'+diavenc+'/'+mesvenc+'/'+anovenc+'</td>'+
-                '<td>R$ '+valorParcela.toFixed(2)+'</td>'+
-                '</tr>';
+                                '<td>'+auxiliar+'</td>'+
+                                '<td>'+diavenc+'/'+mesvenc+'/'+anovenc+'</td>'+
+                                '<td>R$ '+valorParcela.toFixed(2)+'</td>'+
+                             '</tr>';
             totalAPagar += valorParcela;
            // dataVencimento.setDate(dataVencimento.getDate() + dias);
         }

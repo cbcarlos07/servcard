@@ -63,7 +63,33 @@ class ContratoMensalDAO
             $stmt->bindValue(":valor", $contratoMensal->getNrValor(), PDO::PARAM_STR);
             $stmt->bindValue(":parcela", $contratoMensal->getNrParcela(), PDO::PARAM_INT);
             $stmt->bindValue(":status_", $contratoMensal->getSnPago(), PDO::PARAM_STR);
-            $stmt->bindValue(":codigo", $contratoMensal->getCdContrato(), PDO::PARAM_INT);
+            $stmt->bindValue(":codigo", $contratoMensal->getContrato()->getCdContrato(), PDO::PARAM_INT);
+            $stmt->execute();
+
+            $teste =  true;
+
+            $this->connection =  null;
+        }catch(PDOException $exception){
+            echo "Erro: ".$exception->getMessage();
+        }
+        return $teste;
+    }
+
+    public function efetua_pagamento (ContratoMensal $contratoMensal){
+        $this->connection =  null;
+        $teste = false;
+        //echo "Contrato".$contratoMensal->getContrato()->getCdContrato();
+        $this->connection = new ConnectionFactory();
+        try{
+            $query = "UPDATE contrato_mensal SET 
+                         SN_PAGO =  :status_
+                       WHERE 
+                           CD_CONTRATO = :codigo
+                       AND NR_PARCELA  = :parcela";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bindValue(":parcela", $contratoMensal->getNrParcela(), PDO::PARAM_INT);
+            $stmt->bindValue(":status_", $contratoMensal->getSnPago(), PDO::PARAM_STR);
+            $stmt->bindValue(":codigo",  $contratoMensal->getContrato()->getCdContrato(), PDO::PARAM_INT);
             $stmt->execute();
 
             $teste =  true;
@@ -97,6 +123,7 @@ class ContratoMensalDAO
     public function getList($contrato){
         require_once ("../services/ContratoMensalList.class.php");
         require_once ("../beans/ContratoMensal.class.php");
+        require_once ("../beans/Contrato.class.php");
 
         $this->connection = null;
 
@@ -117,7 +144,48 @@ class ContratoMensalDAO
             $stmt->execute();
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $contratoMensal = new ContratoMensal();
-                $contratoMensal->setCdContrato($row['CD_CONTRATO']);
+                $contratoMensal->setContrato(new Contrato());
+                $contratoMensal->getContrato()->setCdContrato($row['CD_CONTRATO']);
+                $contratoMensal->setDtVencimento($row['DT_VENCIMENTO']);
+                $contratoMensal->setNrValor($row['NR_VALOR']);
+                $contratoMensal->setNrParcela($row['NR_PARCELA']);
+                $contratoMensal->setSnPago($row['SN_PAGO']);
+
+                $contratoMensalList->addContratoMensal($contratoMensal);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $contratoMensalList;
+    }
+
+    public function getLista($contrato){
+        require_once ("services/ContratoMensalList.class.php");
+        require_once ("beans/ContratoMensal.class.php");
+        require_once ("beans/Contrato.class.php");
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $contratoMensalList = new ContratoMensalList();
+
+        try {
+
+            $sql = "SELECT M.* FROM 
+                        contrato_mensal M
+                        INNER JOIN contrato C ON M.CD_CONTRATO = C.CD_CONTRATO
+                        WHERE C.CD_CONTRATO = :contrato";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":contrato", $contrato, PDO::PARAM_INT);
+
+
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $contratoMensal = new ContratoMensal();
+                $contratoMensal->setContrato(new Contrato());
+                $contratoMensal->getContrato()->setCdContrato($row['CD_CONTRATO']);
                 $contratoMensal->setDtVencimento($row['DT_VENCIMENTO']);
                 $contratoMensal->setNrValor($row['NR_VALOR']);
                 $contratoMensal->setNrParcela($row['NR_PARCELA']);
@@ -144,7 +212,8 @@ class ContratoMensalDAO
             $stmt->execute();
             if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
                 $contratoMensal = new ContratoMensal();
-                $contratoMensal->setCdContrato($row['CD_CONTRATO']);
+                $contratoMensal->setContrato(new Contrato());
+                $contratoMensal->getContrato()->setCdContrato($row['CD_CONTRATO']);
                 $contratoMensal->setDtVencimento($row['DT_VENCIMENTO']);
                 $contratoMensal->setNrValor($row['NR_VALOR']);
                 $contratoMensal->setNrParcela($row['NR_PARCELA']);

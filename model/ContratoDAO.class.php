@@ -280,6 +280,7 @@ class ContratoDAO
                 $contrato->setUsuario(new Usuario());
                 $contrato->getUsuario()->setCdUsuario($row['CD_USUARIO']);
                 $contrato->getUsuario()->setNmUsuario($row['NM_USUARIO']);
+                $contrato->getUsuario()->setDsLogin($row['DS_LOGIN']);
                 $contrato->setSnAtivo($row['SN_ATIVO']);
                 $contratoList->addContrato($contrato);
             }
@@ -290,6 +291,57 @@ class ContratoDAO
         return $contratoList;
     }
 
+
+    public function getListaByCPF($cpf){
+        require_once ("../services/ContratoList.class.php");
+        require_once ("../beans/Contrato.class.php");
+        require_once ("../beans/Cliente.class.php");
+        require_once ("../beans/Usuario.class.php");
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $contratoList = new ContratoList();
+
+        try {
+
+            $sql = "SELECT * FROM 
+                        contrato C
+                        INNER JOIN cliente T ON C.CD_CLIENTE = T.CD_CLIENTE
+                        INNER JOIN usuario U ON C.CD_USUARIO = U.CD_USUARIO
+                        INNER JOIN plano   P ON C.CD_PLANO = P.CD_PLANO
+                        WHERE C.SN_ATIVO = 'S'
+                         AND  T.NR_CPF = :cpf
+                        ";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":cpf", $cpf, PDO::PARAM_STR);
+
+
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $contrato = new Contrato();
+                $contrato->setCdContrato($row['CD_CONTRATO']);
+                $contrato->setDhContrato($row['DH_CONTRATO']);
+                $contrato->setSnQuite($row['SN_QUITE']);
+                $contrato->setNrValor($row['NR_VALOR']);
+                $contrato->setNrParcela($row['NR_PARCELA']);
+                $contrato->setCliente(new Cliente());
+                $contrato->getCliente()->setCdCliente($row['CD_CLIENTE']);
+                $contrato->getCliente()->setNmCliente($row['NM_CLIENTE']);
+                $contrato->setUsuario(new Usuario());
+                $contrato->getUsuario()->setCdUsuario($row['CD_USUARIO']);
+                $contrato->getUsuario()->setNmUsuario($row['NM_USUARIO']);
+                $contrato->getUsuario()->setDsLogin($row['DS_LOGIN']);
+                $contrato->setSnAtivo($row['SN_ATIVO']);
+                $contratoList->addContrato($contrato);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $contratoList;
+    }
 
 
 

@@ -124,7 +124,8 @@ class ClienteDAO
      * @param $nome
      * @return ClienteList
      */
-    public function getList($nome){
+    public function getList($nome, $inicio, $limite){
+        include "include/error.php";
         require_once ("services/ClienteList.class.php");
         require_once ("beans/Cliente.class.php");
         require_once ("beans/EstadoCivil.class.php");
@@ -133,7 +134,9 @@ class ClienteDAO
         $this->connection = null;
 
         $this->connection = new ConnectionFactory();
-
+        //echo "Inicio: ".$inicio."<br>";
+        //echo "Fim: ".$limite."<br>";
+        //echo "Nome: ".$nome;
         $clienteList = new ClienteList();
         $stmt = null;
         try {
@@ -141,21 +144,27 @@ class ClienteDAO
                 $sql = "SELECT C.*
                               ,EC.DS_ESTADO_CIVIL
                               ,E.CD_ENDERECO
-                              ,E.NR_CEP                              
+                              ,E.NR_CEP 
+                              ,CO.SN_ATIVO                             
                         FROM cliente C 
                         INNER JOIN estado_civil EC ON EC.CD_ESTADO_CIVIL = C.CD_ESTADO_CIVIL
                         INNER JOIN endereco     E  ON E.CD_ENDERECO = C.CD_ENDERECO
+                        LEFT JOIN contrato     CO ON CO.CD_CLIENTE = C.CD_CLIENTE
                         WHERE NM_CLIENTE LIKE :nome
-                        ORDER BY NM_CLIENTE ASC
-                        LIMIT :inicio, 10
+                        ORDER BY CO.SN_ATIVO DESC
+                                ,C.NM_CLIENTE ASC
+                        LIMIT :inicio, :limite
                         ";
 
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+                $stmt->bindValue(":inicio", $inicio, PDO::PARAM_INT);
+                $stmt->bindValue(":limite", $limite, PDO::PARAM_INT);
             }
             $stmt->execute();
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $cliente = new Cliente();
+                echo "Cod Cliente: ".$row['CD_CLIENTE'];
                 $cliente->setCdCliente($row['CD_CLIENTE']);
                 $cliente->setNmCliente($row['NM_CLIENTE']);
                 $cliente->setNmSobrenome($row['NM_SOBRENOME']);
@@ -293,6 +302,28 @@ class ClienteDAO
                 $cliente->getEndereco()->getBairro()->getCidade()->setEstado(new Estado());
                 $cliente->getEndereco()->getBairro()->getCidade()->setEstado(new Estado());
                 $cliente->getEndereco()->getBairro()->getCidade()->getEstado()->setNmEstado($row['NM_ESTADO']);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $cliente;
+    }
+
+    public function getTotalCliente(){
+        $cliente = 0;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql =          "SELECT COUNT(*) TOTAL
+                        FROM cliente C 
+                        ";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $cliente = $row['TOTAL'];
             }
             $this->connection = null;
         } catch (PDOException $ex) {

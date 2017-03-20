@@ -10,9 +10,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 include "include/error.php";
 $descricao = "";
 
+
 if(isset($_POST['search'])){
    $descricao =  $_POST['search'];
 }
+
+ // paginacao
+$pagina = (isset($_POST['pagina'])) ? $_POST['pagina'] : 1;
+
+
 
 include_once "controller/ClienteController.class.php";
 include_once "beans/Cliente.class.php";
@@ -20,7 +26,20 @@ include_once "services/ClienteListIterator.class.php";
 
 
 $clienteController = new ClienteController();
-$lista = $clienteController->getList($descricao);
+$total = $clienteController->getTotalCliente();
+
+//seta a quantidade de itens por página, neste caso, 2 itens
+$registros = 10;
+//$registros = (isset($_POST['registros'])) ? $_POST['registros'] : 10;
+
+//calcula o número de páginas arredondando o resultado para cima
+$numPaginas = ceil($total/$registros);
+
+
+//variavel para calcular o início da visualização com base na página atual
+$inicio = ($registros*$pagina)-$registros;
+
+$lista = $clienteController->getList($descricao, $inicio, $registros);
 $pListIterator = new ClienteListIterator($lista);
 
 
@@ -86,6 +105,19 @@ $pListIterator = new ClienteListIterator($lista);
             <div class="row"></div>
             <hr />
             <div class="mensagem alert "></div>
+            <!--
+            <div class="col-lg-5 form-group">
+
+              <label for="registro">Registros</label>
+                <select class="form-control registros" id="registro">
+                    <option value="10" <?php $registros == 10 ? $select = "selected" : $select = ''; echo $select; ?> >10</option>
+                    <option value="15" <?php $registros == 15 ? $select = "selected" : $select = ''; echo $select; ?>>15</option>
+                    <option value="20" <?php $registros == 20 ? $select = "selected" : $select = ''; echo $select; ?>>20</option>
+                    <option value="25" <?php $registros == 25 ? $select = "selected" : $select = ''; echo $select; ?>>25</option>
+                    <option value="30" <?php $registros == 30 ? $select = "selected" : $select = ''; echo $select; ?>>30</option>
+                </select>
+            </div>
+            -->
             <script src="js/tooltip.js"></script>
             <div id="page-wrapper" class="tabela">
             <div class="graphs">
@@ -146,11 +178,70 @@ $pListIterator = new ClienteListIterator($lista);
                     <div id="buttom" class="row">
                         <div class="col-md-12">
                             <ul class="pagination">
-                                <li class="disabled"><a>&lt; Anterior</a></li>
-                                <li class="disabled"><a>1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li class="next"><a href="#" rel="next">Próximo &gt;</a></li>
+                                <?php
+
+                                  if($pagina == 1){
+                                  ?>
+                                      <li class="disabled">
+                                          <a href="#"
+                                             data-url="<?php echo $_SERVER['PHP_SELF']; ?>"
+                                             data-page="">&lt; Anterior</a>
+                                      </li>
+                                <?php
+                                  }else{
+                                ?>
+                                    <li class="page-item">  <a href="#"
+                                         data-url="<?php echo $_SERVER['PHP_SELF']; ?>"
+                                         data-page="<?php echo $pagina-1; ?>"
+                                         class="btn-page">&lt; Anterior</a>
+                                    </li>
+                                <?php
+                                }
+
+                                 for($i = 1; $i < $numPaginas + 1; $i++){
+                                     $disabled = "";
+
+                                      if($pagina == $i){
+                                         $disabled = "active";
+                                     }
+                                  ?>
+
+                                     <li class="<?php echo $disabled; ?>">
+                                         <a href="#"
+                                            data-url="<?php echo $_SERVER['PHP_SELF']; ?>"
+                                            data-page="<?php echo $i; ?>"
+                                            class="btn-page"
+                                            ><?php echo $i; ?>
+                                         </a>
+                                     </li>
+
+                               <?php
+                                 }
+                                ?>
+                                <?php
+                                if($numPaginas > 1){
+                                ?>
+                                    <?php
+                                    if($pagina == $numPaginas){
+                                    ?>
+                                        <li class="disabled"><a href="#"
+                                                            data-url="<?php echo $_SERVER['PHP_SELF']; ?>"
+                                                            data-page="<?php echo $pagina + 1; ?>"
+                                                            >Pr&oacute;ximo &gt; </a>
+                                        </li>
+                                   <?php
+                                    }else {
+                                        ?>
+                                        <li class="next"><a href="#"
+                                                            data-url="<?php echo $_SERVER['PHP_SELF']; ?>"
+                                                            data-page="<?php echo $pagina + 1; ?>"
+                                                            class="btn-page">Pr&oacute;ximo &gt; </a>
+                                        </li>
+                                        <?php
+                                    }
+                                }
+                                ?>
+
                             </ul>
                         </div>
 
@@ -168,6 +259,28 @@ $pListIterator = new ClienteListIterator($lista);
         <!--footer section end-->
 
 <?php  include "include/enfile.php";?>
+        <script>
+            $('.btn-page').on('click', function(){
+                //alert('Pagina');
+                var url      = $(this).data('url');
+                var pagina   = $(this).data('page');
+                var form     = $('<form action="'+url+'" method="post">'+
+                                '<input type="hidden" name="pagina" value="'+pagina+'">'+
+                                '</form>');
+                $('body').append(form);
+                form.submit();
+
+            });
+
+            $('.registros').on('change', function () {
+                var registro = document.getElementById('registro').value;
+                var form     = $('<form method="post" action="cliente.php">'+
+                    '<input type="hidden" name="registros" value="'+registro+'">'+
+                    '</form>');
+                $('body').append(form);
+                form.submit();
+            });
+        </script>
         <script src="js/cliente.js"></script>
     </section>
 

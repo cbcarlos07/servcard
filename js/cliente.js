@@ -344,3 +344,10 @@ $('#cpf').focusout(function(){
 
     }
 });
+
+
+
+
+
+
+

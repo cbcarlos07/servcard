@@ -29,17 +29,17 @@ class ClienteController
         return $retorno;
     }
 
-    public function getList($cliente){
+    public function getList($cliente, $inicio, $limite){
         require_once ("model/ClienteDAO.class.php");
         $clienteDao = new ClienteDAO();
-        $retorno = $clienteDao->getList($cliente);
+        $retorno = $clienteDao->getList($cliente, $inicio, $limite);
         return $retorno;
     }
 
     public function getLista($cliente){
         require_once ("../model/ClienteDAO.class.php");
         $clienteDao = new ClienteDAO();
-        $retorno = $clienteDao->getList($cliente);
+        $retorno = $clienteDao->getLista($cliente);
         return $retorno;
     }
 
@@ -49,6 +49,13 @@ class ClienteController
         require_once ("model/ClienteDAO.class.php");
         $clienteDao = new ClienteDAO();
         $retorno = $clienteDao->getCliente($cliente);
+        return $retorno;
+    }
+
+    public function getTotalCliente(){
+        require_once ("model/ClienteDAO.class.php");
+        $clienteDao = new ClienteDAO();
+        $retorno = $clienteDao->getTotalCliente();
         return $retorno;
     }
 

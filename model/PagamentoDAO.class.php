@@ -19,7 +19,7 @@ class PagamentoDAO
          try{
              $query = "INSERT INTO pagamento 
                       (CD_PAGAMENTO, DT_PAGAMENTO, HR_PAGAMENTO, VL_PAGAMENTO, DT_VENCIMENTO, CD_CONTRATO) VALUES 
-                      (NULL, curdate(), curdate(), :valor, :vencimento, :contrato)";
+                      (NULL, curdate(), curtime(), :valor, :vencimento, :contrato)";
 
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":valor", $pagamento->getVlPagamento(), PDO::PARAM_STR);

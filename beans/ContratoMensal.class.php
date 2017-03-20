@@ -8,7 +8,7 @@
  */
 class ContratoMensal
 {
-private $cdContrato;
+private $contrato;
 private $dtVencimento;
 private $nrValor;
 private $nrParcela;
@@ -17,20 +17,22 @@ private $snPago;
     /**
      * @return mixed
      */
-    public function getCdContrato()
+    public function getContrato()
     {
-        return $this->cdContrato;
+        return $this->contrato;
     }
 
     /**
-     * @param mixed $cdContrato
+     * @param mixed $contrato
      * @return ContratoMensal
      */
-    public function setCdContrato($cdContrato)
+    public function setContrato(Contrato $contrato)
     {
-        $this->cdContrato = $cdContrato;
+        $this->contrato = $contrato;
         return $this;
     }
+
+
 
     /**
      * @return mixed
