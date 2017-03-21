@@ -16,6 +16,7 @@ class PaisDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO pais 
                        (CD_PAIS, DS_PAIS) VALUES (NULL, :pais)";
@@ -23,7 +24,7 @@ class PaisDAO
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":pais", $pais->getDsPais(), PDO::PARAM_STR);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -37,6 +38,7 @@ class PaisDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE pais SET
                       DS_PAIS = :pais WHERE CD_PAIS = :codigo";
@@ -44,7 +46,7 @@ class PaisDAO
             $stmt->bindValue(":pais", $pais->getDsPais(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $pais->getCdPais(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -58,13 +60,14 @@ class PaisDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         //echo "<script>alert(".$codigo.");</script>";
         try{
             $query = "DELETE FROM pais WHERE CD_PAIS = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

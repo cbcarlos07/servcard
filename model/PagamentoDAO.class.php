@@ -16,6 +16,7 @@ class PagamentoDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO pagamento 
                       (CD_PAGAMENTO, DT_PAGAMENTO, HR_PAGAMENTO, VL_PAGAMENTO, DT_VENCIMENTO, CD_CONTRATO) VALUES 
@@ -26,7 +27,7 @@ class PagamentoDAO
              $stmt->bindValue(":vencimento", $pagamento->getDtVencimento(), PDO::PARAM_STR);
              $stmt->bindValue(":contrato", $pagamento->getContrato()->getCdContrato(), PDO::PARAM_INT);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -40,6 +41,7 @@ class PagamentoDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE pagamento SET 
                       VL_PAGAMENTO  = :valor
@@ -48,7 +50,7 @@ class PagamentoDAO
             $stmt->bindValue(":valor", $pagamento->getVlPagamento(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $pagamento->getCdPagamento(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -62,12 +64,13 @@ class PagamentoDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM pagamento WHERE CD_PAGAMENTO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

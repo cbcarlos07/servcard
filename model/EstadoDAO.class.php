@@ -22,11 +22,12 @@ class EstadoDAO
                       (NULL, :estado, :uf, :pais)";
 
              $stmt = $this->connection->prepare($query);
+             $this->connection->beginTransaction();
              $stmt->bindValue(":estado", $estado->getNmEstado(), PDO::PARAM_STR);
              $stmt->bindValue(":uf", $estado->getDsUF(), PDO::PARAM_STR);
              $stmt->bindValue(":pais", $estado->getPais()->getCdPais(), PDO::PARAM_INT);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -40,6 +41,7 @@ class EstadoDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
 
         try{
             $query = "UPDATE estado SET 
@@ -51,7 +53,7 @@ class EstadoDAO
             $stmt->bindValue(":pais", $estado->getPais()->getCdPais(), PDO::PARAM_INT);
             $stmt->bindValue(":codigo", $estado->getCdEstado(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -65,12 +67,13 @@ class EstadoDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM estado WHERE CD_ESTADO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

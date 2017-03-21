@@ -17,6 +17,7 @@ class BairroDAO
          $teste = false;
 
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO bairro 
                        (CD_BAIRRO, NM_BAIRRO, CD_CIDADE, CD_ZONA) 
@@ -29,7 +30,7 @@ class BairroDAO
              $stmt->bindValue(":cidade",$bairro->getCidade()->getCdCidade(), PDO::PARAM_INT);
              $stmt->bindValue(":zona",$bairro->getZona()->getCdZona(), PDO::PARAM_INT);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -43,6 +44,7 @@ class BairroDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE bairro SET 
                        NM_BAIRRO = :bairro, CD_CIDADE = :cidade, CD_ZONA = :zona
@@ -53,7 +55,7 @@ class BairroDAO
             $stmt->bindValue(":zona",$bairro->getZona()->getCdZona());
             $stmt->bindValue(":codigo", $bairro->getCdBairro(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -67,12 +69,13 @@ class BairroDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM bairro WHERE CD_BAIRRO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

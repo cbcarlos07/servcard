@@ -16,6 +16,7 @@ class EnderecoDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO endereco 
                        (DS_LOGRADOURO, CD_TP_LOGRADOURO, NR_CEP, CD_BAIRRO) 
@@ -28,7 +29,7 @@ class EnderecoDAO
              $stmt->bindValue(":cep", $endereco->getNrCep(), PDO::PARAM_STR);
              $stmt->bindValue(":bairro", $endereco->getBairro()->getCdBairro(), PDO::PARAM_INT);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -42,6 +43,8 @@ class EnderecoDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
+
         try{
             $query = "UPDATE endereco SET 
                         NR_CEP = :cep, DS_LOGRADOURO = :logradouro, CD_TP_LOGRADOURO = :tipo,  CD_BAIRRO = :bairro
@@ -54,7 +57,7 @@ class EnderecoDAO
             $stmt->bindValue(":bairro", $endereco->getBairro()->getCdBairro(), PDO::PARAM_INT);
             $stmt->bindValue(":codigo", $endereco->getCdEndereco(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -68,12 +71,13 @@ class EnderecoDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM endereco WHERE CD_ENDERECO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

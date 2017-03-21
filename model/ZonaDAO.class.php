@@ -16,6 +16,7 @@ class ZonaDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO zona 
                       (CD_ZONA, DS_ZONA) VALUES 
@@ -24,7 +25,7 @@ class ZonaDAO
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":zona", $zona->getDsZona(), PDO::PARAM_STR);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -38,6 +39,7 @@ class ZonaDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE zona SET 
                       DS_ZONA = :zona
@@ -46,7 +48,7 @@ class ZonaDAO
             $stmt->bindValue(":zona", $zona->getDsZona(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $zona->getCdZona(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -60,12 +62,13 @@ class ZonaDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM zona WHERE CD_ZONA = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

@@ -16,6 +16,7 @@ class ParceiroDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO parceiro 
                       (CD_PARCEIRO, NM_PARCEIRO, DS_RESPONSAVEL, NR_CPF_RESPONSAVEL, NR_CNPJ, NR_CEP) VALUES 
@@ -28,7 +29,7 @@ class ParceiroDAO
              $stmt->bindValue(":cnpj", $parceiro->getNrCnpj(), PDO::PARAM_STR);
              $stmt->bindValue(":cep", $parceiro->getEndereco()->getNrCep(), PDO::PARAM_STR);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -42,6 +43,7 @@ class ParceiroDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE parceiro SET 
                       NM_PARCEIRO = :parceiro, DS_RESPONSAVEL = :responsavel
@@ -55,7 +57,7 @@ class ParceiroDAO
             $stmt->bindValue(":cep", $parceiro->getEndereco()->getNrCep());
             $stmt->bindValue(":codigo", $parceiro->getCdParceiro(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -69,12 +71,13 @@ class ParceiroDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM parceiro WHERE CD_PARCEIRO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

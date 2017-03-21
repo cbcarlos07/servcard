@@ -16,6 +16,7 @@ class ContratoMensalDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO contrato_mensal 
                        (CD_CONTRATO, DT_VENCIMENTO, NR_VALOR, NR_PARCELA, SN_PAGO) 
@@ -38,7 +39,7 @@ class ContratoMensalDAO
              $stmt->bindValue(":parcela", $contratoMensal->getNrParcela(), PDO::PARAM_INT);
              $stmt->bindValue(":status_", $contratoMensal->getSnPago(), PDO::PARAM_STR);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -52,6 +53,7 @@ class ContratoMensalDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE contrato_mensal SET 
                         DT_VENCIMENTO = :vencimento, NR_VALOR = :valor,
@@ -65,7 +67,7 @@ class ContratoMensalDAO
             $stmt->bindValue(":status_", $contratoMensal->getSnPago(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $contratoMensal->getContrato()->getCdContrato(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -80,6 +82,7 @@ class ContratoMensalDAO
         $teste = false;
         //echo "Contrato".$contratoMensal->getContrato()->getCdContrato();
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE contrato_mensal SET 
                          SN_PAGO =  :status_
@@ -91,7 +94,7 @@ class ContratoMensalDAO
             $stmt->bindValue(":status_", $contratoMensal->getSnPago(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo",  $contratoMensal->getContrato()->getCdContrato(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -105,12 +108,13 @@ class ContratoMensalDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM contrato_mensal WHERE CD_CONTRATO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

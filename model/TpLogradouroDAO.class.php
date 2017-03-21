@@ -16,6 +16,7 @@ class TpLogradouroDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO tp_logradouro 
                       (DS_TP_LOGRADOURO) VALUES (:logradouro)";
@@ -23,7 +24,7 @@ class TpLogradouroDAO
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":logradouro", $ppLogradouro->getDsTpLogradouro(), PDO::PARAM_STR);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -37,6 +38,7 @@ class TpLogradouroDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE tp_logradouro SET 
                       DS_TP_LOGRADOURO = :logradouro
@@ -45,7 +47,7 @@ class TpLogradouroDAO
             $stmt->bindValue(":logradouro", $ppLogradouro->getDsTpLogradouro(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $ppLogradouro->getCdTpLogradouro(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -56,16 +58,17 @@ class TpLogradouroDAO
     }
 
     public function delete ($codigo){
+
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
-        //echo "<script>alert(".$codigo.");</script>";
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM tp_logradouro WHERE CD_TP_LOGRADOURO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

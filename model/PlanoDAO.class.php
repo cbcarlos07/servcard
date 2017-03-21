@@ -16,6 +16,7 @@ class PlanoDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO plano 
                       (CD_PLANO, DS_PLANO, OBS_PLANO, NR_VALOR) VALUES 
@@ -26,7 +27,7 @@ class PlanoDAO
              $stmt->bindValue(":obs", $plano->getObsPlano(), PDO::PARAM_STR);
              $stmt->bindValue(":valor", $plano->getNrValor(), PDO::PARAM_STR);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -40,6 +41,7 @@ class PlanoDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE plano SET 
                       DS_PLANO = :plano, OBS_PLANO = :obs, NR_VALOR = :valor
@@ -50,7 +52,7 @@ class PlanoDAO
             $stmt->bindValue(":valor", $plano->getNrValor(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $plano->getCdPlano(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -64,12 +66,13 @@ class PlanoDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM plano WHERE CD_PLANO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

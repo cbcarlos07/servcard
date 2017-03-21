@@ -16,6 +16,7 @@ class CidadeDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO cidade 
                        (NM_CIDADE, CD_ESTADO) 
@@ -26,7 +27,7 @@ class CidadeDAO
              $stmt->bindValue(":cidade", $cidade->getNmCidade(), PDO::PARAM_STR);
              $stmt->bindValue(":estado", $cidade->getEstado()->getCdEstado(), PDO::PARAM_INT);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -40,6 +41,7 @@ class CidadeDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE cidade SET 
                        NM_CIDADE =  :cidade, CD_ESTADO = :estado
@@ -49,7 +51,7 @@ class CidadeDAO
             $stmt->bindValue(":estado", $cidade->getEstado()->getCdEstado(), PDO::PARAM_INT);
             $stmt->bindValue(":codigo", $cidade->getCdCidade(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -63,12 +65,13 @@ class CidadeDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM cidade WHERE CD_CIDADE = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->beginTransaction();
             $teste =  true;
 
             $this->connection =  null;

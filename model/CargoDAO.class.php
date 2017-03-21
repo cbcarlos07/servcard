@@ -16,6 +16,7 @@ class CargoDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO cargo 
                         (CD_CARGO, DS_CARGO, OBS_CARGO) 
@@ -27,7 +28,7 @@ class CargoDAO
              $stmt->bindValue(":cargo", $cargo->getDsCargo(), PDO::PARAM_STR);
              $stmt->bindValue(":obs",$cargo->getObsCargo(), PDO::PARAM_STR);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -41,6 +42,7 @@ class CargoDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE cargo SET DS_CARGO = :cargo, OBS_CARGO = :obs 
                       WHERE CD_CARGO = :codigo";
@@ -49,7 +51,7 @@ class CargoDAO
             $stmt->bindValue(":obs",$cargo->getObsCargo(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $cargo->getCdCargo());
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -63,12 +65,13 @@ class CargoDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM cargo WHERE CD_CARGO - :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

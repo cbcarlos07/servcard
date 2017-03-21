@@ -16,6 +16,7 @@ class EstadoCivilDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO estado_civil
                       (CD_ESTADO_CIVIL, DS_ESTADO_CIVIL) VALUES 
@@ -24,7 +25,7 @@ class EstadoCivilDAO
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":estado", $estadoCivil->getDsEstadoCivil(), PDO::PARAM_STR);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -38,6 +39,7 @@ class EstadoCivilDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE estado_civil SET 
                       DS_ESTADO_CIVIL = :estado
@@ -46,7 +48,7 @@ class EstadoCivilDAO
             $stmt->bindValue(":estado", $estadoCivil->getDsEstadoCivil(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $estadoCivil->getCdEstadoCivil(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -60,12 +62,13 @@ class EstadoCivilDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM estado_civil WHERE CD_ESTADO_CIVIL = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

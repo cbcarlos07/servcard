@@ -16,6 +16,7 @@ class UsuarioDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO usuario 
                       (CD_USUARIO, NM_USUARIO, DS_LOGIN, DS_SENHA, SN_ATIVO, CD_CARGO, NR_CPF, NR_RG, DS_FOTO, SN_SENHA_ATUAL) VALUES 
@@ -32,7 +33,7 @@ class UsuarioDAO
              $stmt->bindValue(":foto", $usuario->getDsFoto(), PDO::PARAM_STR);
              $stmt->bindValue(":atual", $usuario->getSnSenhaAtual(), PDO::PARAM_STR);
              $stmt->execute();
-
+             $this->connection->commit();
              $teste =  true;
 
              $this->connection =  null;
@@ -46,6 +47,7 @@ class UsuarioDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE usuario SET 
                       NM_USUARIO = :usuario, DS_LOGIN = :login, DS_SENHA = MD5(:senha)
@@ -62,7 +64,7 @@ class UsuarioDAO
             $stmt->bindValue(":foto", $usuario->getDsFoto(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $usuario->getCdUsuario(), PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -76,12 +78,13 @@ class UsuarioDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM usuario WHERE CD_USUARIO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

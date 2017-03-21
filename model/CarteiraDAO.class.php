@@ -16,6 +16,7 @@ class CarteiraDAO
          $this->connection =  null;
          $teste = false;
          $this->connection = new ConnectionFactory();
+         $this->connection->beginTransaction();
          $lastId = 0;
          try{
                  $query = "INSERT INTO carteira 
@@ -39,6 +40,7 @@ class CarteiraDAO
              $stmt->bindValue(":contrato", $carteira->getContrato()->getCdContrato(), PDO::PARAM_INT);
 
              $stmt->execute();
+             $this->connection->commit();
              //$lastId = $this->connection->lastInsertId();
              $teste = true;
 
@@ -56,6 +58,7 @@ class CarteiraDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE carteira SET 
                       DT_VALIDADE = :validade, SN_ATIVO = :ativo,
@@ -72,7 +75,7 @@ class CarteiraDAO
             $stmt->bindValue(":tptitular", $carteira->getSnTitular(), PDO::PARAM_STR);
 
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;

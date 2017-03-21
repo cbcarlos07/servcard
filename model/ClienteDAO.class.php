@@ -66,6 +66,7 @@ class ClienteDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "UPDATE `cliente` SET
                        `NM_CLIENTE` = :nome, `NM_SOBRENOME` = :sobrenome, `NR_CPF` = :cpf,
@@ -93,7 +94,7 @@ class ClienteDAO
             $stmt->bindValue(":senha", $cliente->getDsSenha(), PDO::PARAM_STR);
             $stmt->bindValue(":atual", $cliente->getSnSenhaAtual(), PDO::PARAM_STR);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -107,12 +108,13 @@ class ClienteDAO
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM `cliente` WHERE `CD_CLIENTE` = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
             $stmt->execute();
-
+            $this->connection->commit();
             $teste =  true;
 
             $this->connection =  null;
@@ -136,6 +138,7 @@ class ClienteDAO
         $this->connection = null;
 
         $this->connection = new ConnectionFactory();
+
         //echo "Inicio: ".$inicio."<br>";
         //echo "Fim: ".$limite."<br>";
         //echo "Nome: ".$nome;
@@ -187,6 +190,7 @@ class ClienteDAO
 
                 $clienteList->addCliente($cliente);
             }
+
             $this->connection = null;
         } catch (PDOException $ex) {
             echo "Erro: ".$ex->getMessage();
