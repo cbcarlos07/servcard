@@ -93,14 +93,17 @@ function desmarcarTodos(nome){
 }
 
 $('.btn-pgto').on('click', function () {
+
+
     var valor       = $(this).data('valor');
     var valorEnviar = $(this).data('valor1');
     var contrato    = $(this).data('contrato');
     var parcela     = $(this).data('parcela');
     var vencimento  = $(this).data('vencimento');
+    //alert('Click '+valorEnviar);
     $('span.nome').text(valor);
     $('.pay-yes').on('click', function () {
-       registrar_pagamento(parcela, vencimento, contrato, valor);
+       registrar_pagamento(parcela, vencimento, contrato, valorEnviar);
     });
 });
 
@@ -140,4 +143,12 @@ function sucesso(msg){
         location.reload();
     },2000);
 }
+
+$('.btn-boleto').on('click',function () {
+   // alert('Boleto');
+    var form = $('<form action="boleto/boleto_itau.php" method="post">+' +
+                 '</form>>');
+    $('body').append(form);
+    form.submit();
+});
 

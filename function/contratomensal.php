@@ -5,7 +5,7 @@
  * Date: 22/02/17
  * Time: 20:43
  */
-
+include "../include/error.php";
 $id         = 0;
 $contrato   = 0;
 $acao       = $_POST['acao'];
@@ -163,49 +163,22 @@ function efetuar_pagamento($parcela, $vencimento, $contrato, $valor){
         $pagamento     = new Pagamento();
         $pagamentoController = new PagamentoController();
 
-
-        //echo 'Data atual: '.date('d/m/Y')." \n";
-        $time_inicial = geraTimestamp(date('d/m/Y'));
-        $time_final   = geraTimestamp($vencimento);
-
-        // Calcula a diferença de segundos entre as duas datas:
-        $diferenca = $time_final - $time_inicial; // 19522800 segundos
-        // Calcula a diferença de dias
-        $dias = (int)floor( $diferenca / (60 * 60 * 24)); // 225 dias
-
-        $totalParcelas = 0;
-        $teste = false;
-        //echo $dias;
-        if($dias < 0){
-            $auxDias       = -($dias);
-            $totalParcelas = (($valor * $auxDias)/100) + $valor;
             $contratoMensal->setContrato(new Contrato());
             $contratoMensal->getContrato()->setCdContrato($contrato);
             $contratoMensal->setNrParcela($parcela);
             $contratoMensal->setSnPago('S');
             $contratoMensalController->efetua_pagamento($contratoMensal);
-
-            $pagamento->setContrato(new Contrato());
-            $pagamento->getContrato()->setCdContrato($contrato);
-            $pagamento->setVlPagamento($totalParcelas);
-            $dataApp = explode('/', $vencimento);
-            $pagamento->setDtVencimento("$dataApp[2]-$dataApp[1]-$dataApp[0]");
-            $teste = $pagamentoController->insert($pagamento);
-
-        }else{
-            $contratoMensal->setContrato(new Contrato());
-            $contratoMensal->getContrato()->setCdContrato($contrato);
-            $contratoMensal->setNrParcela($parcela);
-            $contratoMensal->setSnPago('S');
-            $contratoMensalController->efetua_pagamento($contratoMensal);
-
+           /* echo "Parcela: ".$parcela."\n";
+            echo "Contrato: ".$contrato."\n";
+            echo "Valor: ".$valor."\n";
+            echo "Vencimento: ".$vencimento."\n";*/
             $pagamento->setContrato(new Contrato());
             $pagamento->getContrato()->setCdContrato($contrato);
             $pagamento->setVlPagamento($valor);
             $dataApp = explode('/', $vencimento);
             $pagamento->setDtVencimento("$dataApp[2]-$dataApp[1]-$dataApp[0]");
             $teste = $pagamentoController->insert($pagamento);
-        }
+
 
         if($teste){
             echo json_encode(array("retorno" => 1));

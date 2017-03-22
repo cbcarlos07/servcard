@@ -108,7 +108,7 @@ $contratoMensalIterator = new ContratoMensalListIterator($lista);
                                        <th>Parcela</th>
                                        <th>Vencimento</th>
                                        <th>Valor</th>
-                                       <th>Pago</th>
+                                       <th></th>
                                        <th></th>
                                    </tr>
                                 </thead>
@@ -117,8 +117,17 @@ $contratoMensalIterator = new ContratoMensalListIterator($lista);
                                      while ($contratoMensalIterator->hasNextContratoMensal()) {
                                          $contratoMensal = $contratoMensalIterator->getNextContratoMensal();
                                          $linhapg = "";
-                                         if ($contratoMensal->getSnPago() == 'S')
+                                         $registrar = "Registrar Pagamento";
+                                         $registrar_btn = "btn-primary";
+                                         $registrar_modal = "#pagamento-modal";
+                                         $boleto = "<a href='#' class='btn btn-xs btn-success btn-boleto'>Gerar boleto</a>";
+                                         if ($contratoMensal->getSnPago() == 'S') {
                                              $linhapg = "#28CC9E";
+                                             $boleto = "";
+                                             $registrar = "Pago";
+                                             $registrar_btn = "btn-danger";
+                                             $registrar_modal = "";
+                                         }
                                          ?>
                                          <tr style="background: <?php echo $linhapg; ?>">
                                              <td><input type="checkbox" name="ckb[]" value="<?php echo $contratoMensal->getNrParcela(); ?>" /></td>
@@ -128,16 +137,17 @@ $contratoMensalIterator = new ContratoMensalListIterator($lista);
                                                  echo "$dataMySQL[2]/$dataMySQL[1]/$dataMySQL[0]"; ?></td>
                                              <td><?php echo 'R$ '.number_format($contratoMensal->getNrValor(),2,',','.');?></td>
                                              <td><?php echo $contratoMensal->getSnPago(); ?></td>
-                                             <td class="action">
+                                             <td class="action" align="center">
                                                  <a href="#"
                                                     data-toggle="modal"
-                                                    data-target="#pagamento-modal"
+                                                    data-target="<?php echo $registrar_modal; ?>"
                                                     data-contrato="<?php echo $contrato; ?>"
                                                     data-parcela="<?php echo $contratoMensal->getNrParcela(); ?>"
                                                     data-valor="<?php echo 'R$ '.number_format($contratoMensal->getNrValor(),2,',','.'); ?>"
                                                     data-valor1="<?php echo $contratoMensal->getNrValor(); ?>"
                                                     data-vencimento="<?php echo "$dataMySQL[2]/$dataMySQL[1]/$dataMySQL[0]"; ?>"
-                                                    class="btn btn-primary btn-xs btn-pgto">Registrar Pagamento</a>
+                                                    class="btn <?php echo $registrar_btn; ?> btn-xs btn-pgto"><?php echo $registrar; ?></a>
+                                                    <?php echo $boleto; ?>
                                              </td>
                                          </tr>
                                          <?php

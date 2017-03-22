@@ -191,9 +191,16 @@ class ContratoMensalDAO
                 $contratoMensal->setContrato(new Contrato());
                 $contratoMensal->getContrato()->setCdContrato($row['CD_CONTRATO']);
                 $contratoMensal->setDtVencimento($row['DT_VENCIMENTO']);
-                $contratoMensal->setNrValor($row['NR_VALOR']);
+
                 $contratoMensal->setNrParcela($row['NR_PARCELA']);
+                //$contratoMensal->setNrParcela($row['NR_PARCELA']);
                 $contratoMensal->setSnPago($row['SN_PAGO']);
+                $pago = $row['SN_PAGO'];
+                if($pago == 'S')
+                    $contratoMensal->setNrValor($row['NR_VALOR']);
+                else
+                    $contratoMensal->setNrValor($this->getValorParcela($row['NR_VALOR'], $row['DT_VENCIMENTO']));
+               // $contratoMensal->setSnPago($pago);
 
                 $contratoMensalList->addContratoMensal($contratoMensal);
             }
@@ -229,4 +236,33 @@ class ContratoMensalDAO
         }
         return $contratoMensal;
     }
+
+    private function getValorParcela($valor, $vencimento){
+        $time_inicial = $this->geraTimestamp(date('d/m/Y'));
+        $dataMySQL = explode('-', $vencimento);
+        $time_final   = $this->geraTimestamp("$dataMySQL[2]/$dataMySQL[1]/$dataMySQL[0]");
+
+        // Calcula a diferença de segundos entre as duas datas:
+        $diferenca = $time_final - $time_inicial; // 19522800 segundos
+        // Calcula a diferença de dias
+        $dias = (int)floor( $diferenca / (60 * 60 * 24)); // 225 dias
+
+        $totalParcelas = 0;
+
+        if($dias < 0){
+            $auxDias       = -($dias);
+            $totalParcelas = (($valor * $auxDias)/100) + $valor;
+        }else{
+            $totalParcelas = $valor;
+        }
+        return $totalParcelas;
+    }
+
+    // Cria uma função que retorna o timestamp de uma data no formato DD/MM/AAAA
+  private  function geraTimestamp($data) {
+        $partes = explode('/', $data);
+        return mktime(0, 0, 0, $partes[1], $partes[0], $partes[2]);
+    }
+
+
 }
