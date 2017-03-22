@@ -149,15 +149,13 @@ class ClienteDAO
                 $sql = "SELECT C.*
                               ,EC.DS_ESTADO_CIVIL
                               ,E.CD_ENDERECO
-                              ,E.NR_CEP 
-                              ,CO.SN_ATIVO                             
+                              ,E.NR_CEP                             
                         FROM cliente C 
                         INNER JOIN estado_civil EC ON EC.CD_ESTADO_CIVIL = C.CD_ESTADO_CIVIL
                         INNER JOIN endereco     E  ON E.CD_ENDERECO = C.CD_ENDERECO
-                        LEFT JOIN contrato     CO ON CO.CD_CLIENTE = C.CD_CLIENTE
+                      
                         WHERE NM_CLIENTE LIKE :nome
-                        ORDER BY CO.SN_ATIVO DESC
-                                ,C.NM_CLIENTE ASC
+                        ORDER BY C.NM_CLIENTE ASC
                         LIMIT :inicio, :limite
                         ";
 

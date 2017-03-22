@@ -33,7 +33,7 @@ class ContratoMensalDAO
              $valor = str_replace("R$ ", '',$contratoMensal->getNrValor());
              $valor = str_replace(",",".",$valor);
              //echo "Valor: $valor <br>";
-             $stmt->bindValue(":contrato", $contratoMensal->getCdContrato(), PDO::PARAM_INT);
+             $stmt->bindValue(":contrato", $contratoMensal->getContrato()->getCdContrato(), PDO::PARAM_INT);
              $stmt->bindValue(":vencimento", "$ano-$mes-$dia", PDO::PARAM_STR);
              $stmt->bindValue(":valor",$valor , PDO::PARAM_STR);
              $stmt->bindValue(":parcela", $contratoMensal->getNrParcela(), PDO::PARAM_INT);

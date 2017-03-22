@@ -39,9 +39,11 @@ class ContratoDAO
              $stmt->bindValue(":DIAS",    $contrato->getDiasVencimento(), PDO::PARAM_INT);
              $stmt->bindValue(":TITULAR", $contrato->getSnTitular(), PDO::PARAM_STR);
              $stmt->execute();
-             $this->connection->commit();
              $lastId = $this->connection->lastInsertId();
              $teste =  $lastId; //pega o ultimom codigo inserido;
+             $this->connection->commit();
+
+             //echo "Codigo gerado no dao: ".$teste."\n";
 
              $this->connection =  null;
          }catch(PDOException $exception){
@@ -175,13 +177,9 @@ class ContratoDAO
         try {
 
                 $sql = "SELECT C.*, U.NM_USUARIO, P.DS_PLANO, P.NR_VALOR
-                              ,COUNT(CB.CD_CARTEIRA) TOTAL
                           FROM contrato C
                          INNER JOIN usuario U ON C.CD_USUARIO = U.CD_USUARIO
-                         INNER JOIN plano   P ON C.CD_PLANO = P.CD_PLANO
-                         INNER JOIN (
-                         SELECT CA.CD_CARTEIRA, CA.CD_CONTRATO FROM carteira CA WHERE CA.SN_ATIVO = 'S' AND CA.SN_TITULAR = 'N'
-                         ) CB ON CB.CD_CONTRATO = C.CD_CONTRATO
+                         INNER JOIN plano   P ON C.CD_PLANO = P.CD_PLANO                         
                          WHERE C.CD_CLIENTE = :cliente
                          ORDER BY 1 DESC";
                 $stmt = $this->connection->prepare($sql);
@@ -202,7 +200,6 @@ class ContratoDAO
                 $contrato->getUsuario()->setCdUsuario($row['CD_USUARIO']);
                 $contrato->getUsuario()->setNmUsuario($row['NM_USUARIO']);
                 $contrato->setSnAtivo($row['SN_ATIVO']);
-                $contrato->setTotal($row['TOTAL']);
                 $contratoList->addContrato($contrato);
             }
             $this->connection = null;

@@ -136,7 +136,7 @@ $contratoMensalIterator = new ContratoMensalListIterator($lista);
                                                  $dataMySQL = explode('-', $contratoMensal->getDtVencimento());
                                                  echo "$dataMySQL[2]/$dataMySQL[1]/$dataMySQL[0]"; ?></td>
                                              <td><?php echo 'R$ '.number_format($contratoMensal->getNrValor(),2,',','.');?></td>
-                                             <td><?php echo $contratoMensal->getSnPago(); ?></td>
+                                             
                                              <td class="action" align="center">
                                                  <a href="#"
                                                     data-toggle="modal"
