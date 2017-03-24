@@ -30,6 +30,7 @@ class ContratoDAO
                         :JUROS, 'S', :DIAS, :TITULAR, :RESPONSAVEL)";
 
              $stmt = $this->connection->prepare($query);
+            // echo "Responsavel: ".$contrato->getResponsavel()->getCdUsuario();
              $stmt->bindValue(":QUITE",   $contrato->getSnQuite(), PDO::PARAM_STR);
              $stmt->bindValue(":VALOR",   $contrato->getNrValor(), PDO::PARAM_STR);
              $stmt->bindValue(":PARCELA", $contrato->getNrParcela(), PDO::PARAM_INT);
@@ -41,11 +42,14 @@ class ContratoDAO
              $stmt->bindValue(":TITULAR", $contrato->getSnTitular(), PDO::PARAM_STR);
              $stmt->bindValue(":RESPONSAVEL", $contrato->getResponsavel()->getCdUsuario(), PDO::PARAM_INT);
              $stmt->execute();
+
              $lastId = $this->connection->lastInsertId();
              $teste =  $lastId; //pega o ultimom codigo inserido;
+            // echo "Codigo gerado: commit ultimo ".$teste."\n";
+
              $this->connection->commit();
 
-             //echo "Codigo gerado no dao: ".$teste."\n";
+
 
              $this->connection =  null;
          }catch(PDOException $exception){

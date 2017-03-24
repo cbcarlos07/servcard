@@ -136,7 +136,7 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
     $contrato->setDiasVencimento($dias);
     $contrato->setSnTitular($titular);
     $contrato->setResponsavel(new Usuario());
-    $contrato->getUsuario()->setCdUsuario($responsavel);
+    $contrato->getResponsavel()->setCdUsuario($responsavel);
 
 
     $contratoController = new ContratoController();
@@ -148,7 +148,7 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
     $cmc = new ContratoMensalController();
     $teste = false;
     $teste1 = false;
-   // echo "Codigo gerado: $genId";
+    echo "Codigo gerado: $genId";
     if($genId > 0){
         foreach ($arr as $item => $value) {
             $contratoMensal->setContrato(new Contrato());
