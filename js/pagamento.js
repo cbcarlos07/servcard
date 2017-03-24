@@ -146,7 +146,14 @@ function sucesso(msg){
 
 $('.btn-boleto').on('click',function () {
    // alert('Boleto');
-    var form = $('<form action="boleto/boleto_itau.php" method="post">+' +
+    var valor = $(this).data('valor');
+    var vencimento = $(this).data('vencimento');
+    var cliente    = $(this).data('cliente');
+    //alert('Valor: '+valor);
+    var form = $('<form action="boleto/boleto_itau.php" method="post">' +
+                '<input type="hidden" name="valor" value="'+valor+'"/>'+
+                '<input type="hidden" name="vencimento" value="'+vencimento+'"/>'+
+                '<input type="hidden" name="cliente" value="'+cliente+'"/>'+
                  '</form>>');
     $('body').append(form);
     form.submit();

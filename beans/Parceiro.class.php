@@ -14,6 +14,66 @@ class Parceiro
    private $nrCpfResponsavel;
    private $NrCnpj;
    private $endereco;
+   private $dsRamo;
+   private $nrCasa;
+   private $dsComplemento;
+
+    /**
+     * @return mixed
+     */
+    public function getNrCasa()
+    {
+        return $this->nrCasa;
+    }
+
+    /**
+     * @param mixed $nrCasa
+     * @return Parceiro
+     */
+    public function setNrCasa($nrCasa)
+    {
+        $this->nrCasa = $nrCasa;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDsComplemento()
+    {
+        return $this->dsComplemento;
+    }
+
+    /**
+     * @param mixed $dsComplemento
+     * @return Parceiro
+     */
+    public function setDsComplemento($dsComplemento)
+    {
+        $this->dsComplemento = $dsComplemento;
+        return $this;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getDsRamo()
+    {
+        return $this->dsRamo;
+    }
+
+    /**
+     * @param mixed $dsRamo
+     * @return Parceiro
+     */
+    public function setDsRamo($dsRamo)
+    {
+        $this->dsRamo = $dsRamo;
+        return $this;
+    }
+
 
     /**
      * @return mixed

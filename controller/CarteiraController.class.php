@@ -73,4 +73,11 @@ class CarteiraController
         return $retorno;
     }
 
+    public function getTotalDependente($contrato){
+        require_once ("model/CarteiraDAO.class.php");
+        $carteiraDao = new CarteiraDAO();
+        $retorno = $carteiraDao->getTotalDependente($contrato);
+        return $retorno;
+    }
+
 }

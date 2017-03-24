@@ -8,23 +8,30 @@
  */
 class ParceiroListIterator
 {
-    public function addParceiro(Parceiro $_parceiro_in) {
-        $this->setParceiroCount($this->getParceiroCount() + 1);
-        $this->_parceiro[$this->getParceiroCount()] = $_parceiro_in;
-        return $this->getParceiroCount();
+    protected $parceiroList;
+    protected $currentParceiro = 0;
+
+    public function __construct(ParceiroList $parceiroList_in) {
+        $this->parceiroList = $parceiroList_in;
     }
-    public function removeParceiro(Parceiro $_parceiro_in) {
-        $counter = 0;
-        while (++$counter <= $this->getParceiroCount()) {
-            if ($_parceiro_in->getAuthorAndTitle() ==
-                $this->_parceiro[$counter]->getAuthorAndTitle())
-            {
-                for ($x = $counter; $x < $this->getParceiroCount(); $x++) {
-                    $this->_parceiro[$x] = $this->_parceiro[$x + 1];
-                }
-                $this->setParceiroCount($this->getParceiroCount() - 1);
-            }
+    public function getCurrentParceiro() {
+        if (($this->currentParceiro > 0) &&
+            ($this->parceiroList->getParceiroCount() >= $this->currentParceiro)) {
+            return $this->parceiroList->getParceiro($this->currentParceiro);
         }
-        return $this->getParceiroCount();
+    }
+    public function getNextParceiro() {
+        if ($this->hasNextParceiro()) {
+            return $this->parceiroList->getParceiro(++$this->currentParceiro);
+        } else {
+            return NULL;
+        }
+    }
+    public function hasNextParceiro() {
+        if ($this->parceiroList->getParceiroCount() > $this->currentParceiro) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

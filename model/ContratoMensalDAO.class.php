@@ -197,7 +197,7 @@ class ContratoMensalDAO
                 $contratoMensal->setSnPago($row['SN_PAGO']);
                 $pago = $row['SN_PAGO'];
                 if($pago == 'S')
-                    $contratoMensal->setNrValor($row['NR_VALOR']);
+                    $contratoMensal->setNrValor($this->getValor($contrato,$row['DT_VENCIMENTO'] ));
                 else
                     $contratoMensal->setNrValor($this->getValorParcela($row['NR_VALOR'], $row['DT_VENCIMENTO']));
                // $contratoMensal->setSnPago($pago);
@@ -262,6 +262,27 @@ class ContratoMensalDAO
   private  function geraTimestamp($data) {
         $partes = explode('/', $data);
         return mktime(0, 0, 0, $partes[1], $partes[0], $partes[2]);
+    }
+
+    private function getValor($contrato, $vencimento){
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $valor = 0;
+        $query = "SELECT P.VL_PAGAMENTO FROM pagamento P 
+                  WHERE P.CD_CONTRATO = :CODIGO
+                   AND  P.DT_VENCIMENTO = :VENCIMENTO";
+        try{
+            $stmt = $this->connection->prepare($query);
+            $stmt->bindValue(":CODIGO", $contrato, PDO::PARAM_INT);
+            $stmt->bindValue(":VENCIMENTO", $vencimento, PDO::PARAM_STR);
+            $stmt->execute();
+            if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $valor = $row['VL_PAGAMENTO'];
+            }
+        }catch (PDOException $exception){
+            echo "Erro: ".$exception->getMessage();
+        }
+        return $valor;
     }
 
 

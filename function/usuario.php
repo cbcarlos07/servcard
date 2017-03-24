@@ -5,7 +5,7 @@
  * Date: 22/02/17
  * Time: 20:43
  */
-
+include "../include/error.php";
 $id      = 0;
 $nome    =  "";
 $login   =  "";
@@ -149,6 +149,7 @@ function getLista($id){
     require_once "../beans/Usuario.class.php";
     require_once "../beans/Cargo.class.php";
     require_once "../controller/UsuarioController.class.php";
+    require_once "../services/UsuarioListIterator.class.php";
 
     $usuario =  new Usuario();
     $usuarioController = new UsuarioController();

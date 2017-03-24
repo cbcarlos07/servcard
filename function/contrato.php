@@ -21,6 +21,7 @@ $dias       = 0;
 $observacao = "";
 $titular    = "";
 $acao = $_POST['acao'];
+$responsavel = 0;
 
 
 if(isset($_POST['id'])){
@@ -75,18 +76,20 @@ if(isset($_POST['titular'])){
     $titular = $_POST['titular'];
 }
 
-
+if(isset($_POST['responsavel'])){
+    $responsavel = $_POST['responsavel'];
+}
 
 
 switch ($acao){
     case 'C':
 
         add($data, $quite, $valor, $parcela, $cliente,
-            $usuario, $plano, $juros, $vencimento, $dias, $titular);
+            $usuario, $plano, $juros, $vencimento, $dias, $titular, $responsavel);
         break;
     case 'A':
         change($id, $data, $quite, $valor, $parcela, $cliente,
-            $usuario, $plano, $juros, $dias, $vencimento, $titular);
+            $usuario, $plano, $juros, $dias, $vencimento, $titular, $responsavel);
         break;
 
     case 'D':
@@ -104,7 +107,7 @@ switch ($acao){
 
 }
 
-function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $vencimento, $dias, $titular){
+function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $vencimento, $dias, $titular, $responsavel){
    // echo "<script>alert('Adicionar'); </script>";
     require_once "../beans/Contrato.class.php";
     require_once "../beans/Carteira.class.php";
@@ -132,6 +135,8 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
     $contrato->setNrJuros($juros);
     $contrato->setDiasVencimento($dias);
     $contrato->setSnTitular($titular);
+    $contrato->setResponsavel(new Usuario());
+    $contrato->getUsuario()->setCdUsuario($responsavel);
 
 
     $contratoController = new ContratoController();
@@ -188,7 +193,7 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
 }
 
 
-function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $dias, $vencimento, $titular){
+function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros, $dias, $vencimento, $titular, $responsavel){
     // echo "<script>alert('Adicionar'); </script>";
     require_once "../beans/ContratoMensal.class.php";
     require_once "../beans/Contrato.class.php";
@@ -213,6 +218,8 @@ function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano
     $contrato->setNrJuros($juros);
     $contrato->setDiasVencimento($dias);
     $contrato->setSnTitular($titular);
+    $contrato->setResponsavel(new Usuario());
+    $contrato->getResponsavel()->setCdUsuario($responsavel);
     $contratoController = new ContratoController();
     $teste = $contratoController->update($contrato);
 

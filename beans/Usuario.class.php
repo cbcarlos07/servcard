@@ -19,6 +19,7 @@ class Usuario
    private $dsFoto;
    private $snSenhaAtual;
 
+
     /**
      * @return mixed
      */

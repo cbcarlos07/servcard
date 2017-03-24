@@ -150,6 +150,7 @@ class UsuarioDAO
 
             $sql = "SELECT *
                           FROM usuario E
+                          JOIN cargo C USING (CD_CARGO)
                           WHERE E.NM_USUARIO LIKE :nome";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);

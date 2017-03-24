@@ -31,11 +31,17 @@
 // Os valores abaixo podem ser colocados manualmente ou ajustados p/ formul&aacute;rio c/ POST, GET ou de BD (MySql,Postgre,etc)	//
 
 // DADOS DO BOLETO PARA O SEU CLIENTE
+$valor      = $_POST['valor'];
+$vencimento = $_POST['vencimento'];
+$cliente    = $_POST['cliente'];
+
 $dias_de_prazo_para_pagamento = 5;
 $taxa_boleto = 2.95;
-$data_venc = date("d/m/Y", time() + ($dias_de_prazo_para_pagamento * 86400));  // Prazo de X dias OU informe data: "13/04/2006"; 
-$valor_cobrado = "2950,00"; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
-$valor_cobrado = str_replace(",", ".",$valor_cobrado);
+//$data_venc = date("d/m/Y", time() + ($dias_de_prazo_para_pagamento * 86400));  // Prazo de X dias OU informe data: "13/04/2006";
+$data_venc = $vencimento;
+//$valor_cobrado = "2950,00"; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
+$valor_cobrado = $valor;
+//$valor_cobrado = str_replace(",", ".",$valor_cobrado);
 $valor_boleto=number_format($valor_cobrado+$taxa_boleto, 2, ',', '');
 
 $dadosboleto["nosso_numero"] = '12345678';  // Nosso numero - REGRA: M&aacute;ximo de 8 caracteres!
@@ -46,7 +52,8 @@ $dadosboleto["data_processamento"] = date("d/m/Y"); // Data de processamento do 
 $dadosboleto["valor_boleto"] = $valor_boleto; 	// Valor do Boleto - REGRA: Com v&iacute;rgula e sempre com duas casas depois da virgula
 
 // DADOS DO SEU CLIENTE
-$dadosboleto["sacado"] = "Nome do seu Cliente";
+//$dadosboleto["sacado"] = "Nome do seu Cliente";
+$dadosboleto["sacado"] = $cliente;
 $dadosboleto["endereco1"] = "Endere&ccedil;o do seu Cliente";
 $dadosboleto["endereco2"] = "Cidade - Estado -  CEP: 00000-000";
 

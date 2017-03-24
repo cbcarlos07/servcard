@@ -34,7 +34,8 @@ function salvar(){
         var acao        = document.getElementById('acao').value;
         var vencimento  = JSON.stringify(venc)
         var dias        = document.getElementById('dias').value;
-        var sntitular     = document.getElementById('titular');
+        var sntitular   = document.getElementById('titular');
+        var responsavel = document.getElementById('responsavel').value;
         //alert('Acao: '+acao);
         var titular = "N";
         if(sntitular.checked == true){
@@ -58,6 +59,7 @@ function salvar(){
                     'quite'       : quite,
                     'dias'        : dias,
                     'titular'     : titular,
+                    'responsavel' : responsavel,
                     'acao'        : acao
                 },
                 success: function (data) {
@@ -439,4 +441,21 @@ $(document).ready(function () {
         }
     )
 
-})
+});
+
+var responsavel = $('#responsavel');
+$(document).ready(function(){
+    var id = document.getElementById('id-responsavel').value;
+    //alert('Codigo da cidade: '+cidade);
+    $.post("function/usuario.php",
+        {
+            'id': id,
+            'acao': "L"
+        },
+        function(data){
+            responsavel.find("option").remove();
+            responsavel.append(data);
+        });
+
+});
+

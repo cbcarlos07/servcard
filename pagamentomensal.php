@@ -116,15 +116,26 @@ $contratoMensalIterator = new ContratoMensalListIterator($lista);
                                    <?php
                                      while ($contratoMensalIterator->hasNextContratoMensal()) {
                                          $contratoMensal = $contratoMensalIterator->getNextContratoMensal();
+                                         $dataMySQL = explode('-', $contratoMensal->getDtVencimento());
+                                         $novaData = "$dataMySQL[2]/$dataMySQL[1]/$dataMySQL[0]";
                                          $linhapg = "";
                                          $registrar = "Registrar Pagamento";
                                          $registrar_btn = "btn-primary";
                                          $registrar_modal = "#pagamento-modal";
-                                         $boleto = "<a href='#' class='btn btn-xs btn-success btn-boleto'>Gerar boleto</a>";
+                                         $boleto = "<a href='#' data-cliente='".$cliente->getNmCliente()." ".$cliente->getNmSobrenome()."' data-vencimento='".$novaData."' data-valor='".$contratoMensal->getNrValor()."' class='btn btn-xs btn-success btn-boleto'>Gerar boleto</a>";
+
+
+                                         if(getDias($contratoMensal->getDtVencimento()) <0 ){
+                                             $linhapg = "#ff8000";
+                                             $registrar = "Pagamento (em atraso)";
+                                             $registrar_btn = "btn-warning";
+                                         }
+
                                          if ($contratoMensal->getSnPago() == 'S') {
+
                                              $linhapg = "#28CC9E";
-                                             $boleto = "";
                                              $registrar = "Pago";
+                                             $boleto = "";
                                              $registrar_btn = "btn-danger";
                                              $registrar_modal = "";
                                          }
@@ -133,10 +144,10 @@ $contratoMensalIterator = new ContratoMensalListIterator($lista);
                                              <td><input type="checkbox" name="ckb[]" value="<?php echo $contratoMensal->getNrParcela(); ?>" /></td>
                                              <td><?php echo $contratoMensal->getNrParcela(); ?></td>
                                              <td><?php
-                                                 $dataMySQL = explode('-', $contratoMensal->getDtVencimento());
-                                                 echo "$dataMySQL[2]/$dataMySQL[1]/$dataMySQL[0]"; ?></td>
+
+                                                 echo $novaData; ?></td>
                                              <td><?php echo 'R$ '.number_format($contratoMensal->getNrValor(),2,',','.');?></td>
-                                             
+
                                              <td class="action" align="center">
                                                  <a href="#"
                                                     data-toggle="modal"
@@ -179,3 +190,25 @@ $contratoMensalIterator = new ContratoMensalListIterator($lista);
 
  </body>
 </html>
+
+<?php
+function getDias($vencimento){
+    $time_inicial = geraTimestamp(date('d/m/Y'));
+    $dataMySQL = explode('-', $vencimento);
+    $time_final   = geraTimestamp("$dataMySQL[2]/$dataMySQL[1]/$dataMySQL[0]");
+
+    // Calcula a diferença de segundos entre as duas datas:
+    $diferenca = $time_final - $time_inicial; // 19522800 segundos
+    // Calcula a diferença de dias
+    $dias = (int)floor( $diferenca / (60 * 60 * 24)); // 225 dias
+
+    return $dias;
+}
+
+
+
+function geraTimestamp($data) {
+    $partes = explode('/', $data);
+    return mktime(0, 0, 0, $partes[1], $partes[0], $partes[2]);
+}
+?>

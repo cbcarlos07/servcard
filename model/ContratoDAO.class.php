@@ -22,11 +22,12 @@ class ContratoDAO
              $query = "INSERT INTO contrato 
                        (CD_CONTRATO, DH_CONTRATO, SN_QUITE, NR_VALOR,
                         NR_PARCELA, CD_CLIENTE, CD_USUARIO, CD_PLANO
-                        ,NR_JUROS, SN_ATIVO, DIAS_VENCIMENTO, SN_TITULAR) 
+                        ,NR_JUROS, SN_ATIVO, DIAS_VENCIMENTO, SN_TITULAR
+                         ,CD_RESPONSAVEL)
                         VALUES 
                         (NULL, CURDATE(), :QUITE, :VALOR, 
                         :PARCELA, :CLIENTE, :USUARIO, :PLANO,
-                        :JUROS, 'S', :DIAS, :TITULAR)";
+                        :JUROS, 'S', :DIAS, :TITULAR, :RESPONSAVEL)";
 
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":QUITE",   $contrato->getSnQuite(), PDO::PARAM_STR);
@@ -38,6 +39,7 @@ class ContratoDAO
              $stmt->bindValue(":JUROS",   $contrato->getNrJuros(), PDO::PARAM_INT);
              $stmt->bindValue(":DIAS",    $contrato->getDiasVencimento(), PDO::PARAM_INT);
              $stmt->bindValue(":TITULAR", $contrato->getSnTitular(), PDO::PARAM_STR);
+             $stmt->bindValue(":RESPONSAVEL", $contrato->getResponsavel()->getCdUsuario(), PDO::PARAM_INT);
              $stmt->execute();
              $lastId = $this->connection->lastInsertId();
              $teste =  $lastId; //pega o ultimom codigo inserido;
@@ -54,6 +56,7 @@ class ContratoDAO
 
 
     public function update (Contrato $contrato){
+
         $this->delete_contrato($contrato->getCdContrato());
         $this->connection =  null;
         $teste = false;
@@ -69,6 +72,7 @@ class ContratoDAO
                       ,DIAS_VENCIMENTO = :DIAS
                       ,SN_TITULAR = :TITULAR
                       ,SN_ATIVO   = 'S'
+                      ,CD_RESPONSAVEL = :RESPONSAVEL
                       WHERE 
                        CD_CONTRATO = :CODIGO";
             $stmt = $this->connection->prepare($query);
@@ -82,6 +86,7 @@ class ContratoDAO
             $stmt->bindValue(":JUROS", $contrato->getNrJuros(), PDO::PARAM_INT);
             $stmt->bindValue(":DIAS", $contrato->getDiasVencimento(), PDO::PARAM_INT);
             $stmt->bindValue(":TITULAR",    $contrato->getSnTitular(), PDO::PARAM_STR);
+            $stmt->bindValue(":RESPONSAVEL", $contrato->getResponsavel()->getCdUsuario(), PDO::PARAM_INT);
 
             $stmt->execute();
             $this->connection->commit();
@@ -176,9 +181,10 @@ class ContratoDAO
 
         try {
 
-                $sql = "SELECT C.*, U.NM_USUARIO, P.DS_PLANO, P.NR_VALOR
+                $sql = "SELECT C.*, U.NM_USUARIO, R.NM_USUARIO RESPONSAVEL, P.DS_PLANO, P.NR_VALOR
                           FROM contrato C
                          INNER JOIN usuario U ON C.CD_USUARIO = U.CD_USUARIO
+                         INNER JOIN usuario R ON C.CD_USUARIO = R.CD_USUARIO
                          INNER JOIN plano   P ON C.CD_PLANO = P.CD_PLANO                         
                          WHERE C.CD_CLIENTE = :cliente
                          ORDER BY 1 DESC";
@@ -199,6 +205,9 @@ class ContratoDAO
                 $contrato->setUsuario(new Usuario());
                 $contrato->getUsuario()->setCdUsuario($row['CD_USUARIO']);
                 $contrato->getUsuario()->setNmUsuario($row['NM_USUARIO']);
+                $contrato->setResponsavel(new Usuario());
+                $contrato->getResponsavel()->setCdUsuario($row['CD_RESPONSAVEL']);
+                $contrato->getResponsavel()->setNmUsuario($row['RESPONSAVEL']);
                 $contrato->setSnAtivo($row['SN_ATIVO']);
                 $contratoList->addContrato($contrato);
             }
@@ -375,6 +384,8 @@ class ContratoDAO
                 $contrato->getCliente()->setCdCliente($row['CD_CLIENTE']);
                 $contrato->setUsuario(new Usuario());
                 $contrato->getUsuario()->setCdUsuario($row['CD_USUARIO']);
+                $contrato->setResponsavel(new Usuario());
+                $contrato->getResponsavel()->setCdUsuario($row['CD_RESPONSAVEL']);
                 $contrato->setPlano(new Plano());
                 $contrato->getPlano()->setCdPlano($row['CD_PLANO']);
                 $contrato->getPlano()->setDsPlano($row['DS_PLANO']);

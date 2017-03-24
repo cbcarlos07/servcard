@@ -55,6 +55,7 @@ $contrato = $contratoController->getContrato($id);
                         <div class="col-lg-offset-1">
                             <input type="hidden" id="id" value="<?php echo $contrato->getCdContrato(); ?>">
                             <input type="hidden" id="usuario" value="<?php echo $contrato->getUsuario()->getCdUsuario(); ?>">
+                            <input type="hidden" id="id-responsavel" value="<?php echo $contrato->getResponsavel()->getCdUsuario(); ?>">
                             <input type="hidden" id="acao" value="A">
                             <input type="hidden" id="quite" value="N">
                             <input type="hidden" id="id-plano" value="<?php echo $contrato->getPlano()->getCdPlano(); ?>">
@@ -119,6 +120,10 @@ $contrato = $contratoController->getContrato($id);
                             </div>
                             <div class="checkbox-inline1"style="margin-top: 15px;"><label><input type="checkbox" value="S" id="titular" checked> Titular?</label></div>
                             <div class="row"></div>
+                            <div class="col-lg-2 form-group">
+                                <label for="responsavel">Respons&aacute;vel</label>
+                                <select id="responsavel" class="form-control"></select>
+                            </div>
                             <hr />
                             <div class="btn-group">
                                 <button class="btn btn-success" onclick="salvar()">Salvar</button>

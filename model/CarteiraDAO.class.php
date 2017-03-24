@@ -348,4 +348,27 @@ class CarteiraDAO
         }
         return $carteiraList;
     }
+
+    public function getTotalDependente($contrato){
+        $total = 0;
+
+        $this->connection = new ConnectionFactory();
+
+        $query  = "SELECT COUNT(*) TOTAL FROM `carteira` C 
+                    WHERE C.CD_CONTRATO = :contrato
+                      AND C.SN_ATIVO = 'S'
+                      AND C.SN_TITULAR = 'N'";
+        try{
+            $stmt = $this->connection->prepare($query);
+            $stmt->bindValue(":contrato", $contrato, PDO::PARAM_INT);
+            $stmt->execute();
+            if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $total = $row['TOTAL'];
+            }
+            $this->connection = null;
+        }catch (PDOException $exception){
+            echo "Erro: ".$exception->getMessage();
+        }
+        return $total;
+    }
 }

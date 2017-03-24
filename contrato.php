@@ -13,6 +13,7 @@ include_once "controller/ContratoController.class.php";
 include_once "beans/Contrato.class.php";
 include_once "controller/ClienteController.class.php";
 include_once "beans/Cliente.class.php";
+include_once "controller/CarteiraController.class.php";
 include_once "services/ContratoListIterator.class.php";
 
 
@@ -116,6 +117,8 @@ $cliente = $clienteController->getCliente($id);
                             $contrato = new Contrato();
                             while ($pListIterator->hasNextContrato()){
                                 $contrato =  $pListIterator->getNextContrato();
+                                $carteiraController = new CarteiraController();
+                                $total = $carteiraController->getTotalDependente($contrato->getCdContrato());
                                 $corLinha = "";
                                 $desativado = "<a href='#' class='delete btn btn-warning btn-xs'
                                            data-toggle='modal'
@@ -141,7 +144,7 @@ $cliente = $clienteController->getCliente($id);
                                     <th>
                                         <?php
                                           $link = "0";
-                                          $total = $contrato->getTotal();
+
                                           if($total > 0){
                                               $link = "<a href='#' 
                                                        data-url='contratopendente.php' 

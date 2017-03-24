@@ -39,7 +39,7 @@ class UsuarioController
     public function getLista($usuario){
         require_once ("../model/UsuarioDAO.class.php");
         $usuarioDao = new UsuarioDAO();
-        $retorno = $usuarioDao->getList($usuario);
+        $retorno = $usuarioDao->getLista($usuario);
         return $retorno;
     }
 

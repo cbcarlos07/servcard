@@ -30,7 +30,7 @@ class ParceiroController
     }
 
     public function getList($parceiro){
-        require_once ("../model/ParceiroDAO.class.php");
+        require_once ("model/ParceiroDAO.class.php");
         $parceiroDao = new ParceiroDAO();
         $retorno = $parceiroDao->getList($parceiro);
         return $retorno;
@@ -39,7 +39,7 @@ class ParceiroController
 
 
     public function getParceiro($parceiro){
-        require_once ("../model/ParceiroDAO.class.php");
+        require_once ("model/ParceiroDAO.class.php");
         $parceiroDao = new ParceiroDAO();
         $retorno = $parceiroDao->getParceiro($parceiro);
         return $retorno;

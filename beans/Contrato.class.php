@@ -24,6 +24,27 @@ private $dsObervacao;
 private $diasVencimento;
 private $snTitular;
 private $total;
+private $responsavel;
+
+    /**
+     * @return mixed
+     */
+    public function getResponsavel()
+    {
+        return $this->responsavel;
+    }
+
+    /**
+     * @param mixed $responsavel
+     * @return Contrato
+     */
+    public function setResponsavel(Usuario $responsavel)
+    {
+        $this->responsavel = $responsavel;
+        return $this;
+    }
+
+
 
     /**
      * @return mixed

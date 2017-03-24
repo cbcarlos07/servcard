@@ -143,6 +143,7 @@ function verifica(Msg)
 $('.btn-voltar').on('click', function(){
     var url = $(this).data('url'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
     //alert('Url: '+url);
+    var id = $(this).data('id');
     var form = $('<form action="'+url+'" method="post">' +
         '<input type="hidden" name="id" value="'+id+'">'+
         '</form>');
