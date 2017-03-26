@@ -208,11 +208,13 @@ function login($login, $senha, $lembrar){
                 $_SESSION['login'] = $login;
                 $_SESSION['cargo'] = $usuario->getCargo()->getDsCargo();
                 $_SESSION['cdusuario'] = $usuario->getCdUsuario();
+                $_SESSION['foto'] = $usuario->getDsFoto();
                 echo json_encode(array("retorno" => 1,"codigo" => $usuario->getCdUsuario() ));
             }else{
                 $_SESSION['login'] = $login;
                 $_SESSION['cargo'] = $usuario->getCargo()->getDsCargo();
                 $_SESSION['cdusuario'] = $usuario->getCdUsuario();
+                $_SESSION['foto'] = $usuario->getDsFoto();
                 echo json_encode(array("retorno" => 0,"codigo" => $usuario->getCdUsuario() ));
 
             }

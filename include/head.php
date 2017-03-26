@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -30,7 +31,7 @@ session_start();
         new WOW().init();
     </script>
     <!--//end-animate-->
-    <!----webfonts--->
+        <!----webfonts--->
  <!--   <link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>-->
     <!---//webfonts--->
     <!-- Meters graphs -->

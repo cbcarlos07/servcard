@@ -307,11 +307,12 @@ function validarCampo() {
     var usuario   = document.getElementById('usuario').value;
     var login     = document.getElementById('login').value;
     var senha     = document.getElementById('senha').value;
+    var resenha     = document.getElementById('resenha').value;
     var cpf       = document.getElementById('cpf').value;
     var rg        = document.getElementById('rg').value;
 
 
-    if ((usuario == "" || login == "") || (cpf == "" || rg == "" )){
+    if ((usuario == "" || login == "") || (cpf == "" || rg == "" || (senha != resenha))){
         mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>Voc&ecirc; precisa preencher os campos</p>').fadeIn("fast");
         if(usuario == ""){
             colorirCampo(usuario, "red", 1);
@@ -327,6 +328,10 @@ function validarCampo() {
         }
         else if(rg == ""){
             colorirCampo(rg,"red",1);
+        }
+        else if(senha != resenha){
+            colorirCampo(senha,"red",1);
+            colorirCampo(resenha,"red",1);
         }
 
     }else{

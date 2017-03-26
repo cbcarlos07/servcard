@@ -113,10 +113,11 @@ function senhaalterar(codigo){
 
 
 function salvar(){
-    alert("Salvar");
+  //  alert("Salvar");
 
         jQuery('#form-login').submit(function () {
             // alert("Submit");
+
             var codigo    = document.getElementById('id').value;
             var usuario   = document.getElementById('usuario').value;
             var login     = document.getElementById('login').value;
@@ -126,7 +127,7 @@ function salvar(){
             var cargo     = document.getElementById('cargo').value;
             var cpf       = document.getElementById('cpf').value;
             var rg        = document.getElementById('rg').value;
-            var foto      = document.getElementById('foto').src;
+            var foto      = document.getElementById('foto').value;
 
             var atual     = document.getElementById('atual').value;
             var acao      = document.getElementById('acao').value;
@@ -136,7 +137,7 @@ function salvar(){
             else
                 ativo = 'N';
 
-            //alert("Ativo: "+ativo);
+          //  alert("Foto: "+foto);
             //
 
             $.ajax({
@@ -158,7 +159,7 @@ function salvar(){
                     'acao'       : acao
                 },
                 success: function (data) {
-                    alert(data.retorno);
+                  //  alert(data.retorno);
                     if (data.retorno == 1) {
                         sucesso('Opera&ccedil;&atilde;o realizada com sucesso!');
                     }

@@ -181,6 +181,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <div class="profile_img">
                                 <!--<span style="background:url(images/1.jpg) no-repeat center"> </span>-->
+                                <span><img src="<?php echo $_SESSION['foto']; ?>" class="img-circle" width="35" style="margin-top: 6px;"></span>
                                 <div class="user-name">
                                     <p><?php echo $_SESSION['login']?><span><?php echo $_SESSION['cargo']; ?></span></p>
                                 </div>
