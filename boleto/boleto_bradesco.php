@@ -29,12 +29,42 @@
 
 // ------------------------- DADOS DINÂMICOS DO SEU CLIENTE PARA A GERAÇÃO DO BOLETO (FIXO OU VIA GET) -------------------- //
 // Os valores abaixo podem ser colocados manualmente ou ajustados p/ formulário c/ POST, GET ou de BD (MySql,Postgre,etc)	//
+//DADOS PROCESSADOS
+$valor        = $_POST['valor'];
+$vencimento   = $_POST['vencimento'];
+$cdcliente    = $_POST['cliente'];
+$cdcontrato   = $_POST['contrato'];
+$nrparcela    = $_POST['parcela'];
+include "../include/error.php";
+include "../beans/Conta.class.php";
+include "../controller/ContaController.class.php";
+include "../beans/Cliente.class.php";
+include "../controller/ClienteController.class.php";
+include "../beans/Contrato.class.php";
+include "../controller/ContratoController.class.php";
+$cliente = new Cliente();
+$clienteController = new ClienteController();
+//echo "Codigo: ".$cdcliente;
+$cliente = $clienteController->obterCliente($cdcliente);
+
+$conta = new Conta();
+$contaController = new ContaController();
+$conta = $contaController->obterContaAtual();
+
+$contrato = new Contrato();
+$contratoController = new ContratoController();
+$contrato = $contratoController->obterContrato($cdcontrato);
+
+
+
+
+
 
 // DADOS DO BOLETO PARA O SEU CLIENTE
 $dias_de_prazo_para_pagamento = 5;
-$taxa_boleto = 2.95;
+$taxa_boleto = $conta->getVlTaxaBoleto();
 $data_venc = date("d/m/Y", time() + ($dias_de_prazo_para_pagamento * 86400));  // Prazo de X dias OU informe data: "13/04/2006";
-$valor_cobrado = "2950,00"; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
+$valor_cobrado = $valor; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
 $valor_cobrado = str_replace(",", ".",$valor_cobrado);
 $valor_boleto=number_format($valor_cobrado+$taxa_boleto, 2, ',', '');
 
@@ -46,18 +76,24 @@ $dadosboleto["data_processamento"] = date("d/m/Y"); // Data de processamento do 
 $dadosboleto["valor_boleto"] = $valor_boleto; 	// Valor do Boleto - REGRA: Com vírgula e sempre com duas casas depois da virgula
 
 // DADOS DO SEU CLIENTE
-$dadosboleto["sacado"] = "Nome do seu Cliente";
-$dadosboleto["endereco1"] = "Endereço do seu Cliente";
-$dadosboleto["endereco2"] = "Cidade - Estado -  CEP: 00000-000";
+$cep1 = substr($cliente->getEndereco()->getNrCep(), 0,2);
+$cep2 = substr($cliente->getEndereco()->getNrCep(), 2,3);
+$cep3 = substr($cliente->getEndereco()->getNrCep(), 5,3);
+$cep = "$cep1.$cep2-$cep3";
+$dadosboleto["sacado"] = $cliente->getNmCliente()." ".$cliente->getNmSobrenome();
+$dadosboleto["endereco1"] = $cliente->getEndereco()->getTpLogradouro()->getDsTpLogradouro()." ".$cliente->getEndereco()->getDsLogradouro();
+$dadosboleto["endereco2"] = $cliente->getEndereco()->getBairro()->getCidade()->getNmCidade()."-".$cliente->getEndereco()->getBairro()->getCidade()->getEstado()->getNmEstado()."-".$cep; //"Cidade - Estado -  CEP: 00000-000";
 
-// INFORMACOES PARA O CLIENTE
-$dadosboleto["demonstrativo1"] = "Pagamento de Compra na Loja Nonononono";
-$dadosboleto["demonstrativo2"] = "Mensalidade referente a nonon nonooon nononon<br>Taxa bancária - R$ ".number_format($taxa_boleto, 2, ',', '');
-$dadosboleto["demonstrativo3"] = "BoletoPhp - http://www.boletophp.com.br";
-$dadosboleto["instrucoes1"] = "- Sr. Caixa, cobrar multa de 2% após o vencimento";
-$dadosboleto["instrucoes2"] = "- Receber até 10 dias após o vencimento";
-$dadosboleto["instrucoes3"] = "- Em caso de dúvidas entre em contato conosco: xxxx@xxxx.com.br";
-$dadosboleto["instrucoes4"] = "&nbsp; Emitido pelo sistema Projeto BoletoPhp - www.boletophp.com.br";
+/// INFORMACOES PARA O CLIENTE
+$dadosboleto["demonstrativo1"] = "Pagamento de ".$contrato->getPlano()->getDsPlano();
+$dadosboleto["demonstrativo2"] = "Mensalidade referente a $nrparcela &ordf parcela<br>Taxa banc&aacute;ria - R$ ".number_format($taxa_boleto, 2, ',', '');
+$dadosboleto["demonstrativo3"] = "Servcard";
+
+// INSTRUÇÕES PARA O CAIXA
+$dadosboleto["instrucoes1"] = "- ";//Sr. Caixa, cobrar multa de 2% após o vencimento
+$dadosboleto["instrucoes2"] = "-";//- Receber até 10 dias após o vencimento
+$dadosboleto["instrucoes3"] = "";//- Em caso de dúvidas entre em contato conosco: xxxx@xxxx.com.br
+$dadosboleto["instrucoes4"] = "";//&nbsp; Emitido pelo sistema Projeto BoletoPhp - www.boletophp.com.br
 
 // DADOS OPCIONAIS DE ACORDO COM O BANCO OU CLIENTE
 $dadosboleto["quantidade"] = "001";
@@ -71,10 +107,11 @@ $dadosboleto["especie_doc"] = "DS";
 
 
 // DADOS DA SUA CONTA - Bradesco
-$dadosboleto["agencia"] = "1100"; // Num da agencia, sem digito
-$dadosboleto["agencia_dv"] = "0"; // Digito do Num da agencia
-$dadosboleto["conta"] = "0102003"; 	// Num da conta, sem digito
-$dadosboleto["conta_dv"] = "4"; 	// Digito do Num da conta
+
+$dadosboleto["agencia"] = $conta->getNrAgencia(); // Num da agencia, sem digito
+$dadosboleto["agencia_dv"] = $conta->getNrDigAgencia(); // Digito do Num da agencia
+$dadosboleto["conta"] = $conta->getNrConta(); 	// Num da conta, sem digito
+$dadosboleto["conta_dv"] = $conta->getNrDigConta(); 	// Digito do Num da conta
 
 // DADOS PERSONALIZADOS - Bradesco
 $dadosboleto["conta_cedente"] = "0102003"; // ContaCedente do Cliente, sem digito (Somente Números)
@@ -82,11 +119,12 @@ $dadosboleto["conta_cedente_dv"] = "4"; // Digito da ContaCedente do Cliente
 $dadosboleto["carteira"] = "06";  // Código da Carteira: pode ser 06 ou 03
 
 // SEUS DADOS
-$dadosboleto["identificacao"] = "BoletoPhp - Código Aberto de Sistema de Boletos";
+// SEUS DADOS
+$dadosboleto["identificacao"] = "Boleto Banc&aacute;rio";//BoletoPhp - Código Aberto de Sistema de Boletos
 $dadosboleto["cpf_cnpj"] = "";
-$dadosboleto["endereco"] = "Coloque o endereço da sua empresa aqui";
-$dadosboleto["cidade_uf"] = "Cidade / Estado";
-$dadosboleto["cedente"] = "Coloque a Razão Social da sua empresa aqui";
+$dadosboleto["endereco"] = "Coloque o endere&ccedil;o da sua empresa aqui";
+$dadosboleto["cidade_uf"] = "Manaus / Amazonas";
+$dadosboleto["cedente"] = "Servard -  Servi&ccedil;os de cart&otilde;oes de Desconto";
 
 // NÃO ALTERAR!
 include("include/funcoes_bradesco.php");

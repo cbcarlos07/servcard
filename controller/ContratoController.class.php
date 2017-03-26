@@ -57,6 +57,13 @@ class ContratoController
         return $retorno;
     }
 
+    public function obterContrato($contrato){
+        require_once ("../model/ContratoDAO.class.php");
+        $contratoDao = new ContratoDAO();
+        $retorno = $contratoDao->obterContrato($contrato);
+        return $retorno;
+    }
+
     public function getContratoCancelado($codigo){
         require_once ("model/ContratoDAO.class.php");
         $contratoDao = new ContratoDAO();
@@ -68,6 +75,33 @@ class ContratoController
         require_once ("../model/ContratoDAO.class.php");
         $contratoDao = new ContratoDAO();
         $retorno = $contratoDao->getListaByCPF($cpf);
+        return $retorno;
+    }
+
+    public function getClienteDivida($nome,$inicio, $limite){
+        require_once ("model/ContratoDAO.class.php");
+        $contratoDao = new ContratoDAO();
+        $retorno = $contratoDao->getClienteDivida($nome,$inicio, $limite);
+        return $retorno;
+    }
+
+    public function getClienteDividaPrint(){
+        require_once ("model/ContratoDAO.class.php");
+        $contratoDao = new ContratoDAO();
+        $retorno = $contratoDao->getClienteDividaPrint();
+        return $retorno;
+    }
+    public function getTotalAtraso($cdcontrato){
+        require_once ("model/ContratoDAO.class.php");
+        $contratoDao = new ContratoDAO();
+        $retorno = $contratoDao->getTotalAtraso($cdcontrato);
+        return $retorno;
+    }
+
+    public function getTotalClienteDivida(){
+        require_once ("model/ContratoDAO.class.php");
+        $contratoDao = new ContratoDAO();
+        $retorno = $contratoDao->getTotalClienteDivida();
         return $retorno;
     }
 

@@ -285,5 +285,57 @@ class ContratoMensalDAO
         return $valor;
     }
 
+    public function getListaMensalAtrasada($contrato){
+        require_once ("services/ContratoMensalList.class.php");
+        require_once ("beans/ContratoMensal.class.php");
+        require_once ("beans/Contrato.class.php");
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $contratoMensalList = new ContratoMensalList();
+
+        try {
+
+            $sql = "SELECT *
+                    FROM       contrato_mensal C
+                    WHERE  C.DT_VENCIMENTO < CURDATE()
+                    AND    C.SN_PAGO = 'N'
+                    AND    C.CD_CONTRATO = :contrato";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":contrato", $contrato, PDO::PARAM_INT);
+
+
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $contratoMensal = new ContratoMensal();
+                $contratoMensal->setContrato(new Contrato());
+                $contratoMensal->getContrato()->setCdContrato($row['CD_CONTRATO']);
+                $contratoMensal->setDtVencimento($row['DT_VENCIMENTO']);
+
+                $contratoMensal->setNrParcela($row['NR_PARCELA']);
+                //$contratoMensal->setNrParcela($row['NR_PARCELA']);
+                $contratoMensal->setSnPago($row['SN_PAGO']);
+                $pago = $row['SN_PAGO'];
+                if($pago == 'S')
+                    $contratoMensal->setNrValor($this->getValor($contrato,$row['DT_VENCIMENTO'] ));
+                else
+                    $contratoMensal->setNrValor($this->getValorParcela($row['NR_VALOR'], $row['DT_VENCIMENTO']));
+                // $contratoMensal->setSnPago($pago);
+
+                $contratoMensalList->addContratoMensal($contratoMensal);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $contratoMensalList;
+    }
+
+
+
+
+
 
 }

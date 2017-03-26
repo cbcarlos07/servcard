@@ -404,6 +404,50 @@ class ContratoDAO
         return $contrato;
     }
 
+    public function obterContrato($codigo){
+        require_once "../beans/Cliente.class.php";
+        require_once "../beans/Usuario.class.php";
+        require_once "../beans/Plano.class.php";
+        $contrato = null;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT C.*, P.DS_PLANO, P.NR_VALOR VALOR FROM contrato C
+                INNER JOIN plano P ON C.CD_PLANO = P.CD_PLANO
+                WHERE CD_CONTRATO = :codigo";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $contrato = new Contrato();
+                $contrato->setCdContrato($row['CD_CONTRATO']);
+                $contrato->setDhContrato($row['DH_CONTRATO']);
+                $contrato->setSnQuite($row['SN_QUITE']);
+                $contrato->setNrValor($row['NR_VALOR']);
+                $contrato->setNrParcela($row['NR_PARCELA']);
+                $contrato->setNrJuros($row['NR_JUROS']);
+                $contrato->setCliente(new Cliente());
+                $contrato->getCliente()->setCdCliente($row['CD_CLIENTE']);
+                $contrato->setUsuario(new Usuario());
+                $contrato->getUsuario()->setCdUsuario($row['CD_USUARIO']);
+                $contrato->setResponsavel(new Usuario());
+                $contrato->getResponsavel()->setCdUsuario($row['CD_RESPONSAVEL']);
+                $contrato->setPlano(new Plano());
+                $contrato->getPlano()->setCdPlano($row['CD_PLANO']);
+                $contrato->getPlano()->setDsPlano($row['DS_PLANO']);
+                $contrato->getPlano()->setNrValor($row['VALOR']);
+                $contrato->setDiasVencimento($row['DIAS_VENCIMENTO']);
+                $contrato->setSnAtivo($row['SN_ATIVO']);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $contrato;
+    }
+
+
     public function getContratoCancelado($codigo){
         require_once "beans/Cliente.class.php";
         require_once "beans/Usuario.class.php";
@@ -431,6 +475,130 @@ class ContratoDAO
                 $contrato->getUsuario()->setDsLogin($row['DS_LOGIN']);
                 $contrato->setCliente(new Cliente());
                 $contrato->getCliente()->setCdCliente($row['CD_CLIENTE']);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $contrato;
+    }
+
+    public function getClienteDivida($nome, $inicio, $limite){
+        require_once ("services/ContratoList.class.php");
+        require_once "beans/Cliente.class.php";
+        require_once "beans/Usuario.class.php";
+        require_once "beans/Plano.class.php";
+        $contrato = null;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT * FROM V_DIVIDA D
+                WHERE  D.NM_CLIENTE LIKE :nome
+                LIMIT :inicio, :limite";
+        $contratoList = new ContratoList();
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+            $stmt->bindValue(":inicio", $inicio, PDO::PARAM_INT);
+            $stmt->bindValue(":limite", $limite, PDO::PARAM_INT);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $contrato = new Contrato();
+                $contrato->setCdContrato($row['CD_CONTRATO']);
+                $contrato->setResponsavel(new Usuario());
+                $contrato->getResponsavel()->setNmUsuario($row['NM_USUARIO']);
+                $contrato->getResponsavel()->setDsLogin($row['DS_LOGIN']);
+                $contrato->setCliente(new Cliente());
+                $contrato->getCliente()->setCdCliente($row['CD_CLIENTE']);
+                $contrato->getCliente()->setNmCliente($row['NM_CLIENTE']);
+                $contrato->getCliente()->setNmSobrenome($row['NM_SOBRENOME']);
+                $contrato->setPlano(new Plano());
+                $contrato->getPlano()->setDsPlano($row['DS_PLANO']);
+                $contratoList->addContrato($contrato);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $contratoList;
+    }
+
+    public function getClienteDividaPrint(){
+        require_once ("services/ContratoList.class.php");
+        require_once "beans/Cliente.class.php";
+        require_once "beans/Usuario.class.php";
+        require_once "beans/Plano.class.php";
+        $contrato = null;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT * FROM V_DIVIDA D";
+        $contratoList = new ContratoList();
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $contrato = new Contrato();
+                $contrato->setCdContrato($row['CD_CONTRATO']);
+                $contrato->setResponsavel(new Usuario());
+                $contrato->getResponsavel()->setNmUsuario($row['NM_USUARIO']);
+                $contrato->getResponsavel()->setDsLogin($row['DS_LOGIN']);
+                $contrato->setCliente(new Cliente());
+                $contrato->getCliente()->setCdCliente($row['CD_CLIENTE']);
+                $contrato->getCliente()->setNmCliente($row['NM_CLIENTE']);
+                $contrato->getCliente()->setNmSobrenome($row['NM_SOBRENOME']);
+                $contrato->setPlano(new Plano());
+                $contrato->getPlano()->setDsPlano($row['DS_PLANO']);
+                $contratoList->addContrato($contrato);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $contratoList;
+    }
+
+    public function getTotalClienteDivida(){
+        require_once ("services/ContratoList.class.php");
+        require_once "beans/Cliente.class.php";
+        require_once "beans/Usuario.class.php";
+        require_once "beans/Plano.class.php";
+        $contrato = 0;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT COUNT(*) TOTAL FROM V_DIVIDA D";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $contrato = $row['TOTAL'];
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $contrato;
+    }
+
+    public function getTotalAtraso($cdcontrato){
+        require_once "beans/Cliente.class.php";
+        require_once "beans/Usuario.class.php";
+        require_once "beans/Plano.class.php";
+        $contrato = 0;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT COUNT(*) TOTAL
+                    FROM contrato_mensal C
+                    WHERE C.DT_VENCIMENTO < CURDATE()
+                    AND  C.SN_PAGO = 'N'
+                    AND  C.CD_CONTRATO = :contrato";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":contrato", $cdcontrato, PDO::PARAM_INT);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $contrato = $row['TOTAL'];
             }
             $this->connection = null;
         } catch (PDOException $ex) {

@@ -314,6 +314,72 @@ class ClienteDAO
         return $cliente;
     }
 
+    public function obterCliente($codigo){
+        require_once "../beans/Cliente.class.php";
+        require_once "../beans/Endereco.class.php";
+        require_once "../beans/EstadoCivil.class.php";
+        require_once "../beans/TpLogradouro.class.php";
+        require_once "../beans/Bairro.class.php";
+        require_once "../beans/Cidade.class.php";
+        require_once "../beans/Estado.class.php";
+        $cliente = null;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql =          "SELECT *
+                        FROM cliente C 
+                        INNER JOIN estado_civil  EC ON EC.CD_ESTADO_CIVIL = C.CD_ESTADO_CIVIL
+                        INNER JOIN endereco      E  ON E.CD_ENDERECO = C.CD_ENDERECO
+                        INNER JOIN tp_logradouro T  ON E.CD_TP_LOGRADOURO = T.CD_TP_LOGRADOURO
+                        INNER JOIN bairro        B  ON E.CD_BAIRRO = B.CD_BAIRRO
+                        INNER JOIN cidade        CI ON B.CD_CIDADE = CI.CD_CIDADE
+                        INNER JOIN estado        ES ON CI.CD_ESTADO = ES.CD_ESTADO
+                        WHERE C.CD_CLIENTE = :codigo";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $cliente = new Cliente();
+                $cliente->setCdCliente($row['CD_CLIENTE']);
+                $cliente->setNmCliente($row['NM_CLIENTE']);
+                $cliente->setNmSobrenome($row['NM_SOBRENOME']);
+                $cliente->setNrCpf($row['NR_CPF']);
+                $cliente->setNrRg($row['NR_RG']);
+                $cliente->setNrTelefone($row['NR_TELEFONE']);
+                $cliente->setDsEmail($row['DS_EMAIL']);
+                $cliente->setDtNascimento($row['DT_NASCIMENTO']);
+                $cliente->setTpSexo($row['TP_SEXO']);
+                $cliente->setEstadoCivil(new EstadoCivil());
+                $cliente->getEstadoCivil()->setCdEstadoCivil($row['CD_ESTADO_CIVIL']);
+                $cliente->getEstadoCivil()->setDsEstadoCivil($row['DS_ESTADO_CIVIL']);
+                $cliente->setEndereco(new Endereco());
+                $cliente->getEndereco()->setCdEndereco($row['CD_ENDERECO']);
+                $cliente->getEndereco()->setNrCep($row['NR_CEP']);
+                $cliente->getEndereco()->setDsLogradouro($row['DS_LOGRADOURO']);
+                $cliente->setNrCasa($row['NR_CASA']);
+                $cliente->setDsComplemento($row['DS_COMPLEMENTO']);
+                $cliente->setDsSenha($row['DS_SENHA']);
+                $cliente->setSnSenhaAtual($row['SN_SENHA_ATUAL']);
+                $cliente->setDtCadastro($row['DT_CADASTRO']);
+                $cliente->getEndereco()->setTpLogradouro(new TpLogradouro());
+                $cliente->getEndereco()->getTpLogradouro()->setDsTpLogradouro($row['DS_TP_LOGRADOURO']);
+                $cliente->getEndereco()->setBairro(new Bairro());
+                $cliente->getEndereco()->getBairro()->setNmBairro($row['NM_BAIRRO']);
+                $cliente->getEndereco()->getBairro()->setCidade(new Cidade());
+                $cliente->getEndereco()->getBairro()->getCidade()->setNmCidade($row['NM_CIDADE']);
+                $cliente->getEndereco()->getBairro()->getCidade()->setEstado(new Estado());
+                $cliente->getEndereco()->getBairro()->getCidade()->setEstado(new Estado());
+                $cliente->getEndereco()->getBairro()->getCidade()->getEstado()->setNmEstado($row['NM_ESTADO']);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $cliente;
+    }
+
+
     public function getTotalCliente(){
         $cliente = 0;
         $connection = null;

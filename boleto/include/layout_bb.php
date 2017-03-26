@@ -31,7 +31,7 @@
 <html>
 <head>
 <title><?php echo $dadosboleto["identificacao"]; ?></title>
-<META http-equiv=Content-Type content=text/html charset=ISO-8859-1>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="Generator" content="Projeto BoletoPHP - www.boletophp.com.br - Licença GPL" />
 	
 <style type="text/css">
@@ -40,7 +40,7 @@
 -->
 </style>
 </HEAD>
-<BODY>
+
 <STYLE>
 
 @media screen,print {
@@ -82,7 +82,7 @@
 /* *** CABECALHO *** */
 
 #instr_header {
-	background: url('imagens/logo_empresa.png') no-repeat top left;
+	//background: url('imagens/logo_empresa.png') no-repeat top left;
 	padding-left: 160px;
 	height: 65px;
 }
@@ -695,7 +695,7 @@ do Sacado</b></div></TD></tr></tbody></table>
 		<tr class="titulos">
 			<td class="reservado">Uso do  banco</td>
 			<td class="carteira">Carteira</td>
-			<td class="especie2">Espécie</td>
+			<td class="especie2">Esp&eacute;cie</td>
 			<td class="qtd2">Quantidade</td>
 			<td class="xvalor">x Valor</td>
 			<td class="valor_doc2">(=) Valor documento</td>
@@ -831,7 +831,7 @@ do Sacado</b></div></TD></tr></tbody></table>
 		</tr>
 		</tbody>
 		</table>		
-    <table cellspacing=0 cellpadding=0 width=666 border=0><TBODY><TR><TD width=666 align=right ><font style="font-size: 10px;">Autentica&ccedil;&atilde;o mec&acirc;nica - Ficha de Compensação</font></TD></tr></tbody></table>
+    <table cellspacing=0 cellpadding=0 width=666 border=0><TBODY><TR><TD width=666 align=right ><font style="font-size: 10px;">Autentica&ccedil;&atilde;o mec&acirc;nica - Ficha de Compensa&ccedil;&atilde;o</font></TD></tr></tbody></table>
 		<div class="barcode">
 			<p><?php fbarcode($dadosboleto["codigo_barras"]); ?></p>
 		</div>

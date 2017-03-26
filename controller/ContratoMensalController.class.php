@@ -59,4 +59,11 @@ class ContratoMensalController
         return $retorno;
     }
 
+    public function getListaMensalAtrasada($contrato){
+        require_once ("model/ContratoMensalDAO.class.php");
+        $contratoMensalDao = new ContratoMensalDAO();
+        $retorno = $contratoMensalDao->getListaMensalAtrasada($contrato);
+        return $retorno;
+    }
+
 }

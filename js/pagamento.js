@@ -149,11 +149,16 @@ $('.btn-boleto').on('click',function () {
     var valor = $(this).data('valor');
     var vencimento = $(this).data('vencimento');
     var cliente    = $(this).data('cliente');
-    //alert('Valor: '+valor);
-    var form = $('<form action="boleto/boleto_itau.php" method="post">' +
+    var banco      = $(this).data('banco');
+    var contrato    = $(this).data('contrato');
+    var parcela    = $(this).data('parcela');
+    //alert('Contrato: '+contrato);
+    var form = $('<form action="boleto/boleto_'+banco+'.php" method="post">' +
                 '<input type="hidden" name="valor" value="'+valor+'"/>'+
                 '<input type="hidden" name="vencimento" value="'+vencimento+'"/>'+
                 '<input type="hidden" name="cliente" value="'+cliente+'"/>'+
+                '<input type="hidden" name="contrato" value="'+contrato+'"/>'+
+                '<input type="hidden" name="parcela" value="'+parcela+'"/>'+
                  '</form>>');
     $('body').append(form);
     form.submit();

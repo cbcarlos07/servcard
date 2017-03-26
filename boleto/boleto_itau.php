@@ -31,14 +31,35 @@
 // Os valores abaixo podem ser colocados manualmente ou ajustados p/ formul&aacute;rio c/ POST, GET ou de BD (MySql,Postgre,etc)	//
 
 // DADOS DO BOLETO PARA O SEU CLIENTE
-$valor      = $_POST['valor'];
-$vencimento = $_POST['vencimento'];
-$cliente    = $_POST['cliente'];
+$valor        = $_POST['valor'];
+$vencimento   = $_POST['vencimento'];
+$cdcliente    = $_POST['cliente'];
+$cdcontrato   = $_POST['contrato'];
+$nrparcela    = $_POST['parcela'];
+include "../include/error.php";
+include "../beans/Conta.class.php";
+include "../controller/ContaController.class.php";
+include "../beans/Cliente.class.php";
+include "../controller/ClienteController.class.php";
+include "../beans/Contrato.class.php";
+include "../controller/ContratoController.class.php";
+$cliente = new Cliente();
+$clienteController = new ClienteController();
+//echo "Codigo: ".$cdcliente;
+$cliente = $clienteController->obterCliente($cdcliente);
+
+$conta = new Conta();
+$contaController = new ContaController();
+$conta = $contaController->obterContaAtual();
+
+$contrato = new Contrato();
+$contratoController = new ContratoController();
+$contrato = $contratoController->obterContrato($cdcontrato);
 
 $dias_de_prazo_para_pagamento = 5;
-$taxa_boleto = 2.95;
-//$data_venc = date("d/m/Y", time() + ($dias_de_prazo_para_pagamento * 86400));  // Prazo de X dias OU informe data: "13/04/2006";
-$data_venc = $vencimento;
+$taxa_boleto = $conta->getVlTaxaBoleto();
+$data_venc = date("d/m/Y", time() + ($dias_de_prazo_para_pagamento * 86400));  // Prazo de X dias OU informe data: "13/04/2006";
+//$data_venc = $vencimento;
 //$valor_cobrado = "2950,00"; // Valor - REGRA: Sem pontos na milhar e tanto faz com "." ou "," ou com 1 ou 2 ou sem casa decimal
 $valor_cobrado = $valor;
 //$valor_cobrado = str_replace(",", ".",$valor_cobrado);
@@ -51,25 +72,30 @@ $dadosboleto["data_documento"] = date("d/m/Y"); // Data de emiss&atilde;o do Bol
 $dadosboleto["data_processamento"] = date("d/m/Y"); // Data de processamento do boleto (opcional)
 $dadosboleto["valor_boleto"] = $valor_boleto; 	// Valor do Boleto - REGRA: Com v&iacute;rgula e sempre com duas casas depois da virgula
 
-// DADOS DO SEU CLIENTE
+// DADOS DO SEU CLIENTE]
+$cep1 = substr($cliente->getEndereco()->getNrCep(), 0,2);
+$cep2 = substr($cliente->getEndereco()->getNrCep(), 2,3);
+$cep3 = substr($cliente->getEndereco()->getNrCep(), 5,3);
+$cep = "$cep1.$cep2-$cep3";
 //$dadosboleto["sacado"] = "Nome do seu Cliente";
-$dadosboleto["sacado"] = $cliente;
-$dadosboleto["endereco1"] = "Endere&ccedil;o do seu Cliente";
-$dadosboleto["endereco2"] = "Cidade - Estado -  CEP: 00000-000";
+$dadosboleto["sacado"] = $cliente->getNmCliente()." ".$cliente->getNmSobrenome();
+$dadosboleto["endereco1"] = $cliente->getEndereco()->getTpLogradouro()->getDsTpLogradouro()." ".$cliente->getEndereco()->getDsLogradouro();
+$dadosboleto["endereco2"] = $cliente->getEndereco()->getBairro()->getCidade()->getNmCidade()."-".$cliente->getEndereco()->getBairro()->getCidade()->getEstado()->getNmEstado()."-".$cep; //"Cidade - Estado -  CEP: 00000-000";
 
 // INFORMACOES PARA O CLIENTE
-$dadosboleto["demonstrativo1"] = "Pagamento de Compra na Loja Nonononono";
-$dadosboleto["demonstrativo2"] = "Mensalidade referente a nonon nonooon nononon<br>Taxa banc&aacute;ria - R$ ".number_format($taxa_boleto, 2, ',', '');
-$dadosboleto["demonstrativo3"] = "BoletoPhp - http://www.boletophp.com.br";
-$dadosboleto["instrucoes1"] = "- Sr. Caixa, cobrar multa de 2% ap&oacute;s o vencimento";
-$dadosboleto["instrucoes2"] = "- Receber at&eacute; 10 dias ap&oacute;s o vencimento";
-$dadosboleto["instrucoes3"] = "- Em caso de d&uacute;vidas entre em contato conosco: xxxx@xxxx.com.br";
-$dadosboleto["instrucoes4"] = "&nbsp; Emitido pelo sistema Projeto BoletoPhp - www.boletophp.com.br";
+$dadosboleto["demonstrativo1"] = "Pagamento de ".$contrato->getPlano()->getDsPlano();
+$dadosboleto["demonstrativo2"] = "Mensalidade referente a $nrparcela &ordf parcela<br>Taxa banc&aacute;ria - R$ ".number_format($taxa_boleto, 2, ',', '');
+$dadosboleto["demonstrativo3"] = "Servcard";
+// INSTRUÇÕES PARA O CAIXA
+$dadosboleto["instrucoes1"] = "- ";//Sr. Caixa, cobrar multa de 2% após o vencimento
+$dadosboleto["instrucoes2"] = "-";//- Receber até 10 dias após o vencimento
+$dadosboleto["instrucoes3"] = "";//- Em caso de dúvidas entre em contato conosco: xxxx@xxxx.com.br
+$dadosboleto["instrucoes4"] = "";//&nbsp; Emitido pelo sistema Projeto BoletoPhp - www.boletophp.com.br
 
 // DADOS OPCIONAIS DE ACORDO COM O BANCO OU CLIENTE
-$dadosboleto["quantidade"] = "";
-$dadosboleto["valor_unitario"] = "";
-$dadosboleto["aceite"] = "";		
+$dadosboleto["quantidade"] = "1";
+$dadosboleto["valor_unitario"] = "$valor";
+$dadosboleto["aceite"] = "N";
 $dadosboleto["especie"] = "R$";
 $dadosboleto["especie_doc"] = "";
 
@@ -86,10 +112,10 @@ $dadosboleto["conta_dv"] = "4"; 	// Digito do Num da conta
 $dadosboleto["carteira"] = "175";  // C&oacute;digo da Carteira: pode ser 175, 174, 104, 109, 178, ou 157
 
 // SEUS DADOS
-$dadosboleto["identificacao"] = "BoletoPhp - C&oacute;digo Aberto de Sistema de Boletos";
+$dadosboleto["identificacao"] = "Boleto Banc&aacute;rio";
 $dadosboleto["cpf_cnpj"] = "";
 $dadosboleto["endereco"] = "Coloque o endere&ccedil;o da sua empresa aqui";
-$dadosboleto["cidade_uf"] = "Cidade / Estado";
+$dadosboleto["cidade_uf"] = "Manaus / Amazonas";
 $dadosboleto["cedente"] = "Coloque a Raz&atilde;o Social da sua empresa aqui";
 
 // NÃO ALTERAR!

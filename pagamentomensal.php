@@ -17,6 +17,8 @@ include_once "controller/ClienteController.class.php";
 include_once "beans/ContratoMensal.class.php";
 include_once "controller/ContratoMensalController.class.php";
 include_once "services/ContratoMensalListIterator.class.php";
+include      "beans/Conta.class.php";
+include      "controller/ContaController.class.php";
 $cliente = new Cliente();
 $clienteController = new ClienteController();
 
@@ -29,6 +31,8 @@ $lista = $contratoMensalController->getLista($contrato);
 
 $contratoMensalIterator = new ContratoMensalListIterator($lista);
 
+$conta = new Conta();
+$contaController = new ContaController();
 
 ?>
 
@@ -122,8 +126,15 @@ $contratoMensalIterator = new ContratoMensalListIterator($lista);
                                          $registrar = "Registrar Pagamento";
                                          $registrar_btn = "btn-primary";
                                          $registrar_modal = "#pagamento-modal";
-                                         $boleto = "<a href='#' data-cliente='".$cliente->getNmCliente()." ".$cliente->getNmSobrenome()."' data-vencimento='".$novaData."' data-valor='".$contratoMensal->getNrValor()."' class='btn btn-xs btn-success btn-boleto'>Gerar boleto</a>";
+                                         $intTotal = $contaController->getContaTotal();
+                                         $boleto = "<a href='conta.php' class='btn btn-default' title='Cadastre uma conta primeiro' >Cadastrar Conta</a>";
 
+                                         if($intTotal > 0){
+                                             $boleto = "<a href='#' data-banco='".$conta->getDsSiglaBanco()."' data-cliente='".$cdcliente."' data-vencimento='".$novaData."' data-valor='".$contratoMensal->getNrValor()."' data-contrato='".$contrato."' data-parcela='".$contratoMensal->getNrParcela()."' class='btn btn-xs btn-success btn-boleto'>Gerar boleto</a>";;
+                                             $conta = $contaController->getContaAtual();
+                                             $btnAlt = "";
+                                             $btnAtivo = "";
+                                         }
 
                                          if(getDias($contratoMensal->getDtVencimento()) <0 ){
                                              $linhapg = "#ff8000";
