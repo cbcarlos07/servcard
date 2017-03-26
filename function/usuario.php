@@ -17,7 +17,7 @@ $cpf     = "";
 $rg      = "";
 $foto    = "";
 $senhaatual   = "";
-
+$lembrar = "";
 
 if(isset($_POST['id'])){
     $id = $_POST['id'];
@@ -54,6 +54,9 @@ if(isset($_POST['foto'])){
 if(isset($_POST['atual'])){
     $senhaatual = $_POST['atual'];
 }
+if(isset($_POST['lembrar'])){
+    $lembrar = $_POST['lembrar'];
+}
 
 switch ($acao){
     case 'C':
@@ -72,6 +75,13 @@ switch ($acao){
     case 'L':
         getLista($id);
         break;
+    case 'D':
+        login($login, $senha, $lembrar);
+        break;
+    case 'S':
+        sair();
+        break;
+
 
 }
 
@@ -109,7 +119,7 @@ function change($id, $nome, $login, $senha, $ativo, $cargo, $cpf, $rg, $foto, $s
     require_once "../beans/Usuario.class.php";
     require_once "../beans/Cargo.class.php";
     require_once "../controller/UsuarioController.class.php";
-
+   // echo "Senha atual: ".$senhaatual;
     $usuario = new Usuario();
     $usuario->setCdUsuario($id);
     $usuario->setNmUsuario($nome);
@@ -166,4 +176,60 @@ function getLista($id){
         echo "<option $select value='".$usuario->getCdusuario()."'>".$usuario->getNmUsuario()."</option>>";
     }
 
+}
+
+function login($login, $senha, $lembrar){
+    require_once '../beans/Usuario.class.php';
+    require_once '../controller/UsuarioController.class.php';
+    $uc = new UsuarioController();
+
+
+
+
+    $acesso = $uc->getLoginUserBool($login, $senha);
+    if($acesso){
+        try{
+            $usuario = $uc->getLoginUser($login, $senha);
+            session_start();
+            if($usuario->getSnSenhaAtual() == 'S'){
+                if($lembrar == 'S'){
+                    $ck_login = "login";
+                    $ck_vlogin = $login;
+                    setcookie($ck_login, $ck_vlogin, time() + (86400 * 30), "/"); // 86400 = 1 day
+
+                    $ck_pwd = "senha";
+                    $ck_vpwd = $senha;
+                    setcookie($ck_pwd, $ck_vpwd, time() + (86400 * 30), "/"); // 86400 = 1 day
+
+                    $ck_check = "checked";
+                    $ck_vcheck = 'S';
+                    setcookie($ck_check, $ck_vcheck, time() + (86400 * 30), "/"); // 86400 = 1 day
+                }
+                $_SESSION['login'] = $login;
+                $_SESSION['cargo'] = $usuario->getCargo()->getDsCargo();
+                $_SESSION['cdusuario'] = $usuario->getCdUsuario();
+                echo json_encode(array("retorno" => 1,"codigo" => $usuario->getCdUsuario() ));
+            }else{
+                $_SESSION['login'] = $login;
+                $_SESSION['cargo'] = $usuario->getCargo()->getDsCargo();
+                $_SESSION['cdusuario'] = $usuario->getCdUsuario();
+                echo json_encode(array("retorno" => 0,"codigo" => $usuario->getCdUsuario() ));
+
+            }
+        }catch (Exception $exception){
+            echo json_encode(array("retorno" => -1));
+        }
+    }else{
+        echo json_encode(array("retorno" => -1));
+    }
+
+
+
+
+}
+
+function sair(){
+    session_destroy();
+    echo "Sair";
+    header('Location: ..');
 }

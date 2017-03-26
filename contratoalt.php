@@ -49,7 +49,9 @@ $contrato = $contratoController->getContrato($id);
                         <br>
                        <h3 >Alterar Informa&ccedil;&otilde;es de Contrato</h3>
                     </div>
-                    <div class="mensagem alert col-lg-6"></div>
+                    <div class="mensagem alert alert-danger col-lg-6">
+                        <b>Aten&ccedil;&atilde;o</b><p>Esta a&ccedil;&atilde;o pode apagar todos registros de pagamento deste contrato caso existam</p>
+                    </div>
 
                     <form method="post" id="form" data-toggle="validator">
                         <div class="col-lg-offset-1">

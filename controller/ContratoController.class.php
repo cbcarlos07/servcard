@@ -105,4 +105,25 @@ class ContratoController
         return $retorno;
     }
 
+    public function getTotalClienteEmDia(){
+        require_once ("model/ContratoDAO.class.php");
+        $contratoDao = new ContratoDAO();
+        $retorno = $contratoDao->getTotalClienteEmDia();
+        return $retorno;
+    }
+
+    public function getClienteEmDia($nome, $inicio, $limite){
+        require_once ("model/ContratoDAO.class.php");
+        $contratoDao = new ContratoDAO();
+        $retorno = $contratoDao->getClienteEmDia($nome, $inicio, $limite);
+        return $retorno;
+    }
+
+    public function getListClienteEmDia(){
+        require_once ("model/ContratoDAO.class.php");
+        $contratoDao = new ContratoDAO();
+        $retorno = $contratoDao->getListClienteEmDia();
+        return $retorno;
+    }
+
 }

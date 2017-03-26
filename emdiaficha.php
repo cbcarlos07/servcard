@@ -39,7 +39,7 @@ class PDF extends FPDF {
         $l = 4;
         $this->SetFont('Arial','B',12);
         $this->SetXY(10,15);
-       $this->Cell(0,$l,utf8_decode('LISTA DE CLIENTES EM DÉBITO'),'B',1,'C');
+       $this->Cell(0,$l,'LISTA DE CLIENTES EM DIA','B',1,'C');
 
         $this->SetFont('Arial','B',12);
 
@@ -84,7 +84,7 @@ class PDF extends FPDF {
            include_once 'services/ContratoListIterator.class.php';
            $contrato = new Contrato();
            $contratoController = new ContratoController();
-           $lista = $contratoController->getClienteDividaPrint();
+           $lista = $contratoController->getListClienteEmDia();
            $contratoList = new ContratoListIterator($lista);
 
 
@@ -125,11 +125,6 @@ class PDF extends FPDF {
                 //$pdf->Rect(10,$y,25,$l);
                 $pdf->MultiCell(40,6,'RESPONSAVEL',1,'C',false); // ESTA É A CELULA QUE PODE TER DADOS EM MAIS DE UMA LINHA
 
-
-                $pdf->SetY(20);
-                $pdf->SetX(260);
-                //$pdf->Rect(10,$y,25,$l);
-                $pdf->MultiCell(25,6,'PARC ATRASO',1,'C',false); // LABEL TELEFONE
 
 
 
@@ -174,13 +169,6 @@ class PDF extends FPDF {
                    $pdf->SetY($y);
                    $pdf->SetX(220);
                    $pdf->MultiCell(40,6,$contrato->getResponsavel()->getDsLogin(),1,'C',false); //CPF
-
-
-                   $total = $contratoController->getTotalAtraso($contrato->getCdContrato());
-                   $pdf->SetY($y);
-                   $pdf->SetX(260);
-                   //$pdf->Rect(129,$y,70,$l)
-                   $pdf->MultiCell(25,6,$total,1,'C',false); //Total
 
                    $y += $l;
                    if($itens > 24)

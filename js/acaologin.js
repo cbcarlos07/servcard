@@ -7,11 +7,12 @@
 var mensagem = $('.mensagem');
 
 function logar(acao){
-        jQuery('#login-form').submit(function(){
+        //alert("Logar");
+        jQuery('#form-login').submit(function(){
         //alert('Submit');
         //var dados = jQuery( this ).serialize();
-        var usuario = document.getElementById("inputEmail").value;
-        var senha = document.getElementById("inputPassword").value;
+        var usuario = document.getElementById("usuario").value;
+        var senha = document.getElementById("senha").value;
         var lembrar = document.getElementById("lembrar");
         if(lembrar.checked == true)
             lembrar = 'S';
@@ -20,11 +21,10 @@ function logar(acao){
         console.log("Acao: "+acao);
         console.log("Lembrar: "+lembrar);
         console.log("usuario: "+usuario);
-        $.getJSON({
-
+        $.ajax({
+                dataType: 'json',
                 type: "POST",
-                url: "funcoes/usuario.php",
-
+                url: "function/usuario.php",
                 beforeSend: carregando,
                 data: {
                     'login'   : usuario,
@@ -35,7 +35,7 @@ function logar(acao){
                 success: function( data )
                 {
                     //var retorno = data.retorno;
-                    //alert(retorno);
+                    //alert(data.retorno);
 
                     console.log("Data: "+data.retorno);
                     if(data.retorno == 1){
@@ -47,8 +47,8 @@ function logar(acao){
                      } 
                     else{
                         errosend();
-                        $('input[name="inputEmail"]').css("border-color","red").focus();
-                        $('input[name="inputPassword"]').css("border-color","red").focus();
+                        $('input[name="usuario"]').css("border-color","red").focus();
+                        $('input[name="senha"]').css("border-color","red").focus();
                    }
                 }
         });
@@ -80,7 +80,7 @@ function errosendlogin(){
 function sucesso(msg){
         var mensagem = $('.mensagem');
         mensagem.empty().html('<p class="alert alert-success"><strong>OK.</strong> Estamos redirecionando <img src="img/loading.gif" alt="Carregando..."></p>').fadeIn("fast");
-        var url = 'principal.php';
+        var url = 'cliente.php';
         var form = $('<form action="' + url + '" method="post">' +
 
             '</form>');
@@ -99,7 +99,7 @@ function senhaalterar(codigo){
         mensagem.empty().html('<p class="alert alert-success"><strong>OK.</strong> Estamos redirecionando <img src="img/loading.gif" alt="Carregando..."></p>').fadeIn("fast");                
         
        //     location.href = "usuario?acao=T&codigo="+codigo;
-        var url = 'loginsenha.php';
+        var url = 'sign-in-alt.php';
         var form = $('<form action="' + url + '" method="post">' +
             '<input type="text" name="codigo" value="' + codigo + '" />' +
             '</form>');
@@ -110,3 +110,68 @@ function senhaalterar(codigo){
     //window.setTimeout()
         //delay(2000);
 }
+
+
+function salvar(){
+    alert("Salvar");
+
+        jQuery('#form-login').submit(function () {
+            // alert("Submit");
+            var codigo    = document.getElementById('id').value;
+            var usuario   = document.getElementById('usuario').value;
+            var login     = document.getElementById('login').value;
+            var senha     = document.getElementById('senha').value;
+
+            var chk_ativo = document.getElementById('ativo');
+            var cargo     = document.getElementById('cargo').value;
+            var cpf       = document.getElementById('cpf').value;
+            var rg        = document.getElementById('rg').value;
+            var foto      = document.getElementById('foto').src;
+
+            var atual     = document.getElementById('atual').value;
+            var acao      = document.getElementById('acao').value;
+            var ativo;
+            if(chk_ativo.checked == true)
+                ativo = 'S';
+            else
+                ativo = 'N';
+
+            //alert("Ativo: "+ativo);
+            //
+
+            $.ajax({
+                type    : 'post',
+                dataType: 'json',
+                url     : 'function/usuario.php',
+                beforeSend : carregando,
+                data: {
+                    'id'         : codigo,
+                    'nome'       : usuario,
+                    'login'      : login,
+                    'senha'      : senha,
+                    'ativo'      : ativo,
+                    'cargo'      : cargo,
+                    'cpf'        : cpf,
+                    'rg'         : rg,
+                    'foto'       : foto,
+                    'atual'      : atual,
+                    'acao'       : acao
+                },
+                success: function (data) {
+                    alert(data.retorno);
+                    if (data.retorno == 1) {
+                        sucesso('Opera&ccedil;&atilde;o realizada com sucesso!');
+                    }
+                    else {
+                        errosend('N&atilde;o foi poss&iacute;vel realizar opera&ccedil;&atilde;o. Verifique se todos os campos est&atilde;o preenchidos ');
+                    }
+                }
+            });
+
+
+            return false;
+        });
+
+
+}
+

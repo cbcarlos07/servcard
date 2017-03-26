@@ -52,6 +52,7 @@ class UsuarioDAO
             $query = "UPDATE usuario SET 
                       NM_USUARIO = :usuario, DS_LOGIN = :login, DS_SENHA = MD5(:senha)
                       , SN_ATIVO = :ativo, CD_CARGO = :cargo, NR_CPF = :cpf, NR_RG = :rg, DS_FOTO = :foto
+                      ,SN_SENHA_ATUAL = :atual
                       WHERE CD_USUARIO = :codigo";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":usuario", $usuario->getNmUsuario(), PDO::PARAM_STR);
@@ -63,6 +64,7 @@ class UsuarioDAO
             $stmt->bindValue(":rg", $usuario->getNrRg(), PDO::PARAM_STR);
             $stmt->bindValue(":foto", $usuario->getDsFoto(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $usuario->getCdUsuario(), PDO::PARAM_INT);
+            $stmt->bindValue(":atual", $usuario->getSnSenhaAtual(), PDO::PARAM_STR);
             $stmt->execute();
             $this->connection->commit();
             $teste =  true;
@@ -183,8 +185,9 @@ class UsuarioDAO
         $connection = null;
         $this->connection =  new ConnectionFactory();
         $sql = "SELECT *
-                          FROM usuario E
-                          WHERE E.CD_USUARIO= :codigo";
+                FROM usuario E
+                INNER JOIN cargo ON E.CD_CARGO = cargo.CD_CARGO       
+                WHERE E.CD_USUARIO= :codigo";
 
         try {
             $stmt = $this->connection->prepare($sql);
@@ -210,4 +213,73 @@ class UsuarioDAO
         }
         return $usuario;
     }
+
+    public function getLoginUser($username, $password){
+        require_once "../beans/Usuario.class.php";
+        require_once "../beans/Cargo.class.php";
+        $usuario = null;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT *
+                          FROM usuario E
+                          INNER JOIN cargo ON E.CD_CARGO = cargo.CD_CARGO
+                          WHERE E.DS_LOGIN = :login
+                          
+                          AND   E.DS_SENHA = MD5(:senha)";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":login", $username, PDO::PARAM_STR);
+            $stmt->bindValue(":senha", $password, PDO::PARAM_STR);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $usuario = new Usuario();
+                $usuario->setCdUsuario($row['CD_USUARIO']);
+                $usuario->setNmUsuario($row['NM_USUARIO']);
+                $usuario->setDsLogin($row['DS_LOGIN']);
+                $usuario->setDsSenha($row['DS_SENHA']);
+                $usuario->setSnAtivo($row['SN_ATIVO']);
+                $usuario->setNrCPF($row['NR_CPF']);
+                $usuario->setNrRg($row['NR_RG']);
+                $usuario->setCargo(new Cargo());
+                $usuario->getCargo()->setCdCargo($row['CD_CARGO']);
+                $usuario->getCargo()->setDsCargo($row['DS_CARGO']);
+                $usuario->setDsFoto($row['DS_FOTO']);
+                $usuario->setSnSenhaAtual($row['SN_SENHA_ATUAL']);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $usuario;
+    }
+
+    public function getLoginUserBool($username, $password){
+        require_once "../beans/Usuario.class.php";
+        require_once "../beans/Cargo.class.php";
+        $usuario = false;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT *
+                          FROM usuario E
+                          INNER JOIN cargo ON E.CD_CARGO = cargo.CD_CARGO
+                          WHERE E.DS_LOGIN = :login
+                          
+                          AND   E.DS_SENHA = MD5(:senha)";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":login", $username, PDO::PARAM_STR);
+            $stmt->bindValue(":senha", $password, PDO::PARAM_STR);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $usuario = true;
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $usuario;
+    }
+
 }

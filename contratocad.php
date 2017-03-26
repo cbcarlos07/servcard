@@ -53,14 +53,14 @@ $id = $_POST['id'];
 
                     <div style="text-align: center">
                         <br>
-                       <h3 >Informa&ccedil;&otilde;es de Contrato</h3>
+                       <h3 >Informa&ccedil;&otilde;es de Contrato - <?php echo $_SESSION['cdusuario']; ?></h3>
                     </div>
                     <div class="mensagem alert col-lg-6"></div>
 
                     <form method="post" id="form" data-toggle="validator">
                         <div class="col-lg-offset-1">
                             <input type="hidden" id="id" value="0">
-                            <input type="hidden" id="usuario" value="1">
+                            <input type="hidden" id="usuario" value="<?php echo $_SESSION['cdusuario']; ?>">
                             <input type="hidden" id="id-responsavel" value="1">
                             <input type="hidden" id="acao" value="C">
                             <input type="hidden" id="quite" value="N">

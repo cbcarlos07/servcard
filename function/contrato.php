@@ -148,7 +148,7 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
     $cmc = new ContratoMensalController();
     $teste = false;
     $teste1 = false;
-    echo "Codigo gerado: $genId";
+   // echo "Codigo gerado: $genId";
     if($genId > 0){
         foreach ($arr as $item => $value) {
             $contratoMensal->setContrato(new Contrato());

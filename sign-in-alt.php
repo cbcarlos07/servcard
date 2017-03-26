@@ -5,21 +5,21 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
-$login = "";
-$senha = "";
-$checked = "";
-if(isset($_COOKIE['login'])){
-    $login = $_COOKIE['login'];
-    $senha = $_COOKIE['senha'];
-    $checked = "checked";
+  $codigo = $_POST['codigo'];
+  include "include/error.php";
+  include "beans/Usuario.class.php";
+  include "controller/UsuarioController.class.php";
 
-}
+  $usuario = new Usuario();
+  $usuarioController = new UsuarioController();
+
+  $usuario = $usuarioController->getUsuario($codigo);
 
 ?>
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Servcard - Login</title>
+<title>Alterar senha</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -46,7 +46,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script>
 <!--//end-animate-->
 <!----webfonts--->
-<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
+<!--<link href='//fonts.googleapis.com/css?family=Cabin:400,400italic,500,500italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>-->
 <!---//webfonts---> 
  <!-- Meters graphs -->
 <script src="js/jquery-1.10.2.min.js"></script>
@@ -71,15 +71,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<div class="clearfix"> </div>
 							</div>
 							-->
-							<form id="form-login" method="post">
-								<div class="mensagem alert">
+							<form id="form-login" method="post" data-toggle="validator">
+								<div class="menagem alert">
 
 								</div>
+                                <div class="alert alert-success">
+                                    <p>Ol&aacute;, <span><?php echo $usuario->getDsLogin(); ?></span></p>
+                                    <p>Identificamos que &eacute; seu primeiro acesso</p>
+                                    <p>Por favor altere sua senha</p>
+                                </div>
+                                <input type="hidden" id="atual" value="S" />
+                                <input type="hidden" id="id" value="<?php echo $codigo; ?>" />
+                                <input type="hidden" id="usuario" value="<?php echo $usuario->getNmUsuario(); ?>" />
+                                <input type="hidden" id="login" value="<?php echo $usuario->getDsLogin(); ?>" />
+                                <input type="hidden" id="cargo" value="<?php echo $usuario->getCargo()->getCdCargo(); ?>" />
+                                <input type="hidden" id="cpf" value="<?php echo $usuario->getNrCPF(); ?>" />
+                                <input type="hidden" id="rg" value="<?php echo $usuario->getNrRg(); ?>" />
+                                <input type="hidden" id="foto" value="<?php echo $usuario->getDsFoto(); ?>" />
+                                <input type="hidden" id="acao" value="A" />
 							<div class="log-input" style="margin-left: 5%">
-								<div class="log-input-left">
-								   <input type="text" name="usuario" class="user"
-                                          placeholder="Usu&aacute;rio" id="usuario" value="<?php echo $login; ?>"/>
-								</div>
+                                <div class="log-input-left">
+                                    <input type="password" name="senha" class="lock"  id="senha" placeholder="senha"
+                                           required="" data-minlength="6"/>
+                                    <span class="help-block">Mínimo de seis (6) digitos</span>
+                                </div>
 								<!--
 								<span class="checkbox2">
 									 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i></label>
@@ -89,8 +104,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 							<div class="log-input" style="margin-left: 5%">
 								<div class="log-input-left">
-								   <input type="password" name="senha" class="lock"
-                                          id="senha" placeholder="senha" value="<?php echo $senha; ?>"/>
+								   <input type="password" name="resenha" class="lock"  id="resenha" placeholder="repita a senha" required=""
+                                          data-minlength="6" data-match="#senha" data-match-error="Atenção! As senhas não estão iguais."/>
+                                    <div class="help-block with-errors"></div>
 								</div>
 								<!--
 								<span class="checkbox2">
@@ -98,14 +114,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								</span>
 								<div class="clearfix"> </div>
 								-->
-
-								<div class="checkbox-inline"><label>
-                                        <input type="checkbox" <?php echo $checked; ?> value="S" id="lembrar">Lembrar-me</label>
-                                </div>
+								<div class="checkbox-inline"><label><input type="checkbox" checked value="S" id="ativo" disabled="">Ativo</label></div>
 							</div>
 							<!--<input type="submit" value="Login to your account">-->
 							<div style="margin-left: -6%;">
-								<button class="btn btn-block btn-logar" onclick="logar('D')">Logar no sistema</button>
+								<button class="btn btn-block btn-logar" onclick="salvar()">Logar no sistema</button>
 							</div>
 						</form>
 
@@ -132,5 +145,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
 <script src="js/acaologin.js"></script>
+<script src="js/validator.min.js"></script>
 </body>
 </html>

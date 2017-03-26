@@ -49,10 +49,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 			<!--logo and iconic logo start-->
 			<div class="logo">
-				<h1><a href="index.html">Easy <span>Admin</span></a></h1>
+				<h1><a href="index.php">Easy <span>Admin</span></a></h1>
 			</div>
 			<div class="logo-icon text-center">
-				<a href="index.html"><i class="lnr lnr-home"></i> </a>
+				<a href="index.php"><i class="lnr lnr-home"></i> </a>
 			</div>
 
 			<!--logo and iconic logo end-->
@@ -60,7 +60,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 				<!--sidebar nav start-->
 					<ul class="nav nav-pills nav-stacked custom-nav">
-						<li><a href="index.html"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
+						<li><a href="index.php"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
 						<li class="menu-list">
 							<a href="#"><i class="lnr lnr-cog"></i>
 								<span>Components</span></a>
@@ -86,7 +86,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li><a href="media.html"><i class="lnr lnr-select"></i> <span>Media Css</span></a></li>
 						<li class="menu-list"><a href="#"><i class="lnr lnr-book"></i>  <span>Pages</span></a> 
 							<ul class="sub-menu-list">
-								<li><a href="sign-in.html">Sign In</a> </li>
+								<li><a href="index.php">Sign In</a> </li>
 								<li><a href="sign-up.html">Sign Up</a></li>
 								<li><a href="blank_page.html">Blank Page</a></li>
 							</ul>

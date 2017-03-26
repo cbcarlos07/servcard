@@ -145,7 +145,7 @@ class ClienteDAO
         $clienteList = new ClienteList();
         $stmt = null;
         try {
-            if($nome == ""){
+
                 $sql = "SELECT C.*
                               ,EC.DS_ESTADO_CIVIL
                               ,E.CD_ENDERECO
@@ -163,7 +163,7 @@ class ClienteDAO
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
                 $stmt->bindValue(":inicio", $inicio, PDO::PARAM_INT);
                 $stmt->bindValue(":limite", $limite, PDO::PARAM_INT);
-            }
+
             $stmt->execute();
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $cliente = new Cliente();

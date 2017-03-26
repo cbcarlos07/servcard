@@ -4249,11 +4249,39 @@ button.rew:hover {
 	-o-transition:.5s all;
 	-ms-transition:.5s all;
 	}
+
+.login-form-info .btn-logar{
+	outline:none;
+	border:1px solid #f5f5f5;
+	background:none;
+	color:#fff;
+	font-size:20px;
+	text-align:center;
+	width:90%;
+	margin-left: 1.6em;
+	margin-bottom: 1.5em;
+	padding:10px 0;
+	transition:.5s all;
+	-webkit-transition:.5s all;
+	-moz-transition:.5s all;
+	-o-transition:.5s all;
+	-ms-transition:.5s all;
+}
+.login-form-info .btn-logar{
+	background:#a88add;
+	color:#fff;
+	border:1px solid #a88add;
+}
 .login-form-info input[type="submit"]:hover{
 	background:#a88add;
 	color:#fff;
 	border:1px solid #a88add;
 	}
+.login-form-info .btn-logar:hover{
+	background:#a88add;
+	color:#fff;
+	border:1px solid #a88add;
+}
 .login-form-info p.for{
 	margin:0 0 2em;
 	text-align:center;
@@ -4679,7 +4707,7 @@ span.badge1 {
 	border:1px solid #F44336;
 }
 .sign-in-form-top{
-	background:url(../images/3.jpg) no-repeat 0px -55px;
+	/*background:url(../images/3.jpg) no-repeat 0px -55px;*/
 	display:block;
 	min-height:150px;
 	padding:3em 0 0;
@@ -4837,12 +4865,32 @@ span.checkbox2 {
 	border-radius: 4px;
 	cursor:pointer;
 }
+.sign-in-form .btn-logar {
+	font-size: 1.1em;
+	color: #fff;
+	background: #00ACED;
+	border: none;
+	padding: 0.7em 1em 0.7em 1em;
+	width: 100%;
+	margin-top: 0.5em;
+	display: block;
+	outline: none;
+	border-radius: 4px;
+	cursor:pointer;
+}
 .sign-in-form input[type="submit"]:hover {
 	 background:#8BC34A;
 	 transition: 0.5s all;
   -webkit-transition: 0.5s all;
   -moz-transition: 0.5s all;
   -o-transition: 0.5s all;
+}
+.sign-in-form .btn-logar:hover {
+	background:#8BC34A;
+	transition: 0.5s all;
+	-webkit-transition: 0.5s all;
+	-moz-transition: 0.5s all;
+	-o-transition: 0.5s all;
 }
 .signin-rit p {
 	float: right;
@@ -4934,6 +4982,10 @@ p.creating{
 	background:#27cce4;
 	color:#fff;
 	}
+.sign-up .btn-logar{
+	background:#27cce4;
+	color:#fff;
+}
 .sub_home {
     margin: 3em 0 0;
 }
@@ -5609,6 +5661,9 @@ div#container-rpm1{
 .login-form-info input[type="submit"] {
     margin-left: 1.2em;
 }
+	.login-form-info .btn-logar {
+		margin-left: 1.2em;
+	}
 .sign-up {
     width: 70%;
 }
@@ -6031,6 +6086,10 @@ div#char {
 .login-form-info input[type="submit"] {
     margin-left: 0.9em;
 }
+
+	.login-form-info .btn-logar {
+		margin-left: 0.9em;
+	}
 .sign-up {
     width: 90%;
 }
@@ -6195,7 +6254,7 @@ div#char {
 		min-height: 2285px !important;
 	}
 	.sign-in-form-top {
-		background: url(../images/3.jpg) no-repeat 0px -80px;
+		/*background: url(../images/3.jpg) no-repeat 0px -80px;*/
 		min-height: 115px;
 	}
 	.sign-in-form {
@@ -6357,6 +6416,12 @@ div#container-rpm1{
 .login-form-info input[type="submit"] {
     margin-left: 1.05em;
 }
+
+	login-form-info .btn-logar {
+		margin-left: 1.05em;
+	}
+
+
 .login-form-info {
     width: 70%;
 }
@@ -6704,6 +6769,9 @@ ul.collection, .mailbox-content {
 .login-form-info input[type="submit"] {
     margin-left: 0.9em;
 }
+	.login-form-info .btn-logar {
+		margin-left: 0.9em;
+	}
 .sign-up1 {
     float: left;
     width: 38%;
@@ -6813,6 +6881,11 @@ span.checkbox1 {
     font-size: 1em;
     padding: 0.5em 1em 0.5em 1em;
 }
+
+	.sign-in-form .btn-logar {
+		font-size: 1em;
+		padding: 0.5em 1em 0.5em 1em;
+	}
 .signin:after {
     background: url(../images/6.png) no-repeat 0px 0px;
     width: 405px;
@@ -6908,6 +6981,9 @@ span.email-title {
 .login-form-info input[type="submit"] {
     margin-left: 0.6em;
 }
+	.login-form-info .btn-logar {
+		margin-left: 0.6em;
+	}
 .sign-up-form {
     padding: 2em 0;
     background: #b8c9f1;

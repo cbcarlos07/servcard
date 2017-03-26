@@ -263,7 +263,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Oops!</span>
                         <p>The page you're looking for could not be found.</p>
                         <div class="error-btn">
-                            <a href="index.html">Go back?</a>
+                            <a href="index.php">Go back?</a>
                         </div>
                     </div>
                     <div class="col-xs-5 error-main-right">

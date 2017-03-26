@@ -20,7 +20,7 @@ include_once "services/ContratoListIterator.class.php";
 
 
 $contratoController = new ContratoController();
-$total = $contratoController->getTotalClienteDivida();
+$total = $contratoController->getTotalClienteEmDia();
 
 //seta a quantidade de itens por página, neste caso, 2 itens
 $registros = 10;
@@ -32,7 +32,7 @@ $numPaginas = ceil($total/$registros);
 
 //variavel para calcular o início da visualização com base na página atual
 $inicio = ($registros*$pagina)-$registros;
-$lista = $contratoController->getClienteDivida($descricao, $inicio, $registros);
+$lista = $contratoController->getClienteEmDia($descricao, $inicio, $registros);
 $pListIterator = new ContratoListIterator($lista);
 
 
@@ -77,13 +77,13 @@ $pListIterator = new ContratoListIterator($lista);
 
             <br>
 
-            <div class="col-lg-1" ><h2>Em d&eacute;bito</h2></div>
-            <div class="col-lg-7" >
+            <div class="col-lg-2" ><h2>Em dia</h2></div>
+            <div class="col-lg-5" >
 
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="form-pesquisa">
                     <input type="hidden" name="acao" value="P">
-                    <div class="input-group h2">
-                        <input  name="search"  id="search" class="form-control">
+                    <div class="input-group col-lg-12">
+                        <input  name="search"  id="search" class="form-control col-lg-12">
                         <span class="input-group-btn">
                                 <button class="btn btn-primary" type="submit" >
                                     <span class="glyphicon glyphicon-search"></span>
@@ -92,8 +92,8 @@ $pListIterator = new ContratoListIterator($lista);
                     </div>
                 </form>
             </div>
-            <div class="col-lg-4">
-                <a href="#" data-url="debitoficha.php" class="btn btn-success lnr lnr-printer btn-print">Imprimir</a>
+            <div class="col-lg-2">
+                <a href="#" data-url="emdiaficha.php" class="btn btn-success lnr lnr-printer btn-print">Imprimir</a>
             </div>
             <div class="row"></div>
             <hr />
@@ -112,7 +112,6 @@ $pListIterator = new ContratoListIterator($lista);
                                 <th>Contrato</th>
                                 <th>Plano</th>
                                 <th>Respons&aacute;vel</th>
-                                <th>Parc. Atraso</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -128,10 +127,7 @@ $pListIterator = new ContratoListIterator($lista);
                                     <td><?php echo $contrato->getCdContrato(); ?></td>
                                     <td><?php echo $contrato->getPlano()->getDsPlano(); ?></td>
                                     <td><?php echo $contrato->getResponsavel()->getNmUsuario(); ?></td>
-                                    <?php
-                                     $total = $contratoController->getTotalAtraso($contrato->getCdContrato());
-                                    ?>
-                                    <td align="center"><a href="#" data-url="detalhe.php" data-contrato="<?php echo $contrato->getCdContrato()?>" class="btn-detalhe"><?php echo $total; ?></td>
+
 
                                 </tr>
                             <?php } ?>

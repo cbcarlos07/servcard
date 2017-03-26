@@ -1,3 +1,4 @@
+
 <div class="header-section">
 
     <!--toggle button start-->
@@ -181,7 +182,7 @@
                             <div class="profile_img">
                                 <!--<span style="background:url(images/1.jpg) no-repeat center"> </span>-->
                                 <div class="user-name">
-                                    <p>Michael<span>Administrator</span></p>
+                                    <p><?php echo $_SESSION['login']?><span><?php echo $_SESSION['cargo']; ?></span></p>
                                 </div>
                                 <i class="lnr lnr-chevron-down"></i>
                                 <i class="lnr lnr-chevron-up"></i>
@@ -189,9 +190,9 @@
                             </div>
                         </a>
                         <ul class="dropdown-menu drp-mnu">
-                            <li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li>
-                            <li> <a href="#"><i class="fa fa-user"></i>Profile</a> </li>
-                            <li> <a href="sign-up.html"><i class="fa fa-sign-out"></i> Logout</a> </li>
+                            <!--<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li>-->
+                            <li> <a href="#" class="btn-user" data-id="<?php echo $_SESSION['cdusuario']; ?>"><i class="fa fa-user" ></i>Profile</a> </li>
+                            <li> <a href="sair.php"><i class="fa fa-sign-out"></i> Logout</a> </li>
                         </ul>
                     </li>
                     <div class="clearfix"> </div>
@@ -216,3 +217,13 @@
     </div>
     <!--notification menu end -->
 </div>
+<script>
+    $('.btn-user').on('click',function () {
+        var id = $(this).data('id');
+        var form = $('<form action="usuarioalt.php" method="post">'+
+                      '<input type="hidden" name="id" value="'+id+'">'+
+                    '</form>');
+        $('body').append(form);
+        form.submit();
+    });
+</script>

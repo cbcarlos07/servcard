@@ -501,7 +501,7 @@ class ContratoDAO
             $stmt->bindValue(":inicio", $inicio, PDO::PARAM_INT);
             $stmt->bindValue(":limite", $limite, PDO::PARAM_INT);
             $stmt->execute();
-            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+            while($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
                 $contrato = new Contrato();
                 $contrato->setCdContrato($row['CD_CONTRATO']);
                 $contrato->setResponsavel(new Usuario());
@@ -535,7 +535,7 @@ class ContratoDAO
         try {
             $stmt = $this->connection->prepare($sql);
             $stmt->execute();
-            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+            while($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
                 $contrato = new Contrato();
                 $contrato->setCdContrato($row['CD_CONTRATO']);
                 $contrato->setResponsavel(new Usuario());
@@ -598,6 +598,98 @@ class ContratoDAO
             $stmt->bindValue(":contrato", $cdcontrato, PDO::PARAM_INT);
             $stmt->execute();
             if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $contrato = $row['TOTAL'];
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $contrato;
+    }
+
+    public function getClienteEmDia($nome, $inicio, $limite){
+        require_once ("services/ContratoList.class.php");
+        require_once "beans/Cliente.class.php";
+        require_once "beans/Usuario.class.php";
+        require_once "beans/Plano.class.php";
+        $contrato = null;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT * FROM V_EMDIA E
+                 WHERE E.NM_CLIENTE LIKE :nome
+                 LIMIT :inicio, :limite";
+        $contratoList = new ContratoList();
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+            $stmt->bindValue(":inicio", $inicio, PDO::PARAM_INT);
+            $stmt->bindValue(":limite", $limite, PDO::PARAM_INT);
+            $stmt->execute();
+            while($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $contrato = new Contrato();
+                $contrato->setCdContrato($row['CD_CONTRATO']);
+                $contrato->setResponsavel(new Usuario());
+                $contrato->getResponsavel()->setNmUsuario($row['NM_USUARIO']);
+                $contrato->getResponsavel()->setDsLogin($row['DS_LOGIN']);
+                $contrato->setCliente(new Cliente());
+                $contrato->getCliente()->setCdCliente($row['CD_CLIENTE']);
+                $contrato->getCliente()->setNmCliente($row['NM_CLIENTE']);
+                $contrato->getCliente()->setNmSobrenome($row['NM_SOBRENOME']);
+                $contrato->setPlano(new Plano());
+                $contrato->getPlano()->setDsPlano($row['DS_PLANO']);
+                $contratoList->addContrato($contrato);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $contratoList;
+    }
+
+    public function getListClienteEmDia(){
+        require_once ("services/ContratoList.class.php");
+        require_once "beans/Cliente.class.php";
+        require_once "beans/Usuario.class.php";
+        require_once "beans/Plano.class.php";
+        $contrato = null;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT * FROM V_EMDIA E";
+        $contratoList = new ContratoList();
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+            while($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $contrato = new Contrato();
+                $contrato->setCdContrato($row['CD_CONTRATO']);
+                $contrato->setResponsavel(new Usuario());
+                $contrato->getResponsavel()->setNmUsuario($row['NM_USUARIO']);
+                $contrato->getResponsavel()->setDsLogin($row['DS_LOGIN']);
+                $contrato->setCliente(new Cliente());
+                $contrato->getCliente()->setCdCliente($row['CD_CLIENTE']);
+                $contrato->getCliente()->setNmCliente($row['NM_CLIENTE']);
+                $contrato->getCliente()->setNmSobrenome($row['NM_SOBRENOME']);
+                $contrato->setPlano(new Plano());
+                $contrato->getPlano()->setDsPlano($row['DS_PLANO']);
+                $contratoList->addContrato($contrato);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $contratoList;
+    }
+
+    public function getTotalClienteEmDia(){
+        $contrato =0;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT COUNT(*) TOTAL FROM V_EMDIA E";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+            while($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
                 $contrato = $row['TOTAL'];
             }
             $this->connection = null;

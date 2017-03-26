@@ -43,13 +43,23 @@ class UsuarioController
         return $retorno;
     }
 
-
-
     public function getUsuario($usuario){
         require_once ("model/UsuarioDAO.class.php");
         $usuarioDao = new UsuarioDAO();
         $retorno = $usuarioDao->getUsuario($usuario);
         return $retorno;
     }
+    public function getLoginUser($username, $password){
+        require_once ("../model/UsuarioDAO.class.php");
+        $usuarioDao = new UsuarioDAO();
+        $retorno = $usuarioDao->getLoginUser($username, $password);
+        return $retorno;
+    }
 
+    public function getLoginUserBool($username, $password){
+        require_once ("../model/UsuarioDAO.class.php");
+        $usuarioDao = new UsuarioDAO();
+        $retorno = $usuarioDao->getLoginUserBool($username, $password);
+        return $retorno;
+    }
 }
