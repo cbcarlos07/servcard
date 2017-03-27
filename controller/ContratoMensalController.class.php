@@ -66,9 +66,16 @@ class ContratoMensalController
         return $retorno;
     }
     public function getMensalidadePaga($contrato, $parcela){
-        require_once ("model/ContratoMensalDAO.class.php");
+        require_once ("../model/ContratoMensalDAO.class.php");
         $contratoMensalDao = new ContratoMensalDAO();
         $retorno = $contratoMensalDao->getMensalidadePaga($contrato, $parcela);
+        return $retorno;
+    }
+
+    public function delete_nao_pago ($contrato){
+        require_once ("../model/ContratoMensalDAO.class.php");
+        $contratoMensalDao = new ContratoMensalDAO();
+        $retorno = $contratoMensalDao->delete_nao_pago($contrato);
         return $retorno;
     }
 

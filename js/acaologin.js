@@ -62,7 +62,7 @@ function logar(acao){
 function carregando(){
         var mensagem = $('.mensagem');
         //alert('Carregando: '+mensagem);
-        mensagem.empty().html('<p class="alert alert-warning"><img src="img/loading.gif" alt="Carregando..."> Verificando dados!</p>').fadeIn("fast");
+        mensagem.empty().html('<p class="alert alert-warning"><images src="../images/loading.gif" alt="Carregando..."> Verificando dados!</p>').fadeIn("fast");
         setTimeout(function (){
             
         },300);
@@ -79,7 +79,7 @@ function errosendlogin(){
 }
 function sucesso(msg){
         var mensagem = $('.mensagem');
-        mensagem.empty().html('<p class="alert alert-success"><strong>OK.</strong> Estamos redirecionando <img src="img/loading.gif" alt="Carregando..."></p>').fadeIn("fast");
+        mensagem.empty().html('<p class="alert alert-success"><strong>OK.</strong> Estamos redirecionando <images src="images/loading.gif" alt="Carregando..."></p>').fadeIn("fast");
         var url = 'cliente.php';
         var form = $('<form action="' + url + '" method="post">' +
 
@@ -96,7 +96,7 @@ function senhaalterar(codigo){
         console.log("Alterar senha");
         var mensagem = $('.mensagem');
 
-        mensagem.empty().html('<p class="alert alert-success"><strong>OK.</strong> Estamos redirecionando <img src="img/loading.gif" alt="Carregando..."></p>').fadeIn("fast");                
+        mensagem.empty().html('<p class="alert alert-success"><strong>OK.</strong> Estamos redirecionando <images src="images/loading.gif" alt="Carregando..."></p>').fadeIn("fast");                
         
        //     location.href = "usuario?acao=T&codigo="+codigo;
         var url = 'sign-in-alt.php';

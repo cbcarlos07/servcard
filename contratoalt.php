@@ -49,6 +49,7 @@ $contrato = $contratoController->getContrato($id);
                         <br>
                        <h3 >Alterar Informa&ccedil;&otilde;es de Contrato</h3>
                     </div>
+                    <div class="col-lg-1"></div>
                     <div class="mensagem alert alert-danger col-lg-6">
                         <b>Aten&ccedil;&atilde;o</b><p>Esta a&ccedil;&atilde;o pode apagar todos registros de pagamento deste contrato caso existam</p>
                     </div>
@@ -126,6 +127,7 @@ $contrato = $contratoController->getContrato($id);
                                 <label for="responsavel">Respons&aacute;vel</label>
                                 <select id="responsavel" class="form-control"></select>
                             </div>
+                            <div class="row"></div>
                             <hr />
                             <div class="btn-group">
                                 <button class="btn btn-success" onclick="salvar()">Salvar</button>

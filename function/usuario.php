@@ -231,7 +231,10 @@ function login($login, $senha, $lembrar){
 }
 
 function sair(){
-    session_destroy();
+
     echo "Sair";
+    unset($_SESSION['login']);
+    session_destroy();
+    //$_SESSION['login'] = "";
     header('Location: ..');
 }

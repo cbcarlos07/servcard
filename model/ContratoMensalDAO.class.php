@@ -124,6 +124,28 @@ class ContratoMensalDAO
         return $teste;
     }
 
+    public function delete_nao_pago ($codigo){
+        $this->connection =  null;
+        $teste = false;
+        $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
+        try{
+            $query = "DELETE FROM contrato_mensal
+                       WHERE CD_CONTRATO = :codigo
+                       AND   SN_PAGO = 'N'";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bindValue(":codigo", $codigo, PDO::PARAM_INT);
+            $stmt->execute();
+            $this->connection->commit();
+            $teste =  true;
+
+            $this->connection =  null;
+        }catch(PDOException $exception){
+            echo "Erro: ".$exception->getMessage();
+        }
+        return $teste;
+    }
+
     public function getList($contrato){
         require_once ("../services/ContratoMensalList.class.php");
         require_once ("../beans/ContratoMensal.class.php");
@@ -170,8 +192,8 @@ class ContratoMensalDAO
         $this->connection = null;
 
         $this->connection = new ConnectionFactory();
-
-        $teste = false;
+        //echo "Parcela: ".$parcela;
+        $teste = 0;
 
         try {
 
@@ -186,12 +208,13 @@ class ContratoMensalDAO
 
             $stmt->execute();
             if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                $teste = true;
+                $teste = 1;
             }
             $this->connection = null;
         } catch (PDOException $ex) {
             echo "Erro: ".$ex->getMessage();
         }
+     //   echo "Mensalidade paga: $teste \n <br>";
         return $teste;
     }
 

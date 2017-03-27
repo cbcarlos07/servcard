@@ -53,7 +53,7 @@ $id = $_POST['id'];
 
                     <div style="text-align: center">
                         <br>
-                       <h3 >Informa&ccedil;&otilde;es de Contrato - <?php echo $_SESSION['cdusuario']; ?></h3>
+                       <h3 >Informa&ccedil;&otilde;es de Contrato</h3>
                     </div>
                     <div class="mensagem alert col-lg-6"></div>
 
@@ -125,6 +125,7 @@ $id = $_POST['id'];
                                 <label for="responsavel">Respons&aacute;vel</label>
                                 <select id="responsavel" class="form-control"></select>
                             </div>
+                            <div class="row"></div>
                             <hr />
                             <div class="btn-group">
                                 <button class="btn btn-success" onclick="salvar()">Salvar</button>
