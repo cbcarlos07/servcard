@@ -151,14 +151,17 @@ function add($data, $quite, $valor, $parcela, $cliente, $usuario, $plano, $juros
    // echo "Codigo gerado: $genId";
     if($genId > 0){
         foreach ($arr as $item => $value) {
-            $contratoMensal->setContrato(new Contrato());
-            $contratoMensal->getContrato()->setCdContrato($genId);
-            $contratoMensal->setDtVencimento($value->{'Data do pagamento'});
-            $contratoMensal->setNrValor($value->{'valor a pagar'});
-            $contratoMensal->setNrParcela($value->{'Nº da Parc'});
-            $contratoMensal->setSnPago('N');
+            echo "Teste: ".$cmc->getMensalidadePaga($contrato,$value->{'Nº da Parc'});
+            if(!$cmc->getMensalidadePaga($contrato,$value->{'Nº da Parc'})) {
+                $contratoMensal->setContrato(new Contrato());
+                $contratoMensal->getContrato()->setCdContrato($genId);
+                $contratoMensal->setDtVencimento($value->{'Data do pagamento'});
+                $contratoMensal->setNrValor($value->{'valor a pagar'});
+                $contratoMensal->setNrParcela($value->{'Nº da Parc'});
+                $contratoMensal->setSnPago('N');
 
-            $teste = $cmc->insert($contratoMensal);
+                $teste = $cmc->insert($contratoMensal);
+            }
         }
 
         $carteira = new Carteira();

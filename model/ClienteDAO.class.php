@@ -167,7 +167,7 @@ class ClienteDAO
             $stmt->execute();
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $cliente = new Cliente();
-                echo "Cod Cliente: ".$row['CD_CLIENTE'];
+                //echo "Cod Cliente: ".$row['CD_CLIENTE'];
                 $cliente->setCdCliente($row['CD_CLIENTE']);
                 $cliente->setNmCliente($row['NM_CLIENTE']);
                 $cliente->setNmSobrenome($row['NM_SOBRENOME']);

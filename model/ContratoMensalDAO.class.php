@@ -164,6 +164,37 @@ class ContratoMensalDAO
         return $contratoMensalList;
     }
 
+    public function getMensalidadePaga($contrato, $parcela){
+
+
+        $this->connection = null;
+
+        $this->connection = new ConnectionFactory();
+
+        $teste = false;
+
+        try {
+
+            $sql = "SELECT M.* FROM 
+                        contrato_mensal M
+                        WHERE M.CD_CONTRATO = :contrato
+                        AND   M.NR_PARCELA = :parcela
+                        AND   M.SN_PAGO = 'S'";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":contrato", $contrato, PDO::PARAM_INT);
+            $stmt->bindValue(":parcela",  $parcela, PDO::PARAM_INT);
+
+            $stmt->execute();
+            if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $teste = true;
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $teste;
+    }
+
     public function getLista($contrato){
         require_once ("services/ContratoMensalList.class.php");
         require_once ("beans/ContratoMensal.class.php");
