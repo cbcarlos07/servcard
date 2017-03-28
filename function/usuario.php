@@ -120,6 +120,7 @@ function change($id, $nome, $login, $senha, $ativo, $cargo, $cpf, $rg, $foto, $s
     require_once "../beans/Cargo.class.php";
     require_once "../controller/UsuarioController.class.php";
    // echo "Senha atual: ".$senhaatual;
+    //echo "Codigo id: ".$id;
     $usuario = new Usuario();
     $usuario->setCdUsuario($id);
     $usuario->setNmUsuario($nome);
@@ -231,7 +232,7 @@ function login($login, $senha, $lembrar){
 }
 
 function sair(){
-
+    session_start();
     echo "Sair";
     unset($_SESSION['login']);
     session_destroy();

@@ -62,7 +62,7 @@ function FileFrame(fileArea, fileTitle) {
     this.read = function(file) {
         // Iremos ler apenas imagens nesse exemplo
         // e iremos exibi-lo no frame
-        if (file.type.match('image.*')) {
+        if (file.type.match('image.*') || (file.type.match('image/jpeg') || file.type.match('image/png') )) {
             var reader = new FileReader();
 
             // Callback que será executado após a leitura do arquivo

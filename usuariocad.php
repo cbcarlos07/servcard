@@ -79,11 +79,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="row"></div>
                     <div class="form-group col-lg-5">
                         <label for="cpf">CPF</label>
-                        <input id="cpf" type="text" class="form-control" required="">
+                        <input id="cpf" type="text" class="form-control" >
                     </div>
                     <div class="form-group col-lg-5">
                         <label for="rg">RG</label>
-                        <input id="rg" type="text" class="form-control" required="">
+                        <input id="rg" type="text" class="form-control" >
                     </div>
 
 

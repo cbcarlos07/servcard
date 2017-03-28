@@ -24,7 +24,6 @@ function salvar(){
             var usuario   = document.getElementById('usuario').value;
             var login     = document.getElementById('login').value;
             var senha     = document.getElementById('senha').value;
-
             var chk_ativo = document.getElementById('ativo');
             var cargo     = document.getElementById('cargo').value;
             var cpf       = document.getElementById('cpf').value;
@@ -308,11 +307,8 @@ function validarCampo() {
     var login     = document.getElementById('login').value;
     var senha     = document.getElementById('senha').value;
     var resenha     = document.getElementById('resenha').value;
-    var cpf       = document.getElementById('cpf').value;
-    var rg        = document.getElementById('rg').value;
 
-
-    if ((usuario == "" || login == "") || (cpf == "" || rg == "" || (senha != resenha))){
+    if ((usuario == "" || login == "") || (senha != resenha) || (senha == "" || resenha == "")){
         mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>Voc&ecirc; precisa preencher os campos</p>').fadeIn("fast");
         if(usuario == ""){
             colorirCampo(usuario, "red", 1);
@@ -321,13 +317,13 @@ function validarCampo() {
         else if (login == ""){
             colorirCampo(login, "red", 1);
             return false;
-        }
-        else if(cpf == "" ){
-            colorirCampo(cpf, "red", 1);
+        }else if(senha == ""){
+            colorirCampo(senha, "red", 1);
             return false;
         }
-        else if(rg == ""){
-            colorirCampo(rg,"red",1);
+        else if(resenha == ""){
+            colorirCampo(resenha, "red", 1);
+            return false;
         }
         else if(senha != resenha){
             colorirCampo(senha,"red",1);
