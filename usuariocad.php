@@ -37,6 +37,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                 <div class="mensagem alert "></div>
                 <form method="post" id="form" data-toggle="validator">
+                    <div style="display: none">
+                        <img src="images/userlogo.png" id="foto" />
+                    </div>
                     <input id="id" value="0" type="hidden">
                     <input id="acao" value="C" type="hidden">
                     <input id="atual" value="N" type="hidden">

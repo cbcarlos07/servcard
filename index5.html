@@ -4,22 +4,10 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
-<?php
-$login = "";
-$senha = "";
-$checked = "";
-if(isset($_COOKIE['login'])){
-    $login = $_COOKIE['login'];
-    $senha = $_COOKIE['senha'];
-    $checked = "checked";
-
-}
-
-?>
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Servcard - Login</title>
+<title>Easy Admin Panel an Admin Panel Category Flat Bootstrap Responsive Website Template | Sign In :: w3layouts</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -30,8 +18,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- Custom CSS -->
 <link href="css/style.css" rel='stylesheet' type='text/css' />
 <!-- Graph CSS -->
-<link href="css/font-awesome.css" rel="stylesheet">
-<link rel="short icon" href="images/logo.jpg">
+<link href="css/font-awesome.css" rel="stylesheet"> 
 <!-- jQuery -->
 <!-- lined-icons -->
 <link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
@@ -59,7 +46,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <section>
 			<div id="page-wrapper" class="sign-in-wrapper">
 				<div class="graphs">
-					<div class="sign-in-form"   >
+					<div class="sign-in-form">
 						<div class="sign-in-form-top">
 							<p><span>Servcard</span>
 						</div>
@@ -73,13 +60,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 							-->
 							<form id="form-login" method="post">
-								<div class="mensagem alert">
+								<div class="menagem alert">
 
 								</div>
 							<div class="log-input" style="margin-left: 5%">
 								<div class="log-input-left">
-								   <input type="text" name="usuario" class="user"
-                                          placeholder="Usu&aacute;rio" id="usuario" value="<?php echo $login; ?>"/>
+								   <input type="text" name="usuario" class="user" placeholder="Usu&aacute;rio" id="usuario"/>
 								</div>
 								<!--
 								<span class="checkbox2">
@@ -90,8 +76,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 							<div class="log-input" style="margin-left: 5%">
 								<div class="log-input-left">
-								   <input type="password" name="senha" class="lock"
-                                          id="senha" placeholder="senha" value="<?php echo $senha; ?>"/>
+								   <input type="password" name="senha" class="lock"  id="senha" placeholder="senha"/>
 								</div>
 								<!--
 								<span class="checkbox2">
@@ -99,10 +84,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								</span>
 								<div class="clearfix"> </div>
 								-->
-
-								<div class="checkbox-inline"><label>
-                                        <input type="checkbox" <?php echo $checked; ?> value="S" id="lembrar">Lembrar-me</label>
-                                </div>
+								<div class="checkbox-inline"><label><input type="checkbox" checked value="S" id="lembrar">Lembrar-me</label></div>
 							</div>
 							<!--<input type="submit" value="Login to your account">-->
 							<div style="margin-left: -6%;">
