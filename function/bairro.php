@@ -5,7 +5,7 @@
  * Date: 22/02/17
  * Time: 20:43
  */
-
+require_once "../include/error.php";
 $id        = 0;
 $nome      = "";
 $cidade    = 0;
@@ -78,12 +78,15 @@ function add($nome, $cidade, $zona){
 
 function change($id, $nome, $cidade, $zona){
     // echo "<script>alert('Adicionar'); </script>";
+
     require_once "../beans/Bairro.class.php";
     require_once "../controller/BairroController.class.php";
     require_once "../beans/Cidade.class.php";
     require_once "../beans/Zona.class.php";
 
     $bairro = new Bairro();
+/*    echo "Codigo do bairro: ".$id."<br>";
+    echo "Codigo do Cidade: ".$cidade."<br>";*/
     $bairro->setCdBairro($id);
     $bairro->setNmBairro($nome);
     $bairro->setCidade(new Cidade());

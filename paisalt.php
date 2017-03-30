@@ -7,6 +7,7 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
+include "include/error.php";
 $id = $_POST['id'];
 
 require_once "beans/Pais.class.php";

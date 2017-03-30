@@ -143,7 +143,7 @@ class PaisDAO
         $pais = null;
         $connection = null;
         $this->connection =  new ConnectionFactory();
-        $sql = "SELECT * FROM pais WHERE CD_PAIS LIKE :nome";
+        $sql = "SELECT * FROM pais WHERE CD_PAIS = :codigo";
 
         try {
             $stmt = $this->connection->prepare($sql);

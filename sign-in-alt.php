@@ -72,7 +72,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 							-->
 							<form id="form-login" method="post" data-toggle="validator">
-								<div class="menagem alert">
+								<div class="mensagem alert">
 
 								</div>
                                 <div class="alert alert-success">
@@ -143,8 +143,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/jquery.nicescroll.js"></script>
 <script src="js/scripts.js"></script>
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
-<script src="js/acaologin.js"></script>
-<script src="js/validator.min.js"></script>
+
+<script src="js/bootstrap.js"></script>
+    <script src="js/validator.js"></script>
+    <script src="js/acaologin.js"></script>
+
 </body>
 </html>

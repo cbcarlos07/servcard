@@ -28,7 +28,12 @@ function salvar(){
             var cargo     = document.getElementById('cargo').value;
             var cpf       = document.getElementById('cpf').value;
             var rg        = document.getElementById('rg').value;
-            var foto      = document.getElementById('foto').src;
+            var foto;
+            try{
+                foto      = document.getElementById('foto').src;
+            }catch (err){
+                foto = "";
+            }
 
             var atual     = document.getElementById('atual').value;
             var acao      = document.getElementById('acao').value;
@@ -38,7 +43,7 @@ function salvar(){
             else
                 ativo = 'N';
 
-            //alert("Ativo: "+ativo);
+          //  alert("Foto: "+foto);
             //
 
             $.ajax({

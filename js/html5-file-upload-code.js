@@ -72,6 +72,7 @@ function FileFrame(fileArea, fileTitle) {
 
                 // Criação do elemento que será utilizado para exibir a imagem
                 var img = document.createElement("img");
+                //var img = document.getElementById('foto')
                 img.setAttribute("src", f.target.result);
                 img.setAttribute("height", "350");
                 img.setAttribute("width","350");

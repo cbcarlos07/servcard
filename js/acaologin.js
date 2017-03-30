@@ -114,7 +114,8 @@ function senhaalterar(codigo){
 
 function salvar(){
   //  alert("Salvar");
-
+  //  alert("Validar campo: "+validarCampo());
+     if(validarCampo() == true){
         jQuery('#form-login').submit(function () {
             // alert("Submit");
 
@@ -132,7 +133,7 @@ function salvar(){
             var atual     = document.getElementById('atual').value;
             var acao      = document.getElementById('acao').value;
             var ativo;
-            if(chk_ativo.checked == true)
+            if(chk_ativo.checked)
                 ativo = 'S';
             else
                 ativo = 'N';
@@ -173,6 +174,55 @@ function salvar(){
             return false;
         });
 
+     }
+}
 
+
+function validarCampo() {
+    var mensagem = $('.mensagem');
+
+    var senha     = document.getElementById('senha').value;
+    var resenha     = document.getElementById('resenha').value;
+      //alert('senha: '+senha+" resenha: "+resenha);
+    if ((senha != resenha) || (senha == "" || resenha == "")){
+
+         if(senha == ""){
+             mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>Preencha o campo senha</p>').fadeIn("fast");
+            colorirCampo('senha', "red", 1);
+            console.log("Senha em branco");
+            return false;
+        }
+        else if(resenha == ""){
+             mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>Preencha o campo de redigitar senha</p>').fadeIn("fast");
+            colorirCampo('resenha', "red", 1);
+             console.log("Senha em branco");
+            return false;
+        }
+        else if(senha != resenha){
+             mensagem.empty().html('<p class="alert alert-danger"><strong>Opa! </strong>As senhas n&atilde;o s&atilde;o iguais</p>').fadeIn("fast");
+             colorirCampo('senha',"red",1);
+             colorirCampo('resenha',"red",1);
+             console.log("Senhas diferentes");
+             return false;
+        }
+
+    }else{
+        /*colorirCampo(usuario, "#ccc", 0);
+        colorirCampo(login, "#ccc", 0);
+        colorirCampo(cpf, "#ccc", 0);
+        colorirCampo(rg, "#ccc", 0);*/
+        return true;
+
+    }
+}
+
+function colorirCampo(campo, cor, focus) {
+    console.log("era para colorir");
+    if(focus == 1) {
+        console.log("Focus");
+        $('input[id="' + campo + '"]').css("border-color", cor).focus();
+    }
+    else
+        $('input[id="'+campo+'"]').css("border-color",cor);
 }
 

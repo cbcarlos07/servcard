@@ -6,6 +6,7 @@
  * Date: 17/02/2017
  * Time: 14:34
  */
+include "../include/error.php";
 include_once ("ConnectionFactory.class.php");
 
 class BairroDAO
@@ -43,20 +44,24 @@ class BairroDAO
     public function update (Bairro $bairro){
         $this->connection =  null;
         $teste = false;
+
         $this->connection = new ConnectionFactory();
         $this->connection->beginTransaction();
         try{
             $query = "UPDATE bairro SET 
-                       NM_BAIRRO = :bairro, CD_CIDADE = :cidade, CD_ZONA = :zona
+                       NM_BAIRRO = :bairro, CD_CIDADE = :cidade, CD_ZONA = :zona 
                        WHERE CD_BAIRRO = :codigo";
+
+
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(":bairro", $bairro->getNmBairro(), PDO::PARAM_STR);
             $stmt->bindValue(":cidade",$bairro->getCidade()->getCdCidade(), PDO::PARAM_INT);
-            $stmt->bindValue(":zona",$bairro->getZona()->getCdZona());
-            $stmt->bindValue(":codigo", $bairro->getCdBairro(), PDO::PARAM_INT);
+            $stmt->bindValue(":zona",$bairro->getZona()->getCdZona(), PDO::PARAM_INT);
+            $stmt->bindValue(":codigo",$bairro->getCdBairro(), PDO::PARAM_INT);
             $stmt->execute();
             $this->connection->commit();
             $teste =  true;
+          //  print_r($stmt);
 
             $this->connection =  null;
         }catch(PDOException $exception){
@@ -68,7 +73,7 @@ class BairroDAO
     public function delete ($codigo){
         $this->connection =  null;
         $teste = false;
-        $this->connection = new ConnectionFactory();
+        $this->connection = new     ConnectionFactory();
         $this->connection->beginTransaction();
         try{
             $query = "DELETE FROM bairro WHERE CD_BAIRRO = :codigo";

@@ -47,9 +47,7 @@ include "include/head.php"; ?>
 
                 <div class="mensagem alert "></div>
                 <form method="post" id="form" data-toggle="validator">
-                    <div style="display: none">
-                        <img src="images/userlogo.png" id="foto" />
-                    </div>
+
                     <input id="id" value="<?php echo $usuario->getCdUsuario(); ?>" type="hidden">
                     <input id="acao" value="A" type="hidden">
                     <input id="atual" value="N" type="hidden">
