@@ -54,12 +54,15 @@ class BairroDAO
 
 
             $stmt = $this->connection->prepare($query);
+           // echo "Cd zona: ".$bairro->getZona()->getCdZona();
             $stmt->bindValue(":bairro", $bairro->getNmBairro(), PDO::PARAM_STR);
             $stmt->bindValue(":cidade",$bairro->getCidade()->getCdCidade(), PDO::PARAM_INT);
             $stmt->bindValue(":zona",$bairro->getZona()->getCdZona(), PDO::PARAM_INT);
             $stmt->bindValue(":codigo",$bairro->getCdBairro(), PDO::PARAM_INT);
             $stmt->execute();
-            $this->connection->commit();
+          //
+            //
+              $this->connection->commit();
             $teste =  true;
           //  print_r($stmt);
 

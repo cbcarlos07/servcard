@@ -96,7 +96,7 @@ function getZonas($id){
             if($zona->getCdZona() == $id )
                 $select = "selected";
 
-         echo " <option ".$select."value='".$zona->getCdZona()."'>".$zona->getDsZona()."</option>";
+         echo " <option ".$select." value='".$zona->getCdZona()."'>".$zona->getDsZona()."</option>";
         }
     }else{
         echo "<option value=''>N&atilde;o possui dados cadastrados</option>";
