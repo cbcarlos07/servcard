@@ -1,3 +1,7 @@
+<?php
+include "include/head.php";
+//include "include/error.php";
+ ?>
 
 
 <!--
@@ -8,9 +12,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 
 
-<?php
-include "include/error.php";
-include "include/head.php"; ?>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.min.js"></script>
 

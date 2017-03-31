@@ -1,11 +1,4 @@
-
-
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
+<?php include "include/head.php"; ?>
 <?php
 $descricao = "";
 
@@ -27,8 +20,15 @@ $cListIterator = new CidadeListIterator($lista);
 ?>
 
 
-<?php include "include/head.php"; ?>
 
+
+
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
 
  <body class="sticky-header left-side-collapsed"  >
     <section>

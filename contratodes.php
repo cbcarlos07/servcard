@@ -1,4 +1,4 @@
-
+<?php include "include/head.php"; ?>
 
 <!--
 Author: W3layouts
@@ -20,7 +20,7 @@ $contrato = $contratoController->getContratoCancelado($id);
 ?>
 
 
-<?php include "include/head.php"; ?>
+
 
  <link href="css/btn-style.css" type="text/css" rel="stylesheet">
 

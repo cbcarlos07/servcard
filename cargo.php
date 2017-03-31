@@ -1,4 +1,4 @@
-
+<?php include "include/head.php"; ?>
 
 <!--
 Author: W3layouts
@@ -27,7 +27,7 @@ $pListIterator = new CargoListIterator($lista);
 ?>
 
 
-<?php include "include/head.php"; ?>
+
 
 
  <body class="sticky-header left-side-collapsed"  >

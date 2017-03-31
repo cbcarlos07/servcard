@@ -1,6 +1,7 @@
 <?php
-include "include/error.php";
 session_start();
+//include "include/error.php";
+
 
 /*if($_SESSION['login'] == ""){
    echo "<script>location.href='./';</script>";

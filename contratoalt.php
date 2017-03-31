@@ -1,4 +1,4 @@
-
+<?php include "include/head.php"; ?>
 
 <!--
 Author: W3layouts
@@ -8,7 +8,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
 $id = $_POST['id'];
-include "include/error.php";
+//include "include/error.php";
 require_once "beans/Contrato.class.php";
 require_once "beans/ContratoMensal.class.php";
 require_once "controller/ContratoController.class.php";
@@ -25,7 +25,7 @@ $contrato = $contratoController->getContrato($id);
 ?>
 
 
-<?php include "include/head.php"; ?>
+
 
  <link href="css/btn-style.css" type="text/css" rel="stylesheet">
 

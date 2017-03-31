@@ -6,7 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
   $codigo = $_POST['codigo'];
-  include "include/error.php";
+  //include "include/error.php";
   include "beans/Usuario.class.php";
   include "controller/UsuarioController.class.php";
 

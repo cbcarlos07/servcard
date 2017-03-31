@@ -1,4 +1,4 @@
-
+<?php include "include/head.php"; ?>
 
 <!--
 Author: W3layouts
@@ -7,7 +7,7 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
-include "include/error.php";
+//include "include/error.php";
 $id = $_POST['id'];
 
 require_once "beans/Pais.class.php";
@@ -19,7 +19,7 @@ $pais = $pc->getPais($id);
 ?>
 
 
-<?php include "include/head.php"; ?>
+
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.min.js"></script>
 

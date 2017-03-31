@@ -1,4 +1,4 @@
-
+<?php include "include/head.php"; ?>
 
 <!--
 Author: W3layouts
@@ -35,7 +35,7 @@ $pListIterator = new EnderecoListIterator($lista);
 ?>
 
 
-<?php include "include/head.php"; ?>
+
 
 
  <body class="sticky-header left-side-collapsed"  >

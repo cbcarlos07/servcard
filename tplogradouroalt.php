@@ -1,3 +1,14 @@
+<?php
+include "include/head.php";
+require_once "beans/TpLogradouro.class.php";
+require_once "controller/TpLogradouroController.class.php";
+$id = $_POST['id'];
+$tpLogradouro = new TpLogradouro();
+$tpc = new TpLogradouroController();
+
+$tpLogradouro = $tpc->getTpLogradouro($id);
+
+ ?>
 
 
 <!--
@@ -8,16 +19,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 
 
-<?php
-require_once "beans/TpLogradouro.class.php";
-require_once "controller/TpLogradouroController.class.php";
-$id = $_POST['id'];
-$tpLogradouro = new TpLogradouro();
-$tpc = new TpLogradouroController();
-
-$tpLogradouro = $tpc->getTpLogradouro($id);
-
-include "include/head.php"; ?>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.min.js"></script>
 

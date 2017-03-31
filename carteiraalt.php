@@ -1,16 +1,7 @@
-
-
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-
-
 <?php
+include "include/head.php";
 $id = $_POST['id'];
-include "include/error.php";
+////include "include/error.php";
 include "beans/Carteira.class.php";
 include "controller/CarteiraController.class.php";
 
@@ -21,7 +12,17 @@ $carteira = $carteiraController->getCarteira($id);
 
 
 
-include "include/head.php"; ?>
+?>
+
+
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+
+
 <link href="css/jquery.datetimepicker.min.css" rel="stylesheet" type="text/css" />
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.min.js"></script>

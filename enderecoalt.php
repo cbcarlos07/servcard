@@ -1,4 +1,18 @@
 
+<?php
+include "include/head.php";
+$id = $_POST['id'];
+//echo "Cep: ".$id;
+require_once "beans/Endereco.class.php";
+require_once "controller/EnderecoController.class.php";
+
+$endereco = new Endereco();
+$enderecoController = new EnderecoController();
+
+$endereco = $enderecoController->getEndereco($id);
+
+ ?>
+
 
 <!--
 Author: W3layouts
@@ -8,18 +22,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 
 
-<?php
-$id = $_POST['id'];
-echo "Cep: ".$id;
-require_once "beans/Endereco.class.php";
-require_once "controller/EnderecoController.class.php";
-
-$endereco = new Endereco();
-$enderecoController = new EnderecoController();
-
-$endereco = $enderecoController->getEndereco($id);
-
-include "include/head.php"; ?>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.min.js"></script>
 

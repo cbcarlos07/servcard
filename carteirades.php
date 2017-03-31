@@ -1,14 +1,7 @@
-
-
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
+<?php include "include/head.php"; ?>
 <?php
 $id = $_POST['id'];
-include "include/error.php";
+////include "include/error.php";
 include "beans/Carteira.class.php";
 include "controller/CarteiraController.class.php";
 
@@ -20,8 +13,15 @@ $carteira = $carteiraController->getCarteiraCancelada($id);
 ?>
 
 
-<?php include "include/head.php"; ?>
 
+
+
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
  <link href="css/btn-style.css" type="text/css" rel="stylesheet">
 
  <link href="css/jquery.datetimepicker.min.css" rel="stylesheet" type="text/css" />

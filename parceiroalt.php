@@ -1,3 +1,16 @@
+<?php
+include "include/head.php";
+$id = $_POST['id'];
+//include "include/error.php";
+include "beans/Parceiro.class.php";
+include "controller/ParceiroController.class.php";
+
+$parceiro = new Parceiro();
+$parceiroController = new ParceiroController();
+
+$parceiro = $parceiroController->getParceiro($id);
+
+ ?>
 
 
 <!--
@@ -8,18 +21,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 
 
-<?php
-$id = $_POST['id'];
-include "include/error.php";
-include "beans/Parceiro.class.php";
-include "controller/ParceiroController.class.php";
-
-$parceiro = new Parceiro();
-$parceiroController = new ParceiroController();
-
-$parceiro = $parceiroController->getParceiro($id);
-
-include "include/head.php"; ?>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.min.js"></script>
 

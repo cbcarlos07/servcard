@@ -1,3 +1,10 @@
+<?php
+include "include/head.php";
+$id = $_POST['id'];
+////include "include/error.php";
+
+
+ ?>
 
 
 <!--
@@ -8,12 +15,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 
 
-<?php
-$id = $_POST['id'];
-include "include/error.php";
 
-
-include "include/head.php"; ?>
 <link href="css/jquery.datetimepicker.min.css" rel="stylesheet" type="text/css" />
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.min.js"></script>

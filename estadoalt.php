@@ -1,4 +1,4 @@
-
+<?php include "include/head.php"; ?>
 
 <!--
 Author: W3layouts
@@ -19,7 +19,7 @@ $estado = $eC->getEstado($id);
 
 ?>
 
-<?php include "include/head.php"; ?>
+
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.min.js"></script>
 

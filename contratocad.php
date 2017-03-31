@@ -1,4 +1,4 @@
-
+<?php include "include/head.php"; ?>
 
 <!--
 Author: W3layouts
@@ -14,7 +14,7 @@ $id = $_POST['id'];
 ?>
 
 
-<?php include "include/head.php"; ?>
+
 
  <link href="css/btn-style.css" type="text/css" rel="stylesheet">
 

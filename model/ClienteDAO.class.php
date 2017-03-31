@@ -129,7 +129,7 @@ class ClienteDAO
      * @return ClienteList
      */
     public function getList($nome, $inicio, $limite){
-        include "include/error.php";
+        //include "include/error.php";
         require_once ("services/ClienteList.class.php");
         require_once ("beans/Cliente.class.php");
         require_once ("beans/EstadoCivil.class.php");

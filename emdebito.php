@@ -1,4 +1,4 @@
-
+<?php include "include/head.php"; ?>
 
 <!--
 Author: W3layouts
@@ -7,7 +7,7 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
-include "include/error.php";
+//include "include/error.php";
 $descricao = "";
 
 if(isset($_POST['search'])){
@@ -40,7 +40,7 @@ $pListIterator = new ContratoListIterator($lista);
 ?>
 
 
-<?php include "include/head.php"; ?>
+
 
 
  <body class="sticky-header left-side-collapsed"  >

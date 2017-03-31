@@ -1,14 +1,6 @@
 
-
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-
-
 <?php
+include "include/head.php";
 $id = $_POST['id'];
 
 require_once "beans/Usuario.class.php";
@@ -18,7 +10,17 @@ $usuario = new Usuario();
 $usuarioController = new UsuarioController();
 $usuario = $usuarioController->getUsuario($id);
 
-include "include/head.php"; ?>
+?>
+
+
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+
+
 <link href="css/image-css.css" rel="stylesheet" type="text/css">
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.min.js"></script>
