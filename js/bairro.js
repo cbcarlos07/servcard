@@ -211,3 +211,15 @@ $(document).ready(function(){
         });
 
 });
+
+$('.btn-page').on('click', function(){
+    //alert('Pagina');
+    var url      = $(this).data('url');
+    var pagina   = $(this).data('page');
+    var form     = $('<form action="'+url+'" method="post">'+
+        '<input type="hidden" name="pagina" value="'+pagina+'">'+
+        '</form>');
+    $('body').append(form);
+    form.submit();
+
+});

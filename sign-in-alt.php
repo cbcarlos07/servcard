@@ -22,8 +22,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <title>Alterar senha</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Easy Admin Panel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<meta name="keywords" content="Servcard, cartoes, desconto, saude, cartoes de desconto" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
  <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
@@ -76,7 +75,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 								</div>
                                 <div class="alert alert-success">
-                                    <p>Ol&aacute;, <span><?php echo $usuario->getDsLogin(); ?></span></p>
+                                    <p>Ol&aacute;, <b><span><?php echo $usuario->getDsLogin(); ?></span></b>!</p>
                                     <p>Identificamos que &eacute; seu primeiro acesso</p>
                                     <p>Por favor altere sua senha</p>
                                 </div>

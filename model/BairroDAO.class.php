@@ -6,7 +6,7 @@
  * Date: 17/02/2017
  * Time: 14:34
  */
-include "../include/error.php";
+//include "../include/error.php";
 include_once ("ConnectionFactory.class.php");
 
 class BairroDAO
@@ -93,7 +93,7 @@ class BairroDAO
         return $teste;
     }
 
-    public function getListByBairro($nome){
+    public function getListByBairro($nome, $inicio, $limite){
         require_once ("services/BairroList.class.php");
         require_once ("beans/Bairro.class.php");
         require_once ("beans/Zona.class.php");
@@ -116,9 +116,13 @@ class BairroDAO
                         FROM `bairro` `B`
                         INNER JOIN `cidade` `C` ON `C`.`CD_CIDADE` = `B`.`CD_CIDADE`
                         INNER JOIN `zona` `Z`   ON `Z`.`CD_ZONA` = `B`.`CD_ZONA`
-                        WHERE `B`.`NM_BAIRRO` LIKE :nome";
+                        WHERE `B`.`NM_BAIRRO` LIKE :nome
+                        ORDER BY B.NM_BAIRRO 
+                        LIMIT :inicio, :limite";
                 $stmt = $this->connection->prepare($sql);
                 $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
+                $stmt->bindValue(":inicio", $inicio, PDO::PARAM_INT);
+                $stmt->bindValue(":limite", $limite, PDO::PARAM_INT);
 
             $stmt->execute();
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -165,7 +169,8 @@ class BairroDAO
                         INNER JOIN `cidade` `C` ON `C`.`CD_CIDADE` = `B`.`CD_CIDADE`
                         INNER JOIN `zona` `Z`   ON `Z`.`CD_ZONA` = `B`.`CD_ZONA`
                         WHERE `B`.`NM_BAIRRO` LIKE :nome
-                          AND `C`.`CD_CIDADE` = :cidade";
+                          AND `C`.`CD_CIDADE` = :cidade
+                          ORDER BY B.NM_BAIRRO ";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
             $stmt->bindValue(":cidade",$cidade, PDO::PARAM_INT);
@@ -216,7 +221,8 @@ class BairroDAO
                         INNER JOIN `zona` `Z`   ON `Z`.`CD_ZONA` = `B`.`CD_ZONA`
                         WHERE `B`.`NM_BAIRRO` LIKE :nome
                           AND `C`.`CD_CIDADE` = :cidade
-                          AND `Z`.`CD_ZONA` = :zona";
+                          AND `Z`.`CD_ZONA` = :zona
+                          ORDER BY B.NM_BAIRRO ";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
             $stmt->bindValue(":cidade",$cidade, PDO::PARAM_INT);
@@ -274,6 +280,26 @@ class BairroDAO
                 $bairro->setZona(new Zona());
                 $bairro->getZona()->setCdZona($row['CD_ZONA']);
                 $bairro->getZona()->setDsZona($row['DS_ZONA']);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $bairro;
+    }
+
+        public function getTotalBairros(){
+        $bairro = 0;
+        $this->connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT COUNT(*) TOTAL FROM bairro";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $bairro = $row['TOTAL'];
             }
             $this->connection = null;
         } catch (PDOException $ex) {

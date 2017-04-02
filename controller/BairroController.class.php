@@ -29,10 +29,10 @@ class BairroController
         return $retorno;
     }
 
-    public function getListByBairro ($bairro){
+    public function getListByBairro ($bairro, $inicio, $limite){
         require_once ("model/BairroDAO.class.php");
         $bairroDao = new BairroDAO();
-        $retorno = $bairroDao->getListByBairro($bairro);
+        $retorno = $bairroDao->getListByBairro($bairro, $inicio, $limite);
         return $retorno;
     }
 
@@ -54,6 +54,13 @@ class BairroController
         require_once ("model/BairroDAO.class.php");
         $bairroDao = new BairroDAO();
         $retorno = $bairroDao->getBairro($bairro);
+        return $retorno;
+    }
+
+    public function getTotalBairros(){
+        require_once ("model/BairroDAO.class.php");
+        $bairroDao = new BairroDAO();
+        $retorno = $bairroDao->getTotalBairros();
         return $retorno;
     }
 

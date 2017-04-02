@@ -174,7 +174,7 @@ $pListIterator = new ClienteListIterator($lista);
                             </tbody>
                         </table>
                     </div>
-
+<!-- INICIO DA PAGINAÇÃO -->
                     <div id="buttom" class="row">
                         <div class="col-md-12">
                             <ul class="pagination">
@@ -247,6 +247,7 @@ $pListIterator = new ClienteListIterator($lista);
 
 
                 </div>
+                    <!-- FIM DA PAGINAÇÃO -->
             </div>
         </div>
 

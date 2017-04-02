@@ -13,14 +13,33 @@ if(isset($_POST['search'])){
    $descricao =  $_POST['search'];
 }
 
+// paginacao
+$pagina = (isset($_POST['pagina'])) ? $_POST['pagina'] : 1;
+
+
 include_once "controller/BairroController.class.php";
 include_once "beans/Bairro.class.php";
 include_once "services/BairroListIterator.class.php";
 
 
 $bairroController = new BairroController();
-$lista = $bairroController->getListByBairro($descricao);
+$total = $bairroController->getTotalBairros();
+
+
+//seta a quantidade de itens por página, neste caso, 2 itens
+$registros = 10;
+
+//calcula o número de páginas arredondando o resultado para cima
+$numPaginas = ceil($total/$registros);
+
+
+//variavel para calcular o início da visualização com base na página atual
+$inicio = ($registros*$pagina)-$registros;
+
+$lista = $bairroController->getListByBairro($descricao, $inicio, $registros);
 $pListIterator = new BairroListIterator($lista);
+
+
 
 
 
@@ -125,7 +144,80 @@ $pListIterator = new BairroListIterator($lista);
                         </table>
                     </div>
 
+                    <!-- INICIO DA PAGINAÇÃO -->
+                    <div id="buttom" class="row">
+                        <div class="col-md-12">
+                            <ul class="pagination">
+                                <?php
 
+                                if($pagina == 1){
+                                    ?>
+                                    <li class="disabled">
+                                        <a href="#"
+                                           data-url="<?php echo $_SERVER['PHP_SELF']; ?>"
+                                           data-page="">&lt; Anterior</a>
+                                    </li>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <li class="page-item">  <a href="#"
+                                                               data-url="<?php echo $_SERVER['PHP_SELF']; ?>"
+                                                               data-page="<?php echo $pagina-1; ?>"
+                                                               class="btn-page">&lt; Anterior</a>
+                                    </li>
+                                    <?php
+                                }
+
+                                for($i = 1; $i < $numPaginas + 1; $i++){
+                                    $disabled = "";
+
+                                    if($pagina == $i){
+                                        $disabled = "active";
+                                    }
+                                    ?>
+
+                                    <li class="<?php echo $disabled; ?>">
+                                        <a href="#"
+                                           data-url="<?php echo $_SERVER['PHP_SELF']; ?>"
+                                           data-page="<?php echo $i; ?>"
+                                           class="btn-page"
+                                        ><?php echo $i; ?>
+                                        </a>
+                                    </li>
+
+                                    <?php
+                                }
+                                ?>
+                                <?php
+                                if($numPaginas > 1){
+                                    ?>
+                                    <?php
+                                    if($pagina == $numPaginas){
+                                        ?>
+                                        <li class="disabled"><a href="#"
+                                                                data-url="<?php echo $_SERVER['PHP_SELF']; ?>"
+                                                                data-page="<?php echo $pagina + 1; ?>"
+                                            >Pr&oacute;ximo &gt; </a>
+                                        </li>
+                                        <?php
+                                    }else {
+                                        ?>
+                                        <li class="next"><a href="#"
+                                                            data-url="<?php echo $_SERVER['PHP_SELF']; ?>"
+                                                            data-page="<?php echo $pagina + 1; ?>"
+                                                            class="btn-page">Pr&oacute;ximo &gt; </a>
+                                        </li>
+                                        <?php
+                                    }
+                                }
+                                ?>
+
+                            </ul>
+                        </div>
+
+
+                    </div>
+                    <!-- FIM DA PAGINAÇÃO -->
 
 
                 </div>
