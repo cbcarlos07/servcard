@@ -23,12 +23,12 @@ class ClienteDAO
              $query = "INSERT INTO cliente 
                        (CD_CLIENTE, NM_CLIENTE, NM_SOBRENOME, NR_CPF, NR_RG, NR_TELEFONE, 
                        DS_EMAIL, DT_NASCIMENTO, TP_SEXO, CD_ESTADO_CIVIL, 
-                       DS_SENHA, CD_ENDERECO, NR_CASA, DS_COMPLEMENTO, 
+                       DS_SENHA, NR_CEP, CD_BAIRRO,  NR_CASA, DS_COMPLEMENTO, 
                        SN_SENHA_ATUAL, DT_CADASTRO)
                          VALUES (
                          NULL, :nome, :sobrenome, :cpf, :rg, :telefone,
                                :email, :nascimento, :sexo, :ec,
-                               MD5(:senha), :endereco, :numero, :complemento,
+                               MD5(:senha), :endereco, :bairro,  :numero, :complemento,
                                :atual, curdate()
                          )";
 
@@ -45,7 +45,8 @@ class ClienteDAO
              $stmt->bindValue(":sexo", $cliente->getTpSexo(), PDO::PARAM_STR);
              $stmt->bindValue(":ec", $cliente->getEstadoCivil()->getCdEstadoCivil(), PDO::PARAM_INT);
              $stmt->bindValue(":senha", $cliente->getDsSenha(), PDO::PARAM_STR);
-             $stmt->bindValue(":endereco", $cliente->getEndereco()->getCdEndereco(), PDO::PARAM_INT);
+             $stmt->bindValue(":endereco", $cliente->getNrCep(), PDO::PARAM_STR);
+             $stmt->bindValue(":bairro", $cliente->getBairro()->getCdBairro(), PDO::PARAM_INT);
              $stmt->bindValue(":numero", $cliente->getNrCasa(), PDO::PARAM_STR);
              $stmt->bindValue(":complemento", $cliente->getDsComplemento(), PDO::PARAM_STR);
              $stmt->bindValue(":atual", $cliente->getSnSenhaAtual(), PDO::PARAM_STR);
@@ -72,7 +73,7 @@ class ClienteDAO
                        `NM_CLIENTE` = :nome, `NM_SOBRENOME` = :sobrenome, `NR_CPF` = :cpf,
                         `NR_RG` = :rg, `NR_TELEFONE` = :telefone, 
                        `DS_EMAIL` = :email, `DT_NASCIMENTO` = :nascimento, `TP_SEXO` = :sexo, `CD_ESTADO_CIVIL` = :ec, 
-                       `CD_ENDERECO` = :endereco, `NR_CASA` =  :numero, `DS_COMPLEMENTO` = :complemento, 
+                       NR_CEP = :cep,`CD_BAIRRO` = :endereco, `NR_CASA` =  :numero, `DS_COMPLEMENTO` = :complemento, 
                        `DS_SENHA` = MD5(:senha),`SN_SENHA_ATUAL` = :atual, `DT_ATUALIZACAO` = curdate() 
                        WHERE
                         `CD_CLIENTE` = :codigo";
@@ -88,7 +89,8 @@ class ClienteDAO
             $stmt->bindValue(":nascimento", $cliente->getDtNascimento(), PDO::PARAM_STR);
             $stmt->bindValue(":sexo", $cliente->getTpSexo(), PDO::PARAM_STR);
             $stmt->bindValue(":ec", $cliente->getEstadoCivil()->getCdEstadoCivil(), PDO::PARAM_INT);
-            $stmt->bindValue(":endereco", $cliente->getEndereco()->getCdEndereco(), PDO::PARAM_INT);
+            $stmt->bindValue(":cep", $cliente->getNrCep(), PDO::PARAM_STR);
+            $stmt->bindValue(":endereco", $cliente->getBairro()->getCdBairro(), PDO::PARAM_INT);
             $stmt->bindValue(":numero", $cliente->getNrCasa(), PDO::PARAM_STR);
             $stmt->bindValue(":complemento", $cliente->getDsComplemento(), PDO::PARAM_STR);
             $stmt->bindValue(":senha", $cliente->getDsSenha(), PDO::PARAM_STR);
@@ -133,7 +135,6 @@ class ClienteDAO
         require_once ("services/ClienteList.class.php");
         require_once ("beans/Cliente.class.php");
         require_once ("beans/EstadoCivil.class.php");
-        require_once ("beans/Endereco.class.php");
 
         $this->connection = null;
 
@@ -147,13 +148,9 @@ class ClienteDAO
         try {
 
                 $sql = "SELECT C.*
-                              ,EC.DS_ESTADO_CIVIL
-                              ,E.CD_ENDERECO
-                              ,E.NR_CEP                             
+                              ,EC.DS_ESTADO_CIVIL                           
                         FROM cliente C 
                         INNER JOIN estado_civil EC ON EC.CD_ESTADO_CIVIL = C.CD_ESTADO_CIVIL
-                        INNER JOIN endereco     E  ON E.CD_ENDERECO = C.CD_ENDERECO
-                      
                         WHERE NM_CLIENTE LIKE :nome
                         ORDER BY C.NM_CLIENTE ASC
                         LIMIT :inicio, :limite
@@ -180,9 +177,7 @@ class ClienteDAO
                 $cliente->setEstadoCivil(new EstadoCivil());
                 $cliente->getEstadoCivil()->setCdEstadoCivil($row['CD_ESTADO_CIVIL']);
                 $cliente->getEstadoCivil()->setDsEstadoCivil($row['DS_ESTADO_CIVIL']);
-                $cliente->setEndereco(new Endereco());
-                $cliente->getEndereco()->setCdEndereco($row['CD_ENDERECO']);
-                $cliente->getEndereco()->setNrCep($row['NR_CEP']);
+                $cliente->setNrCep($row['NR_CEP']);
                 $cliente->setDsSenha($row['DS_SENHA']);
                 $cliente->setSnSenhaAtual($row['SN_SENHA_ATUAL']);
 
@@ -209,12 +204,9 @@ class ClienteDAO
         try {
             if($nome == ""){
                 $sql = "SELECT C.*
-                              ,EC.DS_ESTADO_CIVIL
-                              ,E.CD_ENDERECO
-                              ,E.NR_CEP                              
+                              ,EC.DS_ESTADO_CIVIL                            
                         FROM cliente C 
                         INNER JOIN estado_civil EC ON EC.CD_ESTADO_CIVIL = C.CD_ESTADO_CIVIL
-                        INNER JOIN endereco     E  ON E.CD_ENDERECO = C.CD_ENDERECO
                         WHERE NM_CLIENTE LIKE :nome ";
 
                 $stmt = $this->connection->prepare($sql);
@@ -235,9 +227,7 @@ class ClienteDAO
                 $cliente->setEstadoCivil(new EstadoCivil());
                 $cliente->getEstadoCivil()->setEstadoCivil($row['CD_ESTADO_CIVIL']);
                 $cliente->getEstadoCivil()->setCdEstadoCivil($row['DS_ESTADO_CIVIL']);
-                $cliente->setEndereco(new Endereco());
-                $cliente->getEndereco()->setCdEndereco($row['CD_ENDERECO']);
-                $cliente->getEndereco()->setNrCep($row['NR_CEP']);
+                $cliente->setNrCep($row['NR_CEP']);
                 $cliente->setDsSenha($row['DS_SENHA']);
                 $cliente->setSnSenhaAtual($row['SN_SENHA_ATUAL']);
                 $clienteList->addCliente($cliente);
@@ -251,9 +241,7 @@ class ClienteDAO
 
     public function getCliente($codigo){
         require_once "beans/Cliente.class.php";
-        require_once "beans/Endereco.class.php";
         require_once "beans/EstadoCivil.class.php";
-        require_once "beans/TpLogradouro.class.php";
         require_once "beans/Bairro.class.php";
         require_once "beans/Cidade.class.php";
         require_once "beans/Estado.class.php";
@@ -263,9 +251,7 @@ class ClienteDAO
         $sql =          "SELECT *
                         FROM cliente C 
                         INNER JOIN estado_civil  EC ON EC.CD_ESTADO_CIVIL = C.CD_ESTADO_CIVIL
-                        INNER JOIN endereco      E  ON E.CD_ENDERECO = C.CD_ENDERECO
-                        INNER JOIN tp_logradouro T  ON E.CD_TP_LOGRADOURO = T.CD_TP_LOGRADOURO
-                        INNER JOIN bairro        B  ON E.CD_BAIRRO = B.CD_BAIRRO
+                        INNER JOIN bairro        B  ON C.CD_BAIRRO = B.CD_BAIRRO
                         INNER JOIN cidade        CI ON B.CD_CIDADE = CI.CD_CIDADE
                         INNER JOIN estado        ES ON CI.CD_ESTADO = ES.CD_ESTADO
                         WHERE C.CD_CLIENTE = :codigo";
@@ -288,24 +274,13 @@ class ClienteDAO
                 $cliente->setEstadoCivil(new EstadoCivil());
                 $cliente->getEstadoCivil()->setCdEstadoCivil($row['CD_ESTADO_CIVIL']);
                 $cliente->getEstadoCivil()->setDsEstadoCivil($row['DS_ESTADO_CIVIL']);
-                $cliente->setEndereco(new Endereco());
-                $cliente->getEndereco()->setCdEndereco($row['CD_ENDERECO']);
-                $cliente->getEndereco()->setNrCep($row['NR_CEP']);
-                $cliente->getEndereco()->setDsLogradouro($row['DS_LOGRADOURO']);
                 $cliente->setNrCasa($row['NR_CASA']);
                 $cliente->setDsComplemento($row['DS_COMPLEMENTO']);
                 $cliente->setDsSenha($row['DS_SENHA']);
                 $cliente->setSnSenhaAtual($row['SN_SENHA_ATUAL']);
                 $cliente->setDtCadastro($row['DT_CADASTRO']);
-                $cliente->getEndereco()->setTpLogradouro(new TpLogradouro());
-                $cliente->getEndereco()->getTpLogradouro()->setDsTpLogradouro($row['DS_TP_LOGRADOURO']);
-                $cliente->getEndereco()->setBairro(new Bairro());
-                $cliente->getEndereco()->getBairro()->setNmBairro($row['NM_BAIRRO']);
-                $cliente->getEndereco()->getBairro()->setCidade(new Cidade());
-                $cliente->getEndereco()->getBairro()->getCidade()->setNmCidade($row['NM_CIDADE']);
-                $cliente->getEndereco()->getBairro()->getCidade()->setEstado(new Estado());
-                $cliente->getEndereco()->getBairro()->getCidade()->setEstado(new Estado());
-                $cliente->getEndereco()->getBairro()->getCidade()->getEstado()->setNmEstado($row['NM_ESTADO']);
+                $cliente->setNrCep($row['NR_CEP']);
+
             }
             $this->connection = null;
         } catch (PDOException $ex) {
@@ -328,8 +303,6 @@ class ClienteDAO
         $sql =          "SELECT *
                         FROM cliente C 
                         INNER JOIN estado_civil  EC ON EC.CD_ESTADO_CIVIL = C.CD_ESTADO_CIVIL
-                        INNER JOIN endereco      E  ON E.CD_ENDERECO = C.CD_ENDERECO
-                        INNER JOIN tp_logradouro T  ON E.CD_TP_LOGRADOURO = T.CD_TP_LOGRADOURO
                         INNER JOIN bairro        B  ON E.CD_BAIRRO = B.CD_BAIRRO
                         INNER JOIN cidade        CI ON B.CD_CIDADE = CI.CD_CIDADE
                         INNER JOIN estado        ES ON CI.CD_ESTADO = ES.CD_ESTADO
@@ -352,25 +325,13 @@ class ClienteDAO
                 $cliente->setTpSexo($row['TP_SEXO']);
                 $cliente->setEstadoCivil(new EstadoCivil());
                 $cliente->getEstadoCivil()->setCdEstadoCivil($row['CD_ESTADO_CIVIL']);
-                $cliente->getEstadoCivil()->setDsEstadoCivil($row['DS_ESTADO_CIVIL']);
-                $cliente->setEndereco(new Endereco());
-                $cliente->getEndereco()->setCdEndereco($row['CD_ENDERECO']);
-                $cliente->getEndereco()->setNrCep($row['NR_CEP']);
-                $cliente->getEndereco()->setDsLogradouro($row['DS_LOGRADOURO']);
+                $cliente->getEstadoCivil()->setDsEstadoCivil($row['DS_ESTADO_CIVIL']);;
                 $cliente->setNrCasa($row['NR_CASA']);
                 $cliente->setDsComplemento($row['DS_COMPLEMENTO']);
                 $cliente->setDsSenha($row['DS_SENHA']);
                 $cliente->setSnSenhaAtual($row['SN_SENHA_ATUAL']);
                 $cliente->setDtCadastro($row['DT_CADASTRO']);
-                $cliente->getEndereco()->setTpLogradouro(new TpLogradouro());
-                $cliente->getEndereco()->getTpLogradouro()->setDsTpLogradouro($row['DS_TP_LOGRADOURO']);
-                $cliente->getEndereco()->setBairro(new Bairro());
-                $cliente->getEndereco()->getBairro()->setNmBairro($row['NM_BAIRRO']);
-                $cliente->getEndereco()->getBairro()->setCidade(new Cidade());
-                $cliente->getEndereco()->getBairro()->getCidade()->setNmCidade($row['NM_CIDADE']);
-                $cliente->getEndereco()->getBairro()->getCidade()->setEstado(new Estado());
-                $cliente->getEndereco()->getBairro()->getCidade()->setEstado(new Estado());
-                $cliente->getEndereco()->getBairro()->getCidade()->getEstado()->setNmEstado($row['NM_ESTADO']);
+                $cliente->setNrCep($row['NR_CEP']);
             }
             $this->connection = null;
         } catch (PDOException $ex) {

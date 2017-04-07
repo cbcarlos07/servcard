@@ -14,7 +14,7 @@ class CidadeDAO
 
      public function insert (Cidade $cidade){
          $this->connection =  null;
-         $teste = false;
+         $teste = 0;
          $this->connection = new ConnectionFactory();
          $this->connection->beginTransaction();
          try{
@@ -27,8 +27,9 @@ class CidadeDAO
              $stmt->bindValue(":cidade", $cidade->getNmCidade(), PDO::PARAM_STR);
              $stmt->bindValue(":estado", $cidade->getEstado()->getCdEstado(), PDO::PARAM_INT);
              $stmt->execute();
+             $teste =  $this->connection->lastInsertId();
              $this->connection->commit();
-             $teste =  true;
+
 
              $this->connection =  null;
          }catch(PDOException $exception){
@@ -182,6 +183,29 @@ class CidadeDAO
                 $cidade->setEstado(new Estado());
                 $cidade->getEstado()->setCdEstado($row['CD_ESTADO']);
                 $cidade->getEstado()->setNmEstado($row['NM_ESTADO']);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $cidade;
+    }
+
+    public function getCidadebyName($nmcidade){
+
+        $cidade = 0;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT C.CD_CIDADE
+                        FROM cidade C 
+                        WHERE C.NM_CIDADE = :cidade";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":cidade", $nmcidade, PDO::PARAM_STR);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $cidade = $row['CD_CIDADE'];
             }
             $this->connection = null;
         } catch (PDOException $ex) {

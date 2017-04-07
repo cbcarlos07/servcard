@@ -1,4 +1,3 @@
-
 <?php
 include "include/head.php";
 $id = $_POST['id'];

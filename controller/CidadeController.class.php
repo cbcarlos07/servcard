@@ -52,4 +52,11 @@ class CidadeController
         return $retorno;
     }
 
+    public function getCidadebyName($nmcidade){
+        require_once ("../model/CidadeDAO.class.php");
+        $cidadeDao = new CidadeDAO();
+        $retorno = $cidadeDao->getCidadebyName($nmcidade);
+        return $retorno;
+    }
+
 }

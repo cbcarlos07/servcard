@@ -14,7 +14,7 @@ class EstadoDAO
 
      public function insert (Estado $estado){
          $this->connection =  null;
-         $teste = false;
+         $teste = 0;
          $this->connection = new ConnectionFactory();
          try{
              $query = "INSERT INTO estado 
@@ -27,8 +27,9 @@ class EstadoDAO
              $stmt->bindValue(":uf", $estado->getDsUF(), PDO::PARAM_STR);
              $stmt->bindValue(":pais", $estado->getPais()->getCdPais(), PDO::PARAM_INT);
              $stmt->execute();
+             $teste =  $this->connection->lastInsertId();
              $this->connection->commit();
-             $teste =  true;
+
 
              $this->connection =  null;
          }catch(PDOException $exception){
@@ -186,6 +187,28 @@ class EstadoDAO
                 $estado->setPais(new Pais());
                 $estado->getPais()->setCdPais($row['CD_PAIS']);
                 $estado->getPais()->setDsPais($row['DS_PAIS']);
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $estado;
+    }
+
+    public function getEstadoByName($nmestado){
+        $estado = 0;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT E.CD_ESTADO
+                 FROM estado E
+                WHERE E.DS_UF = :uf";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":uf", $nmestado, PDO::PARAM_STR);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $estado = $row['CD_ESTADO'];
             }
             $this->connection = null;
         } catch (PDOException $ex) {

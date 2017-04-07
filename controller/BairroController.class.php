@@ -64,4 +64,11 @@ class BairroController
         return $retorno;
     }
 
+    public function getBairroByName($nmbairro){
+        require_once ("../model/BairroDAO.class.php");
+        $bairroDao = new BairroDAO();
+        $retorno = $bairroDao->getBairroByName($nmbairro);
+        return $retorno;
+    }
+
 }

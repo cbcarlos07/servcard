@@ -52,4 +52,11 @@ class EstadoController
         return $retorno;
     }
 
+    public function getEstadoByName($nmestado){
+        require_once ("../model/EstadoDAO.class.php");
+        $estadoDao = new EstadoDAO();
+        $retorno = $estadoDao->getEstadoByName($nmestado);
+        return $retorno;
+    }
+
 }

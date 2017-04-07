@@ -18,127 +18,13 @@ private $dsEmail;
 private $dtNascimento;
 private $tpSexo;
 private $estadoCivil;
-private $endereco;
+private $nrCep;
+private $bairro;
 private $nrCasa;
 private $dsComplemento;
 private $dsSenha;
 private $snSenhaAtual;
 private $dtCadastro;
-
-    /**
-     * @return mixed
-     */
-    public function getDtCadastro()
-    {
-        return $this->dtCadastro;
-    }
-
-    /**
-     * @param mixed $dtCadastro
-     * @return Cliente
-     */
-    public function setDtCadastro($dtCadastro)
-    {
-        $this->dtCadastro = $dtCadastro;
-        return $this;
-    }
-
-
-
-    /**
-     * @return mixed
-     */
-    public function getNmSobrenome()
-    {
-        return $this->nmSobrenome;
-    }
-
-    /**
-     * @param mixed $nmSobrenome
-     * @return Cliente
-     */
-    public function setNmSobrenome($nmSobrenome)
-    {
-        $this->nmSobrenome = $nmSobrenome;
-        return $this;
-    }
-
-  
-
-    /**
-     * @return mixed
-     */
-    public function getNrCasa()
-    {
-        return $this->nrCasa;
-    }
-
-    /**
-     * @param mixed $nrCasa
-     * @return Cliente
-     */
-    public function setNrCasa($nrCasa)
-    {
-        $this->nrCasa = $nrCasa;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDsComplemento()
-    {
-        return $this->dsComplemento;
-    }
-
-    /**
-     * @param mixed $dsComplemento
-     * @return Cliente
-     */
-    public function setDsComplemento($dsComplemento)
-    {
-        $this->dsComplemento = $dsComplemento;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSnSenhaAtual()
-    {
-        return $this->snSenhaAtual;
-    }
-
-    /**
-     * @param mixed $snSenhaAtual
-     * @return Cliente
-     */
-    public function setSnSenhaAtual($snSenhaAtual)
-    {
-        $this->snSenhaAtual = $snSenhaAtual;
-        return $this;
-    }
-
-
-
-    /**
-     * @return mixed
-     */
-    public function getEndereco()
-    {
-        return $this->endereco;
-    }
-
-    /**
-     * @param mixed $endereco
-     * @return Cliente
-     */
-    public function setEndereco(Endereco $endereco)
-    {
-        $this->endereco = $endereco;
-        return $this;
-    }
-
 
     /**
      * @return mixed
@@ -173,6 +59,24 @@ private $dtCadastro;
     public function setNmCliente($nmCliente)
     {
         $this->nmCliente = $nmCliente;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNmSobrenome()
+    {
+        return $this->nmSobrenome;
+    }
+
+    /**
+     * @param mixed $nmSobrenome
+     * @return Cliente
+     */
+    public function setNmSobrenome($nmSobrenome)
+    {
+        $this->nmSobrenome = $nmSobrenome;
         return $this;
     }
 
@@ -302,8 +206,77 @@ private $dtCadastro;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getNrCep()
+    {
+        return $this->nrCep;
+    }
 
+    /**
+     * @param mixed $nrCep
+     * @return Cliente
+     */
+    public function setNrCep($nrCep)
+    {
+        $this->nrCep = $nrCep;
+        return $this;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getBairro()
+    {
+        return $this->bairro;
+    }
+
+    /**
+     * @param mixed $bairro
+     * @return Cliente
+     */
+    public function setBairro(Bairro $bairro)
+    {
+        $this->bairro = $bairro;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNrCasa()
+    {
+        return $this->nrCasa;
+    }
+
+    /**
+     * @param mixed $nrCasa
+     * @return Cliente
+     */
+    public function setNrCasa($nrCasa)
+    {
+        $this->nrCasa = $nrCasa;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDsComplemento()
+    {
+        return $this->dsComplemento;
+    }
+
+    /**
+     * @param mixed $dsComplemento
+     * @return Cliente
+     */
+    public function setDsComplemento($dsComplemento)
+    {
+        $this->dsComplemento = $dsComplemento;
+        return $this;
+    }
 
     /**
      * @return mixed
@@ -320,6 +293,42 @@ private $dtCadastro;
     public function setDsSenha($dsSenha)
     {
         $this->dsSenha = $dsSenha;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSnSenhaAtual()
+    {
+        return $this->snSenhaAtual;
+    }
+
+    /**
+     * @param mixed $snSenhaAtual
+     * @return Cliente
+     */
+    public function setSnSenhaAtual($snSenhaAtual)
+    {
+        $this->snSenhaAtual = $snSenhaAtual;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDtCadastro()
+    {
+        return $this->dtCadastro;
+    }
+
+    /**
+     * @param mixed $dtCadastro
+     * @return Cliente
+     */
+    public function setDtCadastro($dtCadastro)
+    {
+        $this->dtCadastro = $dtCadastro;
         return $this;
     }
 

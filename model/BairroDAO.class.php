@@ -15,24 +15,25 @@ class BairroDAO
 
      public function insert (Bairro $bairro){
          $this->connection =  null;
-         $teste = false;
+         $teste = 0;
 
          $this->connection = new ConnectionFactory();
          $this->connection->beginTransaction();
          try{
              $query = "INSERT INTO bairro 
-                       (CD_BAIRRO, NM_BAIRRO, CD_CIDADE, CD_ZONA) 
+                       (CD_BAIRRO, NM_BAIRRO, CD_CIDADE) 
                        VALUES 
-                       (NULL, :bairro, :cidade, :zona)";
+                       (NULL, :bairro, :cidade)";
 
 
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":bairro", $bairro->getNmBairro(), PDO::PARAM_STR);
              $stmt->bindValue(":cidade",$bairro->getCidade()->getCdCidade(), PDO::PARAM_INT);
-             $stmt->bindValue(":zona",$bairro->getZona()->getCdZona(), PDO::PARAM_INT);
+
              $stmt->execute();
+             $teste =  $this->connection->lastInsertId();
              $this->connection->commit();
-             $teste =  true;
+
 
              $this->connection =  null;
          }catch(PDOException $exception){
@@ -49,7 +50,7 @@ class BairroDAO
         $this->connection->beginTransaction();
         try{
             $query = "UPDATE bairro SET 
-                       NM_BAIRRO = :bairro, CD_CIDADE = :cidade, CD_ZONA = :zona 
+                       NM_BAIRRO = :bairro, CD_CIDADE = :cidade 
                        WHERE CD_BAIRRO = :codigo";
 
 
@@ -58,7 +59,7 @@ class BairroDAO
             $stmt->bindValue(":bairro", $bairro->getNmBairro(), PDO::PARAM_STR);
             $stmt->bindValue(":cidade",$bairro->getCidade()->getCdCidade(), PDO::PARAM_INT);
             $stmt->bindValue(":zona",$bairro->getZona()->getCdZona(), PDO::PARAM_INT);
-            $stmt->bindValue(":codigo",$bairro->getCdBairro(), PDO::PARAM_INT);
+
             $stmt->execute();
           //
             //
@@ -96,7 +97,6 @@ class BairroDAO
     public function getListByBairro($nome, $inicio, $limite){
         require_once ("services/BairroList.class.php");
         require_once ("beans/Bairro.class.php");
-        require_once ("beans/Zona.class.php");
         require_once ("beans/Cidade.class.php");
 
         $this->connection = null;
@@ -111,11 +111,8 @@ class BairroDAO
                               ,`B`.`NM_BAIRRO`
                               ,`B`.`CD_CIDADE`
                               ,`C`.`NM_CIDADE`
-                              ,`B`.`CD_ZONA`
-                              ,`Z`.`DS_ZONA`
                         FROM `bairro` `B`
                         INNER JOIN `cidade` `C` ON `C`.`CD_CIDADE` = `B`.`CD_CIDADE`
-                        INNER JOIN `zona` `Z`   ON `Z`.`CD_ZONA` = `B`.`CD_ZONA`
                         WHERE `B`.`NM_BAIRRO` LIKE :nome
                         ORDER BY B.NM_BAIRRO 
                         LIMIT :inicio, :limite";
@@ -131,10 +128,7 @@ class BairroDAO
                 $bairro->setNmBairro($row['NM_BAIRRO']);
                 $bairro->setCidade(new Cidade());
                 $bairro->getCidade()->setCdCidade($row['CD_CIDADE']);
-                $bairro->getCidade()->setNmCidade($row['NM_CIDADE']);
-                $bairro->setZona(new Zona());
-                $bairro->getZona()->setCdZona($row['CD_ZONA']);
-                $bairro->getZona()->setDsZona($row['DS_ZONA']);
+                $bairro->getCidade()->setNmCidade($row['NM_CIDADE']);;
 
                 $bairroList->addBairro($bairro);
             }
@@ -163,11 +157,8 @@ class BairroDAO
                               ,`B`.`NM_BAIRRO`
                               ,`B`.`CD_CIDADE`
                               ,`C`.`NM_CIDADE`
-                              ,`B`.`CD_ZONA`
-                              ,`Z`.`DS_ZONA`
                         FROM `bairro` `B`
                         INNER JOIN `cidade` `C` ON `C`.`CD_CIDADE` = `B`.`CD_CIDADE`
-                        INNER JOIN `zona` `Z`   ON `Z`.`CD_ZONA` = `B`.`CD_ZONA`
                         WHERE `B`.`NM_BAIRRO` LIKE :nome
                           AND `C`.`CD_CIDADE` = :cidade
                           ORDER BY B.NM_BAIRRO ";
@@ -183,9 +174,6 @@ class BairroDAO
                 $bairro->setCidade(new Cidade());
                 $bairro->getCidade()->setCdCidade($row['CD_CIDADE']);
                 $bairro->getCidade()->setNmCidade($row['NM_CIDADE']);
-                $bairro->setZona(new Zona());
-                $bairro->getZona()->setCdZona($row['CD_ZONA']);
-                $bairro->getZona()->setDsZona($row['DS_ZONA']);
 
                 $bairroList->addBairro($bairro);
             }
@@ -214,19 +202,15 @@ class BairroDAO
                               ,`B`.`NM_BAIRRO`
                               ,`B`.`CD_CIDADE`
                               ,`C`.`NM_CIDADE`
-                              ,`B`.`CD_ZONA`
-                              ,`Z`.`DS_ZONA`
                         FROM `bairro` `B`
                         INNER JOIN `cidade` `C` ON `C`.`CD_CIDADE` = `B`.`CD_CIDADE`
-                        INNER JOIN `zona` `Z`   ON `Z`.`CD_ZONA` = `B`.`CD_ZONA`
                         WHERE `B`.`NM_BAIRRO` LIKE :nome
                           AND `C`.`CD_CIDADE` = :cidade
-                          AND `Z`.`CD_ZONA` = :zona
                           ORDER BY B.NM_BAIRRO ";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":nome", "%$nome%", PDO::PARAM_STR);
             $stmt->bindValue(":cidade",$cidade, PDO::PARAM_INT);
-            $stmt->bindValue(":zona", $zona, PDO::PARAM_INT);
+
 
             $stmt->execute();
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -236,9 +220,6 @@ class BairroDAO
                 $bairro->setCidade(new Cidade());
                 $bairro->getCidade()->setCdCidade($row['CD_CIDADE']);
                 $bairro->getCidade()->setNmCidade($row['NM_CIDADE']);
-                $bairro->setZona(new Zona());
-                $bairro->getZona()->setCdZona($row['CD_ZONA']);
-                $bairro->getZona()->setDsZona($row['DS_ZONA']);
 
                 $bairroList->addBairro($bairro);
             }
@@ -259,11 +240,8 @@ class BairroDAO
                               ,`B`.`NM_BAIRRO`
                               ,`B`.`CD_CIDADE`
                               ,`C`.`NM_CIDADE`
-                              ,`B`.`CD_ZONA`
-                              ,`Z`.`DS_ZONA`
                         FROM `bairro` `B`
                         INNER JOIN `cidade` `C` ON `C`.`CD_CIDADE` = `B`.`CD_CIDADE`
-                        INNER JOIN `zona` `Z`   ON `Z`.`CD_ZONA` = `B`.`CD_ZONA`
                     WHERE `CD_BAIRRO` = :codigo";
 
         try {
@@ -277,9 +255,6 @@ class BairroDAO
                 $bairro->setCidade(new Cidade());
                 $bairro->getCidade()->setCdCidade($row['CD_CIDADE']);
                 $bairro->getCidade()->setNmCidade($row['NM_CIDADE']);
-                $bairro->setZona(new Zona());
-                $bairro->getZona()->setCdZona($row['CD_ZONA']);
-                $bairro->getZona()->setDsZona($row['DS_ZONA']);
             }
             $this->connection = null;
         } catch (PDOException $ex) {
@@ -288,7 +263,33 @@ class BairroDAO
         return $bairro;
     }
 
-        public function getTotalBairros(){
+    public function getBairroByName($nmbairro){
+        require_once ("../beans/Cidade.class.php");
+        require_once ("../beans/Zona.class.php");
+        $bairro = 0;
+        $this->connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT `B`.`CD_BAIRRO`
+                        FROM `bairro` `B`
+                    WHERE `NM_BAIRRO` = :bairro";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":bairro", $nmbairro, PDO::PARAM_STR);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $bairro = $row['CD_BAIRRO'];
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $bairro;
+    }
+
+
+
+    public function getTotalBairros(){
         $bairro = 0;
         $this->connection = null;
         $this->connection =  new ConnectionFactory();

@@ -17,11 +17,13 @@ $nascimento   =  "";
 $sexo         =  "";
 $estadoCivil  =  "";
 $cep          =  "";
-$endereco     =  "";
+$bairro       =  "";
+$cidade       =  "";
+$estado       =  "";
 $numero       =  "";
-$complemento  = "";
-$senha        = "";
-$senhaatual   = "";
+$complemento  =  "";
+$senha        =  "";
+$senhaatual   =  "";
 $acao         = $_POST['acao'];
 
 
@@ -61,8 +63,15 @@ if(isset($_POST['estadocivil'])){
 if(isset($_POST['cep'])){
     $cep = $_POST['cep'];
 }
-if(isset($_POST['endereco'])){
-    $endereco = $_POST['endereco'];
+if(isset($_POST['bairro'])){
+    $bairro = $_POST['bairro'];
+}
+
+if(isset($_POST['cidade'])){
+    $cidade = $_POST['cidade'];
+}
+if(isset($_POST['estado'])){
+    $estado = $_POST['estado'];
 }
 if(isset($_POST['complemento'])){
     $complemento = $_POST['complemento'];
@@ -82,12 +91,12 @@ if(isset($_POST['senhaatual'])){
 switch ($acao){
     case 'C':
         add($nome, $sobrenome, $cpf, $rg, $telefone, $email, $nascimento,
-            $sexo, $estadoCivil, $endereco, $numero,
+            $sexo, $estadoCivil, $cep, $bairro, $cidade, $estado, $numero,
             $complemento, $senha, $senhaatual);
         break;
     case 'A':
         change($id, $nome, $sobrenome, $cpf, $rg, $telefone, $email, $nascimento,
-            $sexo, $estadoCivil,$endereco, $numero,
+            $sexo, $estadoCivil, $cep, $bairro, $cidade, $estado, $numero,
             $complemento, $senha, $senhaatual);
         break;
     case 'E':
@@ -100,13 +109,58 @@ switch ($acao){
 }
 
 function add($nome, $sobrenome, $cpf, $rg, $telefone, $email, $nascimento,
-             $sexo, $estadoCivil,  $endereco, $numero,
+             $sexo, $estadoCivil,  $cep, $nmbairro, $nmcidade, $nmestado, $numero,
              $complemento, $senha, $senhaatual){
    // echo "<script>alert('Adicionar'); </script>";
     require_once "../beans/Cliente.class.php";
     require_once "../beans/EstadoCivil.class.php";
-    require_once "../beans/Endereco.class.php";
+    require_once "../beans/Bairro.class.php";
+    require_once "../beans/Cidade.class.php";
+    require_once "../beans/Estado.class.php";
+    require_once "../beans/Pais.class.php";
     require_once "../controller/ClienteController.class.php";
+    require_once "../controller/BairroController.class.php";
+    require_once "../controller/EstadoController.class.php";
+    require_once "../controller/CidadeController.class.php";
+    $estado = new Estado();
+    $estadoController = new EstadoController();
+    $cdestado = $estadoController->getEstadoByName($nmestado);
+
+    if($cdestado  == 0){
+        $estado->setDsUF($nmestado);
+        $estado->setNmEstado("");
+        $estado->setPais(new Pais());
+        $estado->getPais()->setCdPais(1);
+        $cdestado = $estadoController->insert($estado);
+    }
+
+    echo "Estado: ".$cdestado;
+
+    $cidade = new Cidade();
+    $cidadeController = new CidadeController();
+    $cdcidade = $cidadeController->getCidadebyName($nmcidade);
+    if($cdcidade == 0){
+        $cidade->setNmCidade($nmcidade);
+        $cidade->setEstado(new Estado());
+        $cidade->getEstado()->setCdEstado($cdestado);
+        $cdcidade = $cidadeController->insert($cidade);
+    }
+
+    $bairro =  new Bairro();
+    $bairroController = new BairroController();
+    $cdbairro = $bairroController->getBairroByName($nmbairro);
+    if($cdbairro == 0){
+        $bairro->setNmBairro($nmbairro);
+        $bairro->setCidade(new Cidade());
+        $bairro->getCidade()->setCdCidade($cdcidade);
+        $cdbairro = $bairroController->insert($bairro);
+    }
+
+
+
+
+
+
 
     $cliente = new Cliente();
     $cliente->setNmCliente($nome);
@@ -125,10 +179,11 @@ function add($nome, $sobrenome, $cpf, $rg, $telefone, $email, $nascimento,
     $cliente->setTpSexo($sexo);
     $cliente->setEstadoCivil(new EstadoCivil());
     $cliente->getEstadoCivil()->setCdEstadoCivil($estadoCivil);
-    $cliente->setEndereco(new Endereco());
-    $cliente->getEndereco()->setCdEndereco($endereco);
-    //echo "Numero: $numero<br>";
-
+    $vowels = array(".", "-");
+    $novocep = str_replace($vowels, '', $cep);
+    $cliente->setNrCep($novocep);
+    $cliente->setBairro(new Bairro());
+    $cliente->getBairro()->setCdBairro($cdbairro);
     $cliente->setNrCasa($numero);
     $cliente->setDsComplemento($complemento);
     $cliente->setDsSenha($senha);
@@ -145,12 +200,54 @@ function add($nome, $sobrenome, $cpf, $rg, $telefone, $email, $nascimento,
 
 
 function change($id, $nome, $sobrenome, $cpf, $rg, $telefone, $email, $nascimento,
-                $sexo, $estadoCivil, $endereco, $numero,
+                $sexo, $estadoCivil,  $cep, $nmbairro, $nmcidade, $nmestado, $numero,
                 $complemento, $senha, $senhaatual){
     require_once "../beans/Cliente.class.php";
     require_once "../beans/EstadoCivil.class.php";
-    require_once "../beans/Endereco.class.php";
+    require_once "../beans/Bairro.class.php";
+    require_once "../beans/Cidade.class.php";
+    require_once "../beans/Estado.class.php";
+    require_once "../beans/Pais.class.php";
     require_once "../controller/ClienteController.class.php";
+    require_once "../controller/BairroController.class.php";
+    require_once "../controller/EstadoController.class.php";
+    require_once "../controller/CidadeController.class.php";
+    $estado = new Estado();
+    $estadoController = new EstadoController();
+    $cdestado = $estadoController->getEstadoByName($nmestado);
+    if($cdestado  == 0){
+        $estado->setDsUF($nmestado);
+        $estado->setNmEstado("");
+        $estado->setPais(new Pais());
+        $estado->getPais()->setCdPais(1);
+        $cdestado = $estadoController->insert($estado);
+    }
+
+    $cidade = new Cidade();
+    $cidadeController = new CidadeController();
+    $cdcidade = $cidadeController->getCidadebyName($nmcidade);
+    if($cdcidade == 0){
+        $cidade->setNmCidade($nmcidade);
+        $cidade->setEstado(new Estado());
+        $cidade->getEstado()->setCdEstado($cdestado);
+        $cdcidade = $cidadeController->insert($cidade);
+    }
+
+    $bairro =  new Bairro();
+    $bairroController = new BairroController();
+    $cdbairro = $bairroController->getBairroByName($nmbairro);
+    if($cdbairro == 0){
+        $bairro->setNmBairro($nmbairro);
+        $bairro->setCidade(new Cidade());
+        $bairro->getCidade()->setCdCidade($cdcidade);
+        $cdbairro = $bairroController->insert($bairro);
+    }
+
+
+
+
+
+
 
     $cliente = new Cliente();
     $cliente->setCdCliente($id);
@@ -170,8 +267,11 @@ function change($id, $nome, $sobrenome, $cpf, $rg, $telefone, $email, $nasciment
     $cliente->setTpSexo($sexo);
     $cliente->setEstadoCivil(new EstadoCivil());
     $cliente->getEstadoCivil()->setCdEstadoCivil($estadoCivil);
-    $cliente->setEndereco(new Endereco());
-    $cliente->getEndereco()->setCdEndereco($endereco);
+    $vowels = array(".", "-");
+    $novocep = str_replace($vowels, '', $cep);
+    $cliente->setNrCep($novocep);
+    $cliente->setBairro(new Bairro());
+    $cliente->getBairro()->setCdBairro($cdbairro);
     $cliente->setNrCasa($numero);
     $cliente->setDsComplemento($complemento);
     $cliente->setDsSenha($senha);
@@ -179,7 +279,7 @@ function change($id, $nome, $sobrenome, $cpf, $rg, $telefone, $email, $nasciment
 
     $clienteController = new ClienteController();
     $teste = $clienteController->update($cliente);
-
+    //echo "Teste: $teste";
     if($teste)
         echo json_encode(array('retorno' => 1));
     else

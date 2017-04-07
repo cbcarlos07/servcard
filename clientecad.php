@@ -39,7 +39,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <form method="post" id="form" data-toggle="validator">
                     <input id="id" value="0" type="hidden">
                     <input id="acao" value="C" type="hidden">
-                    <input id="endereco"  type="hidden">
                     <input id="cdestadocivil" value="0" type="hidden">
                     <input id="senhaatual" value="N" type="hidden">
                     <div class="form-group col-lg-5">
@@ -125,7 +124,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <label for="numero">N&uacute;mero</label>
                         <input id="numero" class="form-control" required="" />
                     </div>
-                    <div class="form-group col-lg-12">
+                    <div class="form-group col-lg-3">
+                        <label for="cidade">Cidade</label>
+                        <input id="cidade" class="form-control" disabled=""/>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="estado">Estado</label>
+                        <input id="estado" class="form-control" disabled=""/>
+                    </div>
+                    <div class="form-group col-lg-6">
                         <label for="complemento">Complemento</label>
                         <input id="complemento" class="form-control" />
                     </div>

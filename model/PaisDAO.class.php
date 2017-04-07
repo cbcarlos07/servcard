@@ -160,4 +160,25 @@ class PaisDAO
         }
         return $pais;
     }
+
+    public function getPaisByName($nmpais){
+        $pais = 0;
+        $connection = null;
+        $this->connection =  new ConnectionFactory();
+        $sql = "SELECT * FROM pais WHERE DS_PAIS = :pais";
+
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":pais", $nmpais, PDO::PARAM_STR);
+            $stmt->execute();
+            if($row =  $stmt->fetch(PDO::FETCH_ASSOC)){
+                $pais = $row['CD_PAIS'];
+
+            }
+            $this->connection = null;
+        } catch (PDOException $ex) {
+            echo "Erro: ".$ex->getMessage();
+        }
+        return $pais;
+    }
 }

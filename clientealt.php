@@ -55,7 +55,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <form method="post" id="form" data-toggle="validator">
                     <input id="id" value="<?php echo $cliente->getCdCliente(); ?>" type="hidden">
                     <input id="acao" value="A" type="hidden">
-                    <input id="endereco"  value="<?php echo $cliente->getEndereco()->getCdEndereco(); ?>" type="hidden">
+
                     <input id="cdestadocivil" value="<?php echo $cliente->getEstadoCivil()->getCdEstadoCivil(); ?>" type="hidden">
                     <input id="senhaatual" value="N" type="hidden">
                     <div class="form-group col-lg-5">
@@ -134,7 +134,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                     <div class="form-group col-lg-2">
                         <label for="cep">CEP</label>
-                        <input id="cep" class="form-control" placeholder="00.000-000" />
+                        <input id="cep" class="form-control" placeholder="00.000-000" value="<?php echo $cliente->getNrCep(); ?>"/>
                     </div>
                     <div class="row"></div>
                     <div class="form-group col-lg-6">
@@ -149,9 +149,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <label for="numero">N&uacute;mero</label>
                         <input id="numero" class="form-control" required=""  value="<?php echo $cliente->getNrCasa(); ?>" />
                     </div>
-                    <div class="form-group col-lg-12">
+                    <div class="form-group col-lg-3">
+                        <label for="cidade">Cidade</label>
+                        <input id="cidade" class="form-control" disabled=""/>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="estado">Estado</label>
+                        <input id="estado" class="form-control" disabled=""/>
+                    </div>
+                    <div class="form-group col-lg-6">
                         <label for="complemento">Complemento</label>
-                        <input id="complemento" class="form-control"  value="<?php echo $cliente->getDsComplemento(); ?>" />
+                        <input id="complemento" class="form-control" value="<?php echo $cliente->getDsComplemento(); ?>"/>
                     </div>
                     <div class="row"></div>
                     <hr />

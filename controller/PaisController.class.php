@@ -52,4 +52,11 @@ class PaisController
         return $retorno;
     }
 
+    public function getPaisByName($nmpais){
+        require_once ("../model/PaisDAO.class.php");
+        $paisDao = new PaisDAO();
+        $retorno = $paisDao->getPaisByName($nmpais);
+        return $retorno;
+    }
+
 }

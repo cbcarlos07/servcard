@@ -183,34 +183,6 @@ $(document).ready(function(){
         });
 });
 
-$('.btn-refresh1').on('click', function () {
-    var id = document.getElementById('id-zona').value;
-    //alert('Codigo da cidade: '+cidade);
-    $.post("function/zona.php",
-        {
-            'id': id,
-            'acao': "L"
-        },
-        function(data){
-            $("#zona").find("option").remove();
-            $("#zona").append(data);
-        });
-});
-
-$(document).ready(function(){
-    var id = document.getElementById('id-zona').value;
-    //alert('Codigo da cidade: '+cidade);
-    $.post("function/zona.php",
-        {
-            'id': id,
-            'acao': "L"
-        },
-        function(data){
-            $("#zona").find("option").remove();
-            $("#zona").append(data);
-        });
-
-});
 
 $('.btn-page').on('click', function(){
     //alert('Pagina');

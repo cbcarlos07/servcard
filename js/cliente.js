@@ -30,13 +30,16 @@ function salvar(){
         var nascimento  = document.getElementById('nascimento').value;
         var sexo        = document.getElementById('sexo').value;
         var estadocivil = document.getElementById('estadocivil').value;
-        var endereco    = document.getElementById('endereco').value;
+        var cep         = document.getElementById('cep').value;
+        var bairro      = document.getElementById('bairro').value;
+        var cidade      = document.getElementById('cidade').value;
+        var estado      = document.getElementById('estado').value;
         var numero      = document.getElementById('numero').value;
         var complemento = document.getElementById('complemento').value;
         var senha       = document.getElementById('senha').value;
         var senhaatual  = document.getElementById('senhaatual').value;
         var acao        = document.getElementById('acao').value;
-        //alert("Numero: "+numero);
+       // alert("Estado: "+estado);
         $.ajax({
                 type    : 'post',
                 dataType: 'json',
@@ -53,7 +56,10 @@ function salvar(){
                     'nascimento'  : nascimento,
                     'sexo'        : sexo,
                     'estadocivil' : estadocivil,
-                    'endereco'    : endereco,
+                    'cep'         : cep,
+                    'bairro'      : bairro,
+                    'cidade'      : cidade,
+                    'estado'      : estado,
                     'numero'      : numero,
                     'complemento' : complemento,
                     'senha'       : senha,
@@ -246,7 +252,68 @@ $(document).ready(function(){
     $('#cep').mask('00.000-000');
 
 });
+$('#cep').focusout(function () {
+    //Nova variável "cep" somente com dígitos.
+    var valcep = document.getElementById("cep").value;
+    var cep = valcep.replace(".","").replace("-","");
 
+    //Verifica se campo cep possui valor informado.
+    if (cep != "") {
+
+        //Expressão regular para validar o CEP.
+        var validacep = /^[0-9]{8}$/;
+
+        //Valida o formato do CEP.
+        if(validacep.test(cep)) {
+
+            //Preenche os campos com "..." enquanto consulta webservice.
+            $("#logradouro").val("...");
+            $("#bairro").val("...");
+            $("#cidade").val("...");
+            $("#estado").val("...");
+
+            //Consulta o webservice viacep.com.br/
+            $.ajax({
+                url: 'http://correiosapi.apphb.com/cep/'+cep,
+                dataType: 'jsonp',
+                crossDomain: true,
+                contentType: "application/json",
+                statusCode: {
+                    200: function(data) {
+                        console.log(data);
+                        $("#logradouro").val(data.tipoDeLogradouro+" "+data.logradouro);
+                        $("#bairro").val(data.bairro);
+                        $("#cidade").val(data.cidade);
+                        $("#estado").val(data.estado);
+
+                    } // Ok
+                    ,400: function(msg) { console.log(msg);  } // Bad Request
+                    ,404: function(msg) { console.log("CEP não encontrado!!"); } // Not Found
+                }
+            })
+        } //end if.
+        else {
+            //cep é inválido.
+            limpa_formulário_cep();
+            alert("Formato de CEP inválido.");
+        }
+    } //end if.
+    else {
+        //cep sem valor, limpa formulário.
+        limpa_formulário_cep();
+    }
+});
+
+function limpa_formulario_cep() {
+    // Limpa valores do formulário de cep.
+    $("#rua").val("");
+    $("#bairro").val("");
+    $("#cidade").val("");
+    $("#uf").val("");
+    $("#ibge").val("");
+}
+
+/*
 $('#cep').focusout(function () {
     var cep = document.getElementById("cep").value;
     //alert('Buscar CEp');
@@ -283,46 +350,38 @@ $('#cep').focusout(function () {
             }
         }
     })
-});
+});*/
 
 $(document).ready(function () {
-    var id = document.getElementById("endereco").value;
-    if(id > 0){
+    var id = document.getElementById("cep").value;
+    if(id != ""){
   //  alert('Buscar '+id);
-            $.ajax({
-                dataType: 'json',
-                type: "POST",
-                url: "function/endereco.php",
-                data: {
-                    'id': id,
-                    'acao': 'B' //[B]usca Endereco
-                },
-                success: function (data) {
-                    var logradouro   = document.getElementById('logradouro');
-                    var bairro       = document.getElementById('bairro');
-                    var endereco     = document.getElementById('endereco');
-                    var cep          = document.getElementById('cep');
-                    // alert("Retorno: " + data.retorno);
-                    if (data.retorno == 0) {
-                        logradouro.value = "";
-                        bairro.value     = "";
-                        endereco.value   = 0;
-                        errosend("CEP n&atilde;o localizado ou n&atilde;o est&aacute; cadastrado");
+        //Preenche os campos com "..." enquanto consulta webservice.
+        $("#logradouro").val("...");
+        $("#bairro").val("...");
+        $("#cidade").val("...");
+        $("#estado").val("...");
 
-                    } else {
-                        // alert('Codigo do endereco: ' + data.logradouro);
-                        var mensagem = $('.mensagem');
-                        mensagem.empty().html('<p class="alert "></p>');
-                        //alert('Cep: '+data.cep);
-                        logradouro.value = data.logradouro;
-                        bairro.value     = data.bairro;
-                        endereco.value   = data.codigo;
-                        cep.value        = data.cep;
-                        //numero.focus();
+        //Consulta o webservice viacep.com.br/
+        var cep = id.replace(".","").replace("-","");
+        $.ajax({
+            url: 'http://correiosapi.apphb.com/cep/'+cep,
+            dataType: 'jsonp',
+            crossDomain: true,
+            contentType: "application/json",
+            statusCode: {
+                200: function(data) {
+                    console.log(data);
+                    $("#logradouro").val(data.tipoDeLogradouro+" "+data.logradouro);
+                    $("#bairro").val(data.bairro);
+                    $("#cidade").val(data.cidade);
+                    $("#estado").val(data.estado);
 
-                    }
-                }
-            })
+                } // Ok
+                ,400: function(msg) { console.log(msg);  } // Bad Request
+                ,404: function(msg) { console.log("CEP não encontrado!!"); } // Not Found
+            }
+        })
     } //fim do se
 });
 
