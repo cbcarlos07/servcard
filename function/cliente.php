@@ -134,7 +134,7 @@ function add($nome, $sobrenome, $cpf, $rg, $telefone, $email, $nascimento,
         $cdestado = $estadoController->insert($estado);
     }
 
-    echo "Estado: ".$cdestado;
+    //echo "Estado: ".$cdestado;
 
     $cidade = new Cidade();
     $cidadeController = new CidadeController();

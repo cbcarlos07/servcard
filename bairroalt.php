@@ -41,6 +41,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <h3>Altera&ccedil;&atilde;o de Cadastro de Bairro</h3>
             </div>
             <div class="col-lg-1"></div>
+            <?php echo "Bairro: ".$bairro->getCdBairro(); ?>
             <div class="col-lg-5">
 
                 <div class="mensagem alert "></div>

@@ -22,17 +22,18 @@ class ParceiroDAO
          try{
              $query = "INSERT INTO parceiro 
                       (CD_PARCEIRO, NM_PARCEIRO, DS_RESPONSAVEL, NR_CPF_RESPONSAVEL, 
-                      NR_CNPJ, CD_ENDERECO, DS_RAMO
+                      NR_CNPJ, NR_CEP, CD_BAIRRO, DS_RAMO
                       ,NR_CASA, DS_COMPLEMENTO) VALUES 
                       (NULL, :parceiro, :responsavel, :cpf, :cnpj,
-                       :cep, :ramo, :numero, :complemento)";
+                       :cep, :bairro, :ramo, :numero, :complemento)";
 
              $stmt = $this->connection->prepare($query);
              $stmt->bindValue(":parceiro", $parceiro->getNmParceiro(), PDO::PARAM_STR);
              $stmt->bindValue(":responsavel", $parceiro->getDsResponsavel(), PDO::PARAM_STR);
              $stmt->bindValue(":cpf", $parceiro->getNrCpfResponsavel(), PDO::PARAM_STR);
              $stmt->bindValue(":cnpj", $parceiro->getNrCnpj(), PDO::PARAM_STR);
-             $stmt->bindValue(":cep", $parceiro->getEndereco()->getCdEndereco(), PDO::PARAM_INT);
+             $stmt->bindValue(":cep", $parceiro->getNrCep(), PDO::PARAM_STR);
+             $stmt->bindValue(":bairro", $parceiro->getBairro()->getCdBairro(), PDO::PARAM_INT);
              $stmt->bindValue(":ramo", $parceiro->getDsRamo(), PDO::PARAM_STR);
              $stmt->bindValue(":numero", $parceiro->getNrCasa(), PDO::PARAM_STR);
              $stmt->bindValue(":complemento", $parceiro->getDsComplemento(), PDO::PARAM_STR);
@@ -55,7 +56,7 @@ class ParceiroDAO
         try{
             $query = "UPDATE parceiro SET 
                       NM_PARCEIRO = :parceiro, DS_RESPONSAVEL = :responsavel
-                      , NR_CPF_RESPONSAVEL = :cpf, NR_CNPJ = :cnpj, CD_ENDERECO = :cep,
+                      , NR_CPF_RESPONSAVEL = :cpf, NR_CNPJ = :cnpj, NR_CEP = :cep, CD_BAIRRO = :bairro,
                       DS_RAMO = :ramo, NR_CASA = :numero, DS_COMPLEMENTO = :complemento
                       WHERE CD_PARCEIRO = :codigo";
             $stmt = $this->connection->prepare($query);
@@ -63,7 +64,8 @@ class ParceiroDAO
             $stmt->bindValue(":responsavel", $parceiro->getDsResponsavel(), PDO::PARAM_STR);
             $stmt->bindValue(":cpf", $parceiro->getNrCpfResponsavel(), PDO::PARAM_STR);
             $stmt->bindValue(":cnpj", $parceiro->getNrCnpj(), PDO::PARAM_STR);
-            $stmt->bindValue(":cep", $parceiro->getEndereco()->getCdEndereco(), PDO::PARAM_INT);
+            $stmt->bindValue(":cep", $parceiro->getNrCep(), PDO::PARAM_STR);
+            $stmt->bindValue(":bairro", $parceiro->getBairro()->getCdBairro(), PDO::PARAM_INT);
             $stmt->bindValue(":ramo", $parceiro->getDsRamo(), PDO::PARAM_STR);
             $stmt->bindValue(":codigo", $parceiro->getCdParceiro(), PDO::PARAM_INT);
             $stmt->bindValue(":numero", $parceiro->getNrCasa(), PDO::PARAM_STR);
@@ -136,7 +138,6 @@ class ParceiroDAO
     }
 
     public function getParceiro($codigo){
-        include_once "beans/Endereco.class.php";
         $parceiro = null;
         $connection = null;
         $this->connection =  new ConnectionFactory();
@@ -155,8 +156,7 @@ class ParceiroDAO
                 $parceiro->setDsResponsavel($row['DS_RESPONSAVEL']); //NOME DO RESPONSAVEL PELA EMPRESA
                 $parceiro->setNrCpfResponsavel($row['NR_CPF_RESPONSAVEL']);
                 $parceiro->setNrCnpj($row['NR_CNPJ']);
-                $parceiro->setEndereco(new Endereco());
-                $parceiro->getEndereco()->setCdEndereco($row['CD_ENDERECO']);
+                $parceiro->setNrCep($row['NR_CEP']);
                 $parceiro->setNrCasa($row['NR_CASA']);
                 $parceiro->setDsComplemento($row['DS_COMPLEMENTO']);
                 $parceiro->setDsRamo($row['DS_RAMO']);

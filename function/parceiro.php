@@ -12,7 +12,10 @@ $responsavel    = "";
 $cpf            = "";
 $cnpj           = "";
 $ramo           = "";
-$endereco       = 0;
+$cep          =  "";
+$bairro       =  "";
+$cidade       =  "";
+$estado       =  "";
 $numero         = "";
 $complemento    = "";
 $acao = $_POST['acao'];
@@ -40,8 +43,18 @@ if(isset($_POST['ramo'])){
     $ramo = $_POST['ramo'];
 }
 
-if(isset($_POST['endereco'])){
-    $endereco = $_POST['endereco'];
+if(isset($_POST['cep'])){
+    $cep = $_POST['cep'];
+}
+if(isset($_POST['bairro'])){
+    $bairro = $_POST['bairro'];
+}
+
+if(isset($_POST['cidade'])){
+    $cidade = $_POST['cidade'];
+}
+if(isset($_POST['estado'])){
+    $estado = $_POST['estado'];
 }
 
 if(isset($_POST['numero'])){
@@ -60,10 +73,10 @@ if(isset($_POST['complemento'])){
 
 switch ($acao){
     case 'C':
-        add($nome, $responsavel, $cpf, $cnpj, $endereco, $ramo, $numero, $complemento);
+        add($nome, $responsavel, $cpf, $cnpj, $cep, $bairro, $cidade, $estado, $ramo, $numero, $complemento);
         break;
     case 'A':
-        change($id, $nome, $responsavel, $cpf, $cnpj, $endereco, $ramo, $numero, $complemento);
+        change($id, $nome, $responsavel, $cpf, $cnpj, $cep, $bairro, $cidade, $estado, $ramo, $numero, $complemento);
         break;
     case 'E':
         delete($id);
@@ -73,20 +86,69 @@ switch ($acao){
 
 }
 
-function add($nome, $responsavel, $cpf, $cnpj, $endereco, $ramo, $numero, $complemento){
+function add($nome, $responsavel, $cpf, $cnpj,$cep, $nmbairro, $nmcidade, $nmestado, $ramo, $numero, $complemento){
    // echo "<script>alert('Adicionar'); </script>";
     require_once "../beans/Parceiro.class.php";
+    require_once "../beans/Bairro.class.php";
+    require_once "../beans/Cidade.class.php";
+    require_once "../beans/Estado.class.php";
+    require_once "../beans/Pais.class.php";
     require_once "../controller/ParceiroController.class.php";
-    require_once "../beans/Endereco.class.php";
+    require_once "../controller/BairroController.class.php";
+    require_once "../controller/EstadoController.class.php";
+    require_once "../controller/CidadeController.class.php";
+
+    $estado = new Estado();
+    $estadoController = new EstadoController();
+    $cdestado = $estadoController->getEstadoByName($nmestado);
+
+    if($cdestado  == 0){
+        $estado->setDsUF($nmestado);
+        $estado->setNmEstado("");
+        $estado->setPais(new Pais());
+        $estado->getPais()->setCdPais(1);
+        $cdestado = $estadoController->insert($estado);
+    }
+
+    //echo "Estado: ".$cdestado;
+
+    $cidade = new Cidade();
+    $cidadeController = new CidadeController();
+    $cdcidade = $cidadeController->getCidadebyName($nmcidade);
+    if($cdcidade == 0){
+        $cidade->setNmCidade($nmcidade);
+        $cidade->setEstado(new Estado());
+        $cidade->getEstado()->setCdEstado($cdestado);
+        $cdcidade = $cidadeController->insert($cidade);
+    }
+
+    $bairro =  new Bairro();
+    $bairroController = new BairroController();
+    $cdbairro = $bairroController->getBairroByName($nmbairro);
+    if($cdbairro == 0){
+        $bairro->setNmBairro($nmbairro);
+        $bairro->setCidade(new Cidade());
+        $bairro->getCidade()->setCdCidade($cdcidade);
+        $cdbairro = $bairroController->insert($bairro);
+    }
+
 
 
     $parceiro = new Parceiro();
     $parceiro->setNmParceiro($nome);
     $parceiro->setDsResponsavel($responsavel);
-    $parceiro->setNrCpfResponsavel($cpf);
+    $vowels = array(".", "-", "/");
+    $novocnpj = str_replace($vowels,'',$cnpj);
+    $parceiro->setNrCnpj($novocnpj);
+    $vowels = array(".", "-");
+    $novocpf = str_replace($vowels,'',$cpf);
+    $parceiro->setNrCpfResponsavel($novocpf);
     $parceiro->setNrCnpj($cnpj);
-    $parceiro->setEndereco(new Endereco());
-    $parceiro->getEndereco()->setCdEndereco($endereco);
+    $vowels = array(".", "-");
+    $novocep = str_replace($vowels, '', $cep);
+    $parceiro->setNrCep($novocep);
+    $parceiro->setBairro(new Bairro());
+    $parceiro->getBairro()->setCdBairro($cdbairro);
     $parceiro->setDsRamo($ramo);
     $parceiro->setNrCasa($numero);
     $parceiro->setDsComplemento($complemento);
@@ -101,24 +163,69 @@ function add($nome, $responsavel, $cpf, $cnpj, $endereco, $ramo, $numero, $compl
 }
 
 
-function change($id, $nome, $responsavel, $cpf, $cnpj, $endereco, $ramo, $numero, $complemento){
+function change($id, $nome, $responsavel, $cpf, $cnpj,$cep, $nmbairro, $nmcidade, $nmestado, $ramo, $numero, $complemento){
     // echo "<script>alert('Adicionar'); </script>";
     require_once "../beans/Parceiro.class.php";
+    require_once "../beans/Bairro.class.php";
+    require_once "../beans/Cidade.class.php";
+    require_once "../beans/Estado.class.php";
+    require_once "../beans/Pais.class.php";
     require_once "../controller/ParceiroController.class.php";
-    require_once "../beans/Endereco.class.php";
+    require_once "../controller/BairroController.class.php";
+    require_once "../controller/EstadoController.class.php";
+    require_once "../controller/CidadeController.class.php";
+
+
+    $estado = new Estado();
+    $estadoController = new EstadoController();
+    $cdestado = $estadoController->getEstadoByName($nmestado);
+
+    if($cdestado  == 0){
+        $estado->setDsUF($nmestado);
+        $estado->setNmEstado("");
+        $estado->setPais(new Pais());
+        $estado->getPais()->setCdPais(1);
+        $cdestado = $estadoController->insert($estado);
+    }
+
+    //echo "Estado: ".$cdestado;
+
+    $cidade = new Cidade();
+    $cidadeController = new CidadeController();
+    $cdcidade = $cidadeController->getCidadebyName($nmcidade);
+    if($cdcidade == 0){
+        $cidade->setNmCidade($nmcidade);
+        $cidade->setEstado(new Estado());
+        $cidade->getEstado()->setCdEstado($cdestado);
+        $cdcidade = $cidadeController->insert($cidade);
+    }
+
+    $bairro =  new Bairro();
+    $bairroController = new BairroController();
+    $cdbairro = $bairroController->getBairroByName($nmbairro);
+    if($cdbairro == 0){
+        $bairro->setNmBairro($nmbairro);
+        $bairro->setCidade(new Cidade());
+        $bairro->getCidade()->setCdCidade($cdcidade);
+        $cdbairro = $bairroController->insert($bairro);
+    }
 
     $parceiro = new Parceiro();
     $parceiro->setCdParceiro($id);
     $parceiro->setNmParceiro($nome);
     $parceiro->setDsResponsavel($responsavel);
+    $vowels = array(".", "-", "/");
+    $novocnpj = str_replace($vowels,'',$cnpj);
+    $parceiro->setNrCnpj($novocnpj);
     $vowels = array(".", "-");
     $novocpf = str_replace($vowels,'',$cpf);
     $parceiro->setNrCpfResponsavel($novocpf);
-    $vowels1 = array(".", "/","-");
-    $novocnpj = str_replace($vowels1,'',$cnpj);
-    $parceiro->setNrCnpj($novocnpj);
-    $parceiro->setEndereco(new Endereco());
-    $parceiro->getEndereco()->setCdEndereco($endereco);
+    $parceiro->setNrCnpj($cnpj);
+    $vowels = array(".", "-");
+    $novocep = str_replace($vowels, '', $cep);
+    $parceiro->setNrCep($novocep);
+    $parceiro->setBairro(new Bairro());
+    $parceiro->getBairro()->setCdBairro($cdbairro);
     $parceiro->setDsRamo($ramo);
     $parceiro->setNrCasa($numero);
     $parceiro->setDsComplemento($complemento);

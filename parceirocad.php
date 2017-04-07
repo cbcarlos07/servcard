@@ -40,7 +40,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="mensagem alert "></div>
                 <form method="post" id="form">
                     <input id="id" value="0" type="hidden">
-                    <input id="endereco"  type="hidden">
                     <input id="acao" value="C" type="hidden">
                     <div class="form-group col-lg-12">
                         <label for="razao">Raz&atilde;o Social ou Nome Fantasia</label>
@@ -73,7 +72,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="col-lg-4"><hr /></div>
 
 
-                    <div class="form-group col-lg-3">
+                    <div class="form-group col-lg-2">
                         <label for="cep">CEP</label>
                         <input id="cep" class="form-control" placeholder="00.000-000" />
                     </div>
@@ -90,7 +89,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <label for="numero">N&uacute;mero</label>
                         <input id="numero" class="form-control" required="" />
                     </div>
-                    <div class="form-group col-lg-12">
+                    <div class="form-group col-lg-3">
+                        <label for="cidade">Cidade</label>
+                        <input id="cidade" class="form-control" disabled=""/>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="estado">Estado</label>
+                        <input id="estado" class="form-control" disabled=""/>
+                    </div>
+                    <div class="form-group col-lg-6">
                         <label for="complemento">Complemento</label>
                         <input id="complemento" class="form-control" />
                     </div>

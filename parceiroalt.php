@@ -49,7 +49,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="mensagem alert "></div>
                 <form method="post" id="form">
                     <input id="id" value="<?php echo $id; ?>" type="hidden">
-                    <input id="endereco"  type="hidden" value="<?php echo $parceiro->getEndereco()->getCdEndereco(); ?>">
+
                     <input id="acao" value="A" type="hidden">
                     <div class="form-group col-lg-12">
                         <label for="razao">Raz&atilde;o Social ou Nome Fantasia</label>
@@ -82,9 +82,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="col-lg-4"><hr /></div>
 
 
-                    <div class="form-group col-lg-3">
+                    <div class="form-group col-lg-2">
                         <label for="cep">CEP</label>
-                        <input id="cep" class="form-control" placeholder="00.000-000" />
+                        <input id="cep" class="form-control" placeholder="00.000-000" value="<?php echo $parceiro->getNrCep(); ?>" />
                     </div>
                     <div class="row"></div>
                     <div class="form-group col-lg-6">
@@ -99,7 +99,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <label for="numero">N&uacute;mero</label>
                         <input id="numero" class="form-control" required="" value="<?php echo $parceiro->getNrCasa(); ?>"/>
                     </div>
-                    <div class="form-group col-lg-12">
+                    <div class="form-group col-lg-3">
+                        <label for="cidade">Cidade</label>
+                        <input id="cidade" class="form-control" disabled=""/>
+                    </div>
+                    <div class="form-group col-lg-3">
+                        <label for="estado">Estado</label>
+                        <input id="estado" class="form-control" disabled=""/>
+                    </div>
+                    <div class="form-group col-lg-6">
                         <label for="complemento">Complemento</label>
                         <input id="complemento" class="form-control" value="<?php echo $parceiro->getDsComplemento(); ?>"/>
                     </div>

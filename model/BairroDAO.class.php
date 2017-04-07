@@ -53,7 +53,7 @@ class BairroDAO
                        NM_BAIRRO = :bairro, CD_CIDADE = :cidade 
                        WHERE CD_BAIRRO = :codigo";
 
-
+           // echo "Nome do bairro: ".$bairro->getNmBairro();
             $stmt = $this->connection->prepare($query);
            // echo "Cd zona: ".$bairro->getZona()->getCdZona();
             $stmt->bindValue(":bairro", $bairro->getNmBairro(), PDO::PARAM_STR);

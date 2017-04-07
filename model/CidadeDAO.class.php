@@ -95,7 +95,7 @@ class CidadeDAO
 
         try {
 
-                $sql = "SELECT C.*, E.NM_ESTADO
+                $sql = "SELECT C.*, E.DS_UF
                         FROM cidade C 
                         INNER JOIN estado E ON C.CD_ESTADO = E.CD_ESTADO
                         WHERE C.NM_CIDADE LIKE :nome
@@ -111,7 +111,7 @@ class CidadeDAO
                 $cidade->setNmCidade($row['NM_CIDADE']);
                 $cidade->setEstado(new Estado());
                 $cidade->getEstado()->setCdEstado($row['CD_ESTADO']);
-                $cidade->getEstado()->setNmEstado($row['NM_ESTADO']);
+                $cidade->getEstado()->setNmEstado($row['DS_UF']);
 
                 $cidadeList->addCidade($cidade);
             }
@@ -135,7 +135,7 @@ class CidadeDAO
 
         try {
 
-            $sql = "SELECT C.*, E.NM_ESTADO
+            $sql = "SELECT C.*, E.DS_UF
                         FROM cidade C 
                         INNER JOIN estado E ON C.CD_ESTADO = E.CD_ESTADO
                         WHERE C.NM_CIDADE LIKE :nome
@@ -151,7 +151,7 @@ class CidadeDAO
                 $cidade->setNmCidade($row['NM_CIDADE']);
                 $cidade->setEstado(new Estado());
                 $cidade->getEstado()->setCdEstado($row['CD_ESTADO']);
-                $cidade->getEstado()->setNmEstado($row['NM_ESTADO']);
+                $cidade->getEstado()->setNmEstado($row['DS_UF']);
 
                 $cidadeList->addCidade($cidade);
             }
