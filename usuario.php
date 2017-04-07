@@ -42,9 +42,9 @@ $uListIterator = new UsuarioListIterator($lista);
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="modalLabel">Excluir Item</h4>
+                        <h4 class="modal-title" id="modalLabel"><span class="titulo"></span></h4>
                     </div>
-                    <div class="modal-body">Deseja realmente excluir o item <b><span class="nome"></span></b>? </div>
+                    <div class="modal-body"><span class="msg"></span><b><span class="nome"></span></b>? </div>
                     <div class="modal-footer">
                         <a href="#" type="button"  class="btn btn-primary delete-yes">Sim</a>
                         <button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
@@ -122,6 +122,13 @@ $uListIterator = new UsuarioListIterator($lista);
                                            data-nome="<?php echo $usuario->getNmUsuario(); ?>"
                                            data-id="<?php echo $usuario->getCdUsuario(); ?>"
                                            data-action="E">Excluir</a>
+                                        <a href="#" class="delete btn btn-danger btn-xs"
+                                           data-toggle="modal"
+                                           data-target="#delete-modal"
+                                           data-nome="<?php echo $usuario->getNmUsuario(); ?>"
+                                           data-id="<?php echo $usuario->getCdUsuario(); ?>"
+                                           title="Senha ser&aacute; resetada para 12345678"
+                                           data-action="R">Resetar Senha</a>
                                     </td>
                                 </tr>
                             <?php } ?>

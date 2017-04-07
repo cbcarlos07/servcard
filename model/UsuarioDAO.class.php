@@ -76,6 +76,31 @@ class UsuarioDAO
         return $teste;
     }
 
+
+    public function resetarSenha ($usuario){
+        $this->connection =  null;
+        $teste = false;
+        $this->connection = new ConnectionFactory();
+        $this->connection->beginTransaction();
+        try{
+            $query = "UPDATE usuario SET 
+                        DS_SENHA = MD5('12345678')
+                      , SN_ATIVO = 'S'
+                      ,SN_SENHA_ATUAL = 'N'
+                      WHERE CD_USUARIO = :codigo";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bindValue(":codigo", $usuario, PDO::PARAM_INT);
+            $stmt->execute();
+            $this->connection->commit();
+            $teste =  true;
+
+            $this->connection =  null;
+        }catch(PDOException $exception){
+            echo "Erro: ".$exception->getMessage();
+        }
+        return $teste;
+    }
+
     public function delete ($codigo){
         $this->connection =  null;
         $teste = false;

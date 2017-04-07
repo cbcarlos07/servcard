@@ -62,4 +62,11 @@ class UsuarioController
         $retorno = $usuarioDao->getLoginUserBool($username, $password);
         return $retorno;
     }
+
+    public function resetarSenha ($usuario){
+        require_once ("../model/UsuarioDAO.class.php");
+        $usuarioDao = new UsuarioDAO();
+        $retorno = $usuarioDao->resetarSenha($usuario);
+        return $retorno;
+    }
 }

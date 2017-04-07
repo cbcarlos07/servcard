@@ -81,6 +81,9 @@ switch ($acao){
     case 'S':
         sair();
         break;
+    case 'R':
+        resetar($id);
+        break;
 
 
 }
@@ -238,4 +241,14 @@ function sair(){
     session_destroy();
     //$_SESSION['login'] = "";
     header('Location: ..');
+}
+
+function resetar($id){
+    require_once '../controller/UsuarioController.class.php';
+    $usuarioController = new UsuarioController();
+    $teste = $usuarioController->resetarSenha($id);
+    if($teste)
+        echo json_encode(array('retorno' => 1));
+    else
+        echo json_encode(array('retorno' => 0));
 }

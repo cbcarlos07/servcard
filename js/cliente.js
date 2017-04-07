@@ -107,6 +107,7 @@ function deletar(codigo, acao){
 }
 
 
+
 function carregando(){
     var mensagem = $('.mensagem');
     //alert('Carregando: '+mensagem);
@@ -403,6 +404,8 @@ $('#cpf').focusout(function(){
 
     }
 });
+
+
 
 
 

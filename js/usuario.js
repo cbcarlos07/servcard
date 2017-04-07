@@ -98,14 +98,21 @@ function deletar(codigo, acao){
             console.log("Excluir: "+data.retorno);
             if(data.retorno == 1){
                 $('#delete-modal').modal('hide');
+                if(acao == 'E')
                 sucesso_delete('Item excluido com sucesso. Aguarde atualiza&ccedil;&atilde;o');
+                else
+                    sucesso_delete('Senha resetada com sucesso. Aguarde atualiza&ccedil;&atilde;o');
             }else if(data.retorno == 0){
-                errosend('N&atilde;o foi poss&iacute;vel excluir');
+                if(acao == 'E')
+                  errosend('N&atilde;o foi poss&iacute;vel excluir');
+                else
+                    errosend('N&atilde;o foi poss&iacute;vel resetar senha');
             }
         }
     });
     return false;
 }
+
 
 
 function carregando(){
@@ -168,10 +175,21 @@ $('.delete').on('click', function(){
     var nome = $(this).data('nome'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
     var id = $(this).data('id'); // vamos buscar o valor do atributo data-id
     var acao = $(this).data('action');
+    var texto ;
+    var titulo;
+    if(acao == 'E'){
+        texto = "Deseja realmente excluir o item ";
+        titulo = "Excluir item";
+    }else{
+        texto = "Deseja resetar senha de ";
+        titulo = "Resetar senha";
+    }
 
     //$('span.nome').text(nome+ ' (id = ' +id+ ')'); // inserir na o nome na pergunta de confirmação dentro da modal
     //console.log("Nome para deletar: "+nome);
     $('span.nome').text(nome);
+    $('span.msg').text(texto);
+    $('span.titulo').text(titulo);
 
     $('.delete-yes').on('click', function(){
         deletar(id,acao);

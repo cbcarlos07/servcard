@@ -206,12 +206,19 @@ $('#cep').focusout(function () {
                             document.getElementById('logradouro').disabled = false;
                             document.getElementById('logradouro').focus();
 
+                        }else{
+                            document.getElementById('logradouro').disabled = true;
                         }
                         $("#bairro").val(data.bairro);
                         if(data.bairro == ""){
                             document.getElementById('bairro').disabled = false;
 
+                        }else{
+                            document.getElementById('bairro').disabled = true;
+                            document.getElementById('numero').focus();
                         }
+
+
                         $("#cidade").val(data.localidade);
                         $("#estado").val(data.uf);
 
