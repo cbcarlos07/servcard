@@ -77,8 +77,8 @@ $pListIterator = new ContratoListIterator($lista);
 
             <br>
 
-            <div class="col-lg-1" ><h2>Em d&eacute;bito</h2></div>
-            <div class="col-lg-7" >
+            <div class="col-lg-3" ><h2>Em d&eacute;bito</h2></div>
+            <div class="col-lg-5" >
 
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" id="form-pesquisa">
                     <input type="hidden" name="acao" value="P">
