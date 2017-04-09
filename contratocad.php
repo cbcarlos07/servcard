@@ -78,6 +78,10 @@ $id = $_POST['id'];
                                     <label for="plano">Plano</label>
                                     <select class="form-control" id="plano"></select>
                                 </div>
+                               <div class="col-lg-1 form-group" style="margin-top: 20px;">
+                                    <label></label>
+                                    <a href="#div" title="Clique para atualizar a lista" class="btn btn-refresh-plano"><i class="lnr lnr-sync"></i></a>
+                               </div>
                                 <div class="form-group col-lg-3">
                                     <label for="valor">Valor</label>
                                     <input id="valor" class="form-control" disabled/>
@@ -124,6 +128,10 @@ $id = $_POST['id'];
                             <div class="col-lg-2 form-group">
                                 <label for="responsavel">Respons&aacute;vel</label>
                                 <select id="responsavel" class="form-control"></select>
+                            </div>
+                            <div class="col-lg-1 form-group" style="margin-top: 20px;">
+                                <label></label>
+                                <a href="#div" title="Clique para atualizar a lista" class="btn btn-refresh-responsavel"><i class="lnr lnr-sync"></i></a>
                             </div>
                             <div class="row"></div>
                             <hr />

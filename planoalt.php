@@ -1,4 +1,3 @@
-
 <?php
 include "include/head.php";
 require_once "beans/Plano.class.php";

@@ -1,6 +1,3 @@
-
-
-
 <?php
 include "include/head.php";
 require_once "beans/Cliente.class.php";

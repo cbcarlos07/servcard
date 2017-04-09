@@ -1,9 +1,9 @@
 <?php
-session_start();
-//include "include/error.php";
+
+/*//include "include/error.php";
 
 
-/*if($_SESSION['login'] == ""){
+if($_SESSION['login'] == ""){
    echo "<script>location.href='./';</script>";
 }*/
 $codigo = $_POST['id'];
@@ -281,15 +281,15 @@ class PDF extends FPDF {
                 $pdf->SetFont('Arial','',10);
                 $pdf->SetY(70.5);
                 $pdf->SetX(38);
-                $cep1 = substr($cliente->getEndereco()->getNrCep(),0,2);
-                $cep2 = substr($cliente->getEndereco()->getNrCep(),2,3);
-                $cep3 = substr($cliente->getEndereco()->getNrCep(),5,7);
+                $cep1 = substr($cliente->getNrCep(),0,2);
+                $cep2 = substr($cliente->getNrCep(),2,3);
+                $cep3 = substr($cliente->getNrCep(),5,7);
 
                 $pdf->MultiCell(35,5,"$cep1.$cep2-$cep3",0,'C',false); //CEP
 
                 $pdf->SetY(75.5);
                 $pdf->SetX(45);
-                $rua = $cliente->getEndereco()->getTpLogradouro()->getDsTpLogradouro()." ".$cliente->getEndereco()->getDsLogradouro();
+                $rua = getEndereco($cliente->getNrCep(), 'logradouro');
                 //multiceu(tamanho, altura, string, borda, alinhamento, preenchimento (true or false)  )
                 $pdf->MultiCell(120,5,$rua,0,'L',false); //NASCIMENTO
 
@@ -303,20 +303,25 @@ class PDF extends FPDF {
                 //multiceu(tamanho, altura, string, borda, alinhamento, preenchimento (true or false)  )
                 $pdf->MultiCell(35,5,$cliente->getDsComplemento(),0,'L',false); //NASCIMENTO
 
+
+
                 $pdf->SetY(85);
                 $pdf->SetX(45);
                 //multiceu(tamanho, altura, string, borda, alinhamento, preenchimento (true or false)  )
-                $pdf->MultiCell(120,5,$cliente->getEndereco()->getBairro()->getNmBairro(),0,'L',false); //NASCIMENTO
+                $bairro = getEndereco($cliente->getNrCep(), 'bairro');
+                $pdf->MultiCell(120,5,$bairro,0,'L',false); //BAIRRO
 
                 $pdf->SetY(85.5);
                 $pdf->SetX(105);
                 //multiceu(tamanho, altura, string, borda, alinhamento, preenchimento (true or false)  )
-                $pdf->MultiCell(120,5,$cliente->getEndereco()->getBairro()->getCidade()->getNmCidade(),0,'L',false); //NASCIMENTO000
+                $cidade = getEndereco($cliente->getNrCep(), 'localidade');
+                $pdf->MultiCell(120,5,$cidade,0,'L',false); //NASCIMENTO000
 
                 $pdf->SetY(85.5);
                 $pdf->SetX(167);
+                $estado = getEndereco($cliente->getNrCep(), 'uf');
                 //multiceu(tamanho, altura, string, borda, alinhamento, preenchimento (true or false)  )
-                $pdf->MultiCell(120,5,$cliente->getEndereco()->getBairro()->getCidade()->getEstado()->getNmEstado(),0,'L',false); //NASCIMENTO000
+                $pdf->MultiCell(120,5,$estado,0,'L',false); //NASCIMENTO000
 
                 $pdf->SetXY(10,100);
                 $pdf->Cell(0,10,'','B',1,'C'); //LINHA VERTICAL //CONTRATO
@@ -412,7 +417,7 @@ class PDF extends FPDF {
                 $pdf->SetY(130.5);
                 $pdf->SetX(43);
 
-                $pdf->MultiCell(35,5,$contrato->getSnAtivo() == 'A' ? 'Ativo' : 'Cancelado',0,'L',false); //
+                $pdf->MultiCell(35,5,$contrato->getSnAtivo() == 'S' ? 'Ativo' : 'Cancelado',0,'L',false); //
 
 $pdf->Footer();
 $pdf->Output(); // IMPRIME O PDF NA TELA
@@ -457,4 +462,21 @@ function formataTelefone($numero){
 
 
 }
+function getEndereco($cep, $param){
+    header('Content-Type: application/json; charset=utf-8');
 
+    $json = file_get_contents("https://viacep.com.br/ws/$cep/json/");
+    $obj = json_decode($json);
+    $retorno = "";
+    if($param == 'logradouro'){
+        $retorno = $obj->logradouro;
+    }else if($param == 'localidade'){
+        $retorno = $obj->localidade;
+    }else if($param == 'uf'){
+        $retorno = $obj->uf;
+    }else if($param == 'bairro'){
+        $retorno = $obj->bairro;
+    }
+
+    return $retorno;
+}

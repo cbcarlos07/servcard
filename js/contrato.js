@@ -175,7 +175,8 @@ $('.btn-alterar').on('click', function(){
 $('.btn-acao').on('click', function(){
     var url = $(this).data('url'); // vamos buscar o valor do atributo data-name que temos no botão que foi clicado
     var id = $(this).data('id');
-    var cliente = $(this).data('cliente');
+    var cliente = $(this).data('cliente')
+    alert('Id: '+id);
     var form = $('<form action="'+url+'" method="post">' +
         '<input type="hidden" value="'+id+'" name="id">'+
         '<input type="hidden" value="'+cliente+'" name="cliente">'+
@@ -385,6 +386,22 @@ $(document).ready(function(){
 
 });
 
+
+$('.btn-refresh-plano').on('click',function(){
+    var id = document.getElementById('id-plano').value;
+    //alert('Codigo da cidade: '+cidade);
+    $.post("function/plano.php",
+        {
+            'id': id,
+            'acao': "L"
+        },
+        function(data){
+            plano.find("option").remove();
+            plano.append(data);
+        });
+
+});
+
 plano.on('change', function () {
     var id_plano = document.getElementById('plano').value;
     var valor    = document.getElementById('valor');
@@ -448,6 +465,21 @@ $(document).ready(function () {
 
 var responsavel = $('#responsavel');
 $(document).ready(function(){
+    var id = document.getElementById('id-responsavel').value;
+    //alert('Codigo da cidade: '+cidade);
+    $.post("function/usuario.php",
+        {
+            'id': id,
+            'acao': "L"
+        },
+        function(data){
+            responsavel.find("option").remove();
+            responsavel.append(data);
+        });
+
+});
+
+$('.btn-refresh-responsavel').on('click',function(){
     var id = document.getElementById('id-responsavel').value;
     //alert('Codigo da cidade: '+cidade);
     $.post("function/usuario.php",
