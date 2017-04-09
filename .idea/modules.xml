@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/servcard.iml" filepath="$PROJECT_DIR$/.idea/servcard.iml" />
-      <module fileurl="file://D:\wamp\www\servcard\.idea\servcard.iml" filepath="D:\wamp\www\servcard\.idea\servcard.iml" />
     </modules>
   </component>
 </project>

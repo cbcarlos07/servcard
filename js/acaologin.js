@@ -37,7 +37,7 @@ function logar(acao){
                     //var retorno = data.retorno;
                     //alert(data.retorno);
 
-                    console.log("Data: "+data.retorno);
+                   // console.log("Data: "+data.retorno);
                     if(data.retorno == 1){
                         sucesso();
                       }
@@ -101,7 +101,7 @@ function senhaalterar(codigo){
        //     location.href = "usuario?acao=T&codigo="+codigo;
         var url = 'sign-in-alt.php';
         var form = $('<form action="' + url + '" method="post">' +
-            '<input type="text" name="codigo" value="' + codigo + '" />' +
+            '<input type="hidden" name="codigo" value="' + codigo + '" />' +
             '</form>');
         $('body').append(form);
         form.submit();
