@@ -301,11 +301,8 @@ class ClienteDAO
         $connection = null;
         $this->connection =  new ConnectionFactory();
         $sql =          "SELECT *
-                        FROM cliente C 
+                          FROM cliente C 
                         INNER JOIN estado_civil  EC ON EC.CD_ESTADO_CIVIL = C.CD_ESTADO_CIVIL
-                        INNER JOIN bairro        B  ON E.CD_BAIRRO = B.CD_BAIRRO
-                        INNER JOIN cidade        CI ON B.CD_CIDADE = CI.CD_CIDADE
-                        INNER JOIN estado        ES ON CI.CD_ESTADO = ES.CD_ESTADO
                         WHERE C.CD_CLIENTE = :codigo";
 
         try {

@@ -74,13 +74,17 @@ $dadosboleto["data_processamento"] = date("d/m/Y"); // Data de processamento do 
 $dadosboleto["valor_boleto"] = $valor_boleto; 	// Valor do Boleto - REGRA: Com vírgula e sempre com duas casas depois da virgula
 
 // DADOS DO SEU CLIENTE
-$cep1 = substr($cliente->getEndereco()->getNrCep(), 0,2);
-$cep2 = substr($cliente->getEndereco()->getNrCep(), 2,3);
-$cep3 = substr($cliente->getEndereco()->getNrCep(), 5,3);
+$cep1 = substr($cliente->getNrCep(), 0,2);
+$cep2 = substr($cliente->getNrCep(), 2,3);
+$cep3 = substr($cliente->getNrCep(), 5,3);
 $cep = "$cep1.$cep2-$cep3";
 $dadosboleto["sacado"] = $cliente->getNmCliente()." ".$cliente->getNmSobrenome();
-$dadosboleto["endereco1"] = $cliente->getEndereco()->getTpLogradouro()->getDsTpLogradouro()." ".$cliente->getEndereco()->getDsLogradouro();
-$dadosboleto["endereco2"] = $cliente->getEndereco()->getBairro()->getCidade()->getNmCidade()."-".$cliente->getEndereco()->getBairro()->getCidade()->getEstado()->getNmEstado()."-".$cep; //"Cidade - Estado -  CEP: 00000-000";
+$logradouro = getEndereco($cliente->getNrCep(), 'logradouro');
+$cidade = getEndereco($cliente->getNrCep(), 'localidade');
+$bairro = getEndereco($cliente->getNrCep(), 'bairro');
+$estado = getEndereco($cliente->getNrCep(), 'uf');
+$dadosboleto["endereco1"] = $logradouro;
+$dadosboleto["endereco2"] = $cidade."-".$estado."-".$cep; //"Cidade - Estado -  CEP: 00000-000";
 
 // INFORMACOES PARA O CLIENTE
 $dadosboleto["demonstrativo1"] = "Pagamento de ".$contrato->getPlano()->getDsPlano();
@@ -124,4 +128,21 @@ $dadosboleto["cedente"] = "Servard -  Servi&ccedil;os de cart&otilde;oes de Desc
 // NÃO ALTERAR!
 include("include/funcoes_cef.php"); 
 include("include/layout_cef.php");
-?>
+function getEndereco($cep, $param){
+//                header('Content-Type: application/json; charset=utf-8');
+
+    $json = file_get_contents("https://viacep.com.br/ws/$cep/json/");
+    $obj = json_decode($json);
+    $retorno = "";
+    if($param == 'logradouro'){
+        $retorno = $obj->logradouro;
+    }else if($param == 'localidade'){
+        $retorno = $obj->localidade;
+    }else if($param == 'uf'){
+        $retorno = $obj->uf;
+    }else if($param == 'bairro'){
+        $retorno = $obj->bairro;
+    }
+
+    return $retorno;
+}
