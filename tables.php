@@ -95,7 +95,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                         <li class="menu-list"><a href="#"><i class="lnr lnr-book"></i>  <span>Pages</span></a>
 							<ul class="sub-menu-list">
-								<li><a href="index.php">Sign In</a> </li>
+								<li><a href="login.php">Sign In</a> </li>
 								<li><a href="sign-up.html">Sign Up</a></li>
 								<li><a href="blank_page.html">Blank Page</a></li>
 							</ul>
