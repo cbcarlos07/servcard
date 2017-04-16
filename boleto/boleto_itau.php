@@ -125,6 +125,7 @@ $dadosboleto["cedente"] = "Coloque a Raz&atilde;o Social da sua empresa aqui";
 // NÃO ALTERAR!
 include("include/funcoes_itau.php"); 
 include("include/layout_itau.php");
+//funcao getEndereco via json
 function getEndereco($cep, $param){
 //                header('Content-Type: application/json; charset=utf-8');
 
