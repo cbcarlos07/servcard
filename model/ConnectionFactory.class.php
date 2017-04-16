@@ -8,9 +8,9 @@
  */
 class ConnectionFactory extends PDO
 {
-    private $dsn = 'mysql:host=localhost;dbname=servcard';
+    private $dsn = 'mysql:host=localhost;dbname=servc617_servcard';
 
-    private $user = 'servcard';
+    private $user = 'servc617_servcar';
     private $password = 'servcard123';
     public $handle = null;
 
