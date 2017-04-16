@@ -128,6 +128,7 @@ $dadosboleto["cedente"] = "Servard -  Servi&ccedil;os de cart&otilde;oes de Desc
 // NÃO ALTERAR!
 include("include/funcoes_cef.php"); 
 include("include/layout_cef.php");
+//funcao getEndereco via json
 function getEndereco($cep, $param){
 //                header('Content-Type: application/json; charset=utf-8');
 

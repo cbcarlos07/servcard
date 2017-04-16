@@ -122,6 +122,7 @@ $dadosboleto["cedente"] = "Servard -  Servi&ccedil;os de cart&otilde;oes de Desc
 // NÃO ALTERAR!
 include("include/funcoes_santander_banespa.php"); 
 include("include/layout_santander_banespa.php");
+//funcao getEndereco via json
 function getEndereco($cep, $param){
 //                header('Content-Type: application/json; charset=utf-8');
 

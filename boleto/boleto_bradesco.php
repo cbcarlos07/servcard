@@ -134,7 +134,7 @@ $dadosboleto["cedente"] = "Servard -  Servi&ccedil;os de cart&otilde;oes de Desc
 include("include/funcoes_bradesco.php");
 include("include/layout_bradesco.php");
 
-
+//funcao getEndereco via json
 function getEndereco($cep, $param){
 //                header('Content-Type: application/json; charset=utf-8');
 
