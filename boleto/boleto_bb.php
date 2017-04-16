@@ -151,6 +151,7 @@ $dadosboleto["cedente"] = "Servard -  Servi&ccedil;os de cart&otilde;oes de Desc
 // NÃO ALTERAR!
 include("include/funcoes_bb.php"); 
 include("include/layout_bb.php");
+//funcao getEndereco via json
 function getEndereco($cep, $param){
 //                header('Content-Type: application/json; charset=utf-8');
 
@@ -169,3 +170,4 @@ function getEndereco($cep, $param){
 
     return $retorno;
 }
+
