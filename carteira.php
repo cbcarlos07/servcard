@@ -109,7 +109,7 @@ $cliente = $clienteController->getCliente($id);
 
             <br>
 
-            <div class="col-lg-4" ><h4><a href="#" data-url="cliente.php" class="btn-voltar">Carteira</a> -  <?php echo $cliente->getNmCliente(); ?></h4></div>
+            <div class="col-lg-4" ><h4><a href="#" data-url="cliente.php" class="btn-voltar"><img src="images/back.png" width="30" title="Voltar">Carteira</a> -  <?php echo $cliente->getNmCliente(); ?></h4></div>
             <div class="col-lg-4" >
 
 
