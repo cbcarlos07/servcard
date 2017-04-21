@@ -50,10 +50,7 @@ $contrato = $contratoController->getContrato($id);
                        <h3 >Alterar Informa&ccedil;&otilde;es de Contrato</h3>
                     </div>
                     <div class="col-lg-1"></div>
-                    <div class="mensagem alert alert-danger col-lg-6">
-                        <b>Aten&ccedil;&atilde;o</b><p>Esta a&ccedil;&atilde;o pode apagar todos registros de pagamento deste contrato caso existam</p>
-                    </div>
-
+                    
                     <form method="post" id="form" data-toggle="validator">
                         <div class="col-lg-offset-1">
                             <input type="hidden" id="id" value="<?php echo $contrato->getCdContrato(); ?>">
