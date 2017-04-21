@@ -50,7 +50,7 @@ $contrato = $contratoController->getContrato($id);
                        <h3 >Alterar Informa&ccedil;&otilde;es de Contrato</h3>
                     </div>
                     <div class="col-lg-1"></div>
-                    
+
                     <form method="post" id="form" data-toggle="validator">
                         <div class="col-lg-offset-1">
                             <input type="hidden" id="id" value="<?php echo $contrato->getCdContrato(); ?>">
