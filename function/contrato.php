@@ -232,7 +232,7 @@ function change($id, $data, $quite, $valor, $parcela, $cliente, $usuario, $plano
     $contratoMensal = new ContratoMensal();
     $cmc = new ContratoMensalController();
 
-    $deletando = $cmc->delete_nao_pago($id);
+    $cmc->delete_nao_pago($id);
     //echo "Deletado: ".$deletando;
     $teste = false;
     //echo "Codigo gerado: $genId";

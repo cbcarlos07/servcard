@@ -61,7 +61,7 @@ class ContratoDAO
 
     public function update (Contrato $contrato){
 
-        $this->delete_contrato($contrato->getCdContrato());
+       // $this->delete_contrato($contrato->getCdContrato());
         $this->connection =  null;
         $teste = false;
         $this->connection = new ConnectionFactory();
